@@ -96,15 +96,15 @@ class Initializer {
       ? CONSTANTS.REACT_COMPONENTS_PATH
       : ``;
 
-    const path = `../${pathExtension}components/${componentName}/${componentName}`;
-    import(`../${pathExtension}components/${componentName}/${componentName}`)
+    const path = `../${pathExtension}components/${componentName}/${componentName}.js`;
+    import(`../${pathExtension}components/${componentName}/${componentName}.js`)
       .then((component) => {
           component.default.init(el);
         
       })
       .catch((error) => {
         console.debug(
-          `../${pathExtension}components/${componentName}/${componentName} not found`
+          `../${pathExtension}components/${componentName}/${componentName}.js not found`
         );
       });
   }

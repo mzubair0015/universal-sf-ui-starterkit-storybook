@@ -41,10 +41,7 @@ module.exports = {
           options: {
             sourceMap: true,
           },
-        },
-        {
-          loader: "glob-import-loader",
-        },
+        }
       ],
       include: path.resolve(__dirname, "../src/main/webpack/site/"),
     });

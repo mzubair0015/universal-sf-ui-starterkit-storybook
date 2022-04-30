@@ -1,8 +1,4 @@
 
-// Stylesheets
-// import "./main.scss";
-
-
 import A11y from './js/a11y.js';
 
 // Javascript or Typescript
