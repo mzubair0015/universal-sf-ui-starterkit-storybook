@@ -23,7 +23,7 @@
   },
   "lint-staged": {
     "src/main/webpack/!(core-components)/**/*.js": [
-      "eslint --format table",
+      "eslint --fix --format table",
       "git add"
     ]
   },
