@@ -23,9 +23,13 @@
   },
   "lint-staged": {
     "src/main/webpack/!(core-components)/**/*.js": [
-      "eslint --format table",
-      "git add"
-    ]
+      "eslint"
+    ],
+    "*.css": "stylelint",
+    "src/main/webpack/**/*.scss": [
+      "stylelint"
+    ],
+    "*": "prettier --ignore-unknown --write"
   },
   "devDependencies": {
     "@adobe/htlengine": "^6.4.2",
@@ -59,10 +63,13 @@
     "muban-convert-hbs": "^1.1.1",
     "postcss": "^8.2.15",
     "postcss-loader": "^3.0.0",
+    "prettier": "2.6.2",
     "sass": "^1.51.0",
     "sass-loader": "^12.6.0",
     "source-map-loader": "^0.2.4",
     "style-loader": "^3.3.1",
+    "stylelint": "^14.8.1",
+    "stylelint-config-standard": "^25.0.0",
     "terser-webpack-plugin": "^5.2.5",
     "ts-loader": "^9.2.6",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
