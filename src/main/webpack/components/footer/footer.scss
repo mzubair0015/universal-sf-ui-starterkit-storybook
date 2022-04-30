@@ -1,0 +1,21 @@
+
+.footer {
+    background: #ff0000;
+    padding: 10px;
+
+    @include media('>=tablet') {
+        background: green;
+    }
+
+    @include media('>=desktop') {
+        
+    }
+
+    @include media('>=desktop-lg') {
+        
+    }
+
+    @include media('>=desktop-xl') {
+        
+    }
+}

@@ -1,0 +1,73 @@
+/* Need to re-visit and cleanup if required */
+button,
+.btn {
+    @include p10;
+    padding: rem(1px) rem(17px);
+    border: 0;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    display: inline-block;
+    cursor: pointer;
+    box-sizing: border-box;
+    text-transform: uppercase;
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: default;
+        pointer-events: none;
+    }
+
+    &.btn-primary {
+        border: solid rem(2px) get-color("nero-grey");
+        border-radius: 25px;
+        color: get-color("nero-grey");
+        background-color: transparent;
+        &:hover, &:focus{	
+            border-color: get-color("nero-grey");
+            background-color: transparent;
+            color: get-color("nero-grey");
+        }
+    }
+    &.btn-secondary {
+        border: solid rem(2px) get-color("white");
+        border-radius: 25px;
+        color: get-color("white");
+        background-color: transparent;
+        &:hover, &:focus{	
+            border-color: get-color("white");
+            background-color: transparent;
+            color: get-color("white");
+        }
+    }
+}
+
+.form {
+    &__input,
+    &__select {
+        @include p3;
+        background: none;
+        padding: rem(10px) rem(10px) rem(10px) 0;
+        margin: 0;
+        display: block;
+        width: 100%;
+        border: none;
+        border-radius: 0;
+        border-bottom: rem(1px) solid get-color("nero-grey");
+        color: get-color("nero-grey");
+    }
+    input[type="checkbox"] {
+        display: inline;
+        width: rem(20px);
+    }
+}
+
+::placeholder {
+    color: get-opaque-color("nero-grey", 0.5);
+}
+
+input:-webkit-autofill {
+    -webkit-text-fill-color: get-color("white");
+    -webkit-box-shadow: 0 0 0px 1000px get-color("nero-grey-1") inset;
+    background-color: transparent;
+}

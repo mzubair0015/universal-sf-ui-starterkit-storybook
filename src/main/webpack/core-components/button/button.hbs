@@ -1,0 +1,6 @@
+<button type="{{#if buttonLink.valid}} '' {{^}} 'button' {{/if}}"
+        id="{{id}}"
+        class="cmp-button"
+        aria-label="{{accessibilityLabel}}">
+        {{#if text}}<span class="cmp-button__text">{{text}}</span>{{/if}}
+</button>

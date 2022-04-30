@@ -1,0 +1,201 @@
+// sequence default, tablet, desktop
+@import "../variables";
+@import "../include-media";
+
+%h1 {
+	@include defaultTypoStyles(32, 0, 38, 800, $font-family-default);
+	@include media('>=tablet') {
+		@include defaultTypoStyles(52 ,0, 58, 800, $font-family-default);
+	}
+	@include media('>=desktop-xl') {
+		@include defaultTypoStyles(72 ,0, 78, 800, $font-family-default);
+	}
+}
+
+%h2 {
+	@include defaultTypoStyles(24, 0, 30, 800, $font-family-default);
+	@include media('>=tablet') {
+	  	@include defaultTypoStyles(44 ,0, 54, 800, $font-family-default);
+  	}
+	@include media('>=desktop-xl') {
+		@include defaultTypoStyles(54 ,0, 64, 800, $font-family-default);
+	}
+}
+
+%h3 {
+	@include defaultTypoStyles(21, 0, 30, 800, $font-family-secondary);
+	@include media('>=tablet') {
+	  	@include defaultTypoStyles(30 ,0, 39, 800, $font-family-default);
+  	}
+	@include media('>=desktop-xl') {
+		@include defaultTypoStyles(47.25, 0, 56, 800, $font-family-default);
+	}
+}
+
+%h4 {
+	@include defaultTypoStyles(15, 0, 18, 500, $font-family-secondary, 40);
+	@include media('>=tablet') {
+		@include defaultTypoStyles(26, 0, 31, 500, $font-family-secondary, 40);
+	}
+	@include media('>=desktop-xl') {
+		@include defaultTypoStyles(34, 0, 41, 500, $font-family-secondary, 40);
+	}
+}
+
+%h5 {
+	@include defaultTypoStyles(18, 0, 20, 800, $font-family-default);
+	@include media('>=tablet') {
+		@include defaultTypoStyles(30, 0, 36, 800, $font-family-default);
+	}
+	@include media('>=desktop-xl') {
+		@include defaultTypoStyles(32, 0, 40, 800, $font-family-default);
+	}
+}
+
+%h6 {
+	@include defaultTypoStyles(21, 0, 24, 800, $font-family-secondary);
+	@include media('>=tablet') {
+		@include defaultTypoStyles(32, 0, 40, 800, $font-family-secondary);
+	}
+	@include media('>=desktop-xl') {
+		@include defaultTypoStyles(32, 0, 40, 800, $font-family-secondary);
+	}
+}
+
+%h7 {
+	@include defaultTypoStyles(24, 0, 29, bold, $font-family-default);
+	@include media('>=tablet') {
+		@include defaultTypoStyles(30, 0, 32, bold, $font-family-default);
+	}
+	@include media('>=desktop-xl') {
+		@include defaultTypoStyles(32, 0, 40, bold, $font-family-default);
+	}
+}
+
+%h8 {
+	@include defaultTypoStyles(18, 0, 29, bold, $font-family-default);
+	@include media('>=tablet') {
+		@include defaultTypoStyles(22, 0, 29, bold, $font-family-default);
+	}
+	@include media('>=desktop-xl') {
+		@include defaultTypoStyles(27, 0, 29, bold, $font-family-default);
+	}
+}
+
+%h9 {
+	@include defaultTypoStyles(20, 0, 24, 500, $font-family-default);
+	// keeping custom typography for header 1024 width
+	@include media('>=desktop') {
+		@include defaultTypoStyles(16, 0, 24, 500, $font-family-default);
+	}
+	@include media('>=desktop-xl') {
+		@include defaultTypoStyles(22, 0, 26, 500, $font-family-default);
+	}
+}
+
+%h10 {
+	@include defaultTypoStyles(16, 0, 24, bold, $font-family-default, 20);
+	@include media('>=tablet') {
+		@include defaultTypoStyles(18, 0, 27, bold, $font-family-default, 20);
+	}
+}
+
+%p1 {
+	@include defaultTypoStyles(18, 0, 22, normal, $font-family-secondary);
+	@include media('>=tablet') {
+		@include defaultTypoStyles(22, 0, 27, normal, $font-family-secondary);
+	}
+	@include media('>=desktop-xl') {
+		@include defaultTypoStyles(27, 0, 33, normal, $font-family-secondary);
+	}
+}
+
+%p2 {
+	@include defaultTypoStyles(16, 0, 19, bold, $font-family-secondary);
+	@include media('>=tablet') {
+		@include defaultTypoStyles(22, 0, 27, bold, $font-family-secondary);
+	}
+	@include media('>=desktop-xl') {
+		@include defaultTypoStyles(27, 0, 30, bold, $font-family-secondary);
+	}
+}
+
+%p3 {
+	@include defaultTypoStyles(16, 0, 19, normal, $font-family-secondary);
+	@include media('>=tablet') {
+		@include defaultTypoStyles(22, 0, 27, normal, $font-family-secondary);
+	}
+	@include media('>=desktop-xl') {
+		@include defaultTypoStyles(25, 0, 32, normal, $font-family-secondary);
+	}
+}
+
+%p4 {
+	@include defaultTypoStyles(18, 0, 24, normal, $font-family-secondary);
+	@include media('>=tablet') {
+		@include defaultTypoStyles(20, 0, 25, normal, $font-family-secondary);
+	}
+	@include media('>=desktop-xl') {
+		@include defaultTypoStyles(24, 0, 29, normal, $font-family-secondary);
+	}
+}
+
+/* p5 is same as p4 */
+
+%p6 {
+	@include defaultTypoStyles(18, 0, 22, bold, $font-family-secondary);
+	@include media('>=tablet') {
+		@include defaultTypoStyles(22, 0, 27, bold, $font-family-secondary);
+	}
+	@include media('>=desktop-xl') {
+		@include defaultTypoStyles(24, 0, 29, bold, $font-family-secondary);
+	}
+}
+
+%p7 {
+	@include defaultTypoStyles(18, 0, 24, normal, $font-family-secondary);
+	@include media('>=tablet') {
+		@include defaultTypoStyles(18, 0, 22, normal, $font-family-secondary);
+	}
+}
+
+%p8 {
+	@include defaultTypoStyles(16, 0, 20, 500, $font-family-secondary);
+	@include media('>=tablet') {
+		@include defaultTypoStyles(18, 0, 22, 500, $font-family-secondary);
+	}
+}
+
+%p9 {
+	@include defaultTypoStyles(16, 0, 20, 500, $font-family-secondary);
+	@include media('>=tablet') {
+		@include defaultTypoStyles(16, 0, 20, 500, $font-family-secondary);
+	}
+	@include media('>=desktop-xl') {
+		@include defaultTypoStyles(18, 0, 22, 500, $font-family-secondary);
+	}
+}
+
+%p10 {
+	@include defaultTypoStyles(14, 0, 29, 500, $font-family-default);
+	@include media('>=tablet') {
+		@include defaultTypoStyles(16, 0, 29, 500, $font-family-default);
+	}
+	@include media('>=desktop-xl') {
+		@include defaultTypoStyles(18, 0, 29, 500, $font-family-default);
+	}
+}
+
+%p11 {
+	@include defaultTypoStyles(13, 0, 15, 500, $font-family-secondary);
+	@include media('>=tablet') {
+		@include defaultTypoStyles(13, 0, 15, 500, $font-family-secondary);
+	}
+	@include media('>=desktop-xl') {
+		@include defaultTypoStyles(16, 0, 20, 500, $font-family-secondary);
+	}
+}
+
+%p12 {
+	@include defaultTypoStyles(14, 0, 20, normal, $font-family-secondary);
+}

@@ -1,0 +1,12 @@
+
+<div class="button">
+<button data-sly-use.button="./doc/button-icon"
+        id="${button.id}"
+        class="cmp-button"
+        aria-label="${button.accessibilityLabel}"
+        data-cmp-clickable="${button.data ? true : false}"
+        data-cmp-data-layer="${button.data.json}">
+    <span data-sly-test="${button.icon}" class="cmp-button__icon cmp-button__icon--${button.icon}" aria-hidden="true"></span>
+    <span data-sly-test="${button.text}" class="cmp-button__text">${button.text}</span>
+</button>
+</div>

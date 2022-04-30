@@ -1,0 +1,6 @@
+<footer class="footer <sly data-sly-test="${ variation }">footer--${ variation }</sly>" data-component="footer">
+    <div class="container">
+		<!--Footer Main-->
+		Footer
+	</div>
+</footer>

@@ -1,0 +1,187 @@
+// sequence default, tablet, desktop
+@import "placeholders/typography";
+@import './variables';
+
+p {
+  margin: 0;
+}
+
+// $types: "h1", "h2", "h3", "h4", "p1", "p2", "p3";
+
+@mixin h1 {
+   @extend %h1;
+}
+
+@mixin h2 {
+  @extend %h2;
+}
+
+@mixin h3 {
+  @extend %h3;
+}
+
+@mixin h4 {
+  @extend %h4;
+}
+
+@mixin h5 {
+  @extend %h5;
+}
+
+@mixin h6 {
+  @extend %h6;
+}
+
+@mixin h7 {
+  @extend %h7;
+}
+
+@mixin h8 {
+  @extend %h8;
+}
+
+@mixin h9 {
+  @extend %h9;
+}
+
+@mixin h10 {
+  @extend %h10;
+}
+
+@mixin p1 {
+  @extend %p1;
+}
+
+@mixin p2 {
+  @extend %p2;
+}
+
+@mixin p3 {
+  @extend %p3;
+}
+
+@mixin p4 {
+  @extend %p4;
+}
+
+@mixin p6 {
+  @extend %p6;
+}
+
+@mixin p7 {
+  @extend %p7;
+}
+
+@mixin p8 {
+  @extend %p8;
+}
+
+@mixin p9 {
+  @extend %p9;
+}
+
+@mixin p10 {
+  @extend %p10;
+}
+
+@mixin p11 {
+  @extend %p11;
+}
+
+@mixin p12 {
+  @extend %p12;
+}
+
+// set typography for the types in the list provided we have defined each mixin
+// @each $type in $types {
+//   .#{$type}, #{type} {
+//     @include #{$type};
+//   }
+// }
+
+//TODO: make it dynamic, render through config 
+.h1, h1 {
+  @include h1;
+}
+
+.h2, h2 {
+  @include h2;
+}
+
+.h3, h3 {
+  @include h3;
+}
+
+.h4, h4 {
+  @include h4;
+}
+
+.h5, h5 {
+  @include h5;
+}
+
+.h6, h6 {
+  @include h6;
+}
+
+.h7 {
+  @include h7;
+}
+
+.h8 {
+  @include h8;
+}
+
+.h9 {
+  @include h9;
+}
+
+.p1, p {
+  @include p1;
+}
+
+.p2 {
+  @include p2;
+}
+
+.p3 {
+  @include p3;
+}
+
+.p4 {
+  @include p4;
+}
+
+.p6 {
+  @include p6;
+}
+
+.p7 {
+  @include p7;
+}
+
+.p8 {
+  @include p8;
+}
+
+.p9 {
+  @include p9;
+}
+
+.p10 {
+  @include p10;
+}
+
+.p11 {
+  @include p11;
+}
+
+.p12 {
+  @include p12;
+}
+
+*[tabindex] {
+  &:focus {
+    opacity: 0.8;
+  }
+}

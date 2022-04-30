@@ -1,0 +1,30 @@
+@import "../../site/scss/mixins";
+@import "../../site/scss/variables";
+@import "../../site/scss/colors";
+@import "../../site/scss/typography";
+@import "../../site/scss/include-media";
+
+.header {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+    max-height: rem(65px);
+    transition: max-height 0.3s ease-in 0.1s;
+    background: get-color("white");
+    color: get-color("cucumber-green");
+    padding: 10px;
+    @include media('>=desktop') {
+        overflow: hidden;
+        max-height: rem(90px);
+    }
+
+    .container {
+        max-height: rem(65px);
+
+        @include media(">=desktop") {
+            max-height: unset;
+        }
+    }
+}

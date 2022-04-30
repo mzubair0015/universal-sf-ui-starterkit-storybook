@@ -1,0 +1,15 @@
+
+<div class="button">
+<button data-sly-use.button="./doc/button-linked"
+        data-sly-element="${button.buttonLink.valid ? 'a' : 'button'}"
+        type="${button.buttonLink.valid ? '' : 'button'}"
+        id="${button.id}"
+        class="cmp-button"
+        href="${button.buttonLink.url}"
+        aria-label="${button.accessibilityLabel}"
+        data-cmp-clickable="${button.data ? true : false}"
+        data-cmp-data-layer="${button.data.json}">
+    <span data-sly-test="${button.icon}" class="cmp-button__icon cmp-button__icon--${button.icon}" aria-hidden="true"></span>
+    <span data-sly-test="${button.text}" class="cmp-button__text">${button.text}</span>
+</button>
+</div>

@@ -1,0 +1,11 @@
+{
+  "id": "button-5487aab983",
+  "text": "Button",
+  ":type": "core-components-examples/components/button",
+  "dataLayer": {
+    "button-5487aab983": {
+      "@type": "core-components-examples/components/button",
+      "dc:title": "Button"
+    }
+  }
+}
