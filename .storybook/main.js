@@ -37,11 +37,19 @@ module.exports = {
           },
         },
         {
+          loader: "postcss-loader",
+          options: {
+            plugins() {
+              return [require("autoprefixer")];
+            },
+          },
+        },
+        {
           loader: "sass-loader",
           options: {
             sourceMap: true,
           },
-        }
+        },
       ],
       include: path.resolve(__dirname, "../src/main/webpack/site/"),
     });

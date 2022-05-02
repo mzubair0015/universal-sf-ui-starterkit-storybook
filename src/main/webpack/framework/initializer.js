@@ -22,17 +22,17 @@ class Initializer {
     } else {
       document.addEventListener(
         "DOMContentLoaded",
-        self.onDocumentReady.bind(this), { once: true }
+        self.onDocumentReady.bind(this),
+        { once: true }
       );
     }
-
   }
 
   initMutation() {
     /*------------------------------------------------------------------
      * MutationObserver is used to listen for DOM changes
      * DOC: https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver#Instance_methods
-     * Performance related article : 
+     * Performance related article :
      * https://hacks.mozilla.org/2012/05/dom-mutationobserver-reacting-to-dom-changes-without-killing-browser-performance
      *------------------------------------------------------------------
      */
@@ -59,10 +59,17 @@ class Initializer {
         if (newNodes.length) {
           // console.debug("Initializer: New Nodes -> ", newNodes);
           newNodes.forEach((element) => {
-            if (element.dataset && element.dataset.component && !element.dataset.initialized) {
+            if (
+              element.dataset &&
+              element.dataset.component &&
+              !element.dataset.initialized
+            ) {
               this.initComponent(element);
               element.dataset.initialized = true;
-              console.debug("Initializer: Root component is UI component -> ", element.dataset.component);
+              console.debug(
+                "Initializer: Root component is UI component -> ",
+                element.dataset.component
+              );
             }
 
             element.querySelector &&
@@ -72,12 +79,16 @@ class Initializer {
                 .forEach((el) => {
                   if (
                     el.dataset &&
-                    el.dataset.component && !el.dataset.initialized
-                ) {
+                    el.dataset.component &&
+                    !el.dataset.initialized
+                  ) {
                     this.initComponent(el);
                     el.dataset.initialized = true;
-                    console.error("Initializer: Child component is UI component ->", el.dataset.component)
-                }
+                    console.error(
+                      "Initializer: Child component is UI component ->",
+                      el.dataset.component
+                    );
+                  }
                 });
           });
         }
@@ -96,11 +107,13 @@ class Initializer {
       ? CONSTANTS.REACT_COMPONENTS_PATH
       : ``;
 
-    const path = `../${pathExtension}components/${componentName}/${componentName}.js`;
-    import(`../${pathExtension}components/${componentName}/${componentName}.js`)
+    // const path = `../${pathExtension}components/${componentName}/${componentName}.js`;
+    import(
+      /* webpackExclude: /\.stories\.js$/ */
+      `../${pathExtension}components/${componentName}/${componentName}.js`
+    )
       .then((component) => {
-          component.default.init(el);
-        
+        component.default.init(el);
       })
       .catch((error) => {
         console.debug(
