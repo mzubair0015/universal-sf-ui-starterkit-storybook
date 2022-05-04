@@ -1,17 +1,19 @@
-
-import ButtonStandard  from '../button-standard.htl';
-import ButtonLinked  from '../button-linked.htl';
-import ButtonIcon from '../button-icon.htl';
-
+import ButtonStandard from "../button-standard.htl";
+import ButtonLinked from "../button-linked.htl";
+import ButtonIcon from "../button-icon.htl";
 
 // More on default export: https://storybook.js.org/docs/html/writing-stories/introduction#default-export
 export default {
-  title: 'Core Components/Button',
+  title: "Core Components/Button",
   // More on argTypes: https://storybook.js.org/docs/html/api/argtypes
   argTypes: {
     text: {
-      control: { type: "text" }
-    }
+      control: { type: "text" },
+    },
+    variant: {
+      options: ["primary", "secondary"],
+      control: { type: "radio" },
+    },
   },
 };
 
