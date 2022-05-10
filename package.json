@@ -69,7 +69,6 @@
     "source-map-loader": "^0.2.4",
     "style-loader": "^3.3.1",
     "stylelint": "^14.8.1",
-    "stylelint-config-standard": "^25.0.0",
     "terser-webpack-plugin": "^5.2.5",
     "ts-loader": "^9.2.6",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
@@ -88,7 +87,10 @@
     "husky": "^7.0.4",
     "jquery": "^3.6.0",
     "lint-staged": "^12.4.1",
-    "normalize-scss": "^7.0.1"
+    "normalize-scss": "^7.0.1",
+    "postcss-scss": "^4.0.4",
+    "stylelint-config-prettier-scss": "^0.0.1",
+    "stylelint-config-standard-scss": "^3.0.0"
   },
   "browserslist": [
     "last 2 version",
