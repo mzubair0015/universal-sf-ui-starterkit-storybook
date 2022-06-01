@@ -1,0 +1,55 @@
+
+import Footer  from '../footer.hbs';
+import footerConfig from '../doc/footer.json';
+import {render} from '../htl/footer.htl';
+
+// try {
+//   async function renderFooter(data) {
+//       const result = await render(data);
+//       console.log(result);
+//       return result;
+//   }
+//   const test =  renderFooter({ name: 'Alex' });
+//   console.log(test);
+  
+// }catch(e) {
+//   console.log(e)
+// }
+
+
+// A CSF file
+export default {
+  title: 'Components/Footer',
+  loaders: [async () => ({ Component: await render({ name: 'Alex' }) })],
+}
+
+export const Primary = (args, { Component }) => <Component {...args} />;
+
+
+// import '../../../site/main.scss';
+
+// export default {
+//   title: 'Components/Footer',
+//   // More on argTypes: https://storybook.js.org/docs/html/api/argtypes
+//   argTypes: {
+   
+//   },
+//   parameters: {
+//     docs: {
+//         source: {
+//             code: `${JSON.stringify(footerConfig)}`,
+//         },
+//     },
+// },
+// };
+
+// const TemplateFooter = ({ label, ...args }) => Footer(args);
+// export const Primary = TemplateFooter.bind({});
+// Primary.args = footerConfig;
+// Primary.parameters = {
+//   docs: {
+//       source: {
+//           code: `${JSON.stringify(footerConfig)}`,
+//       },
+//   },
+// };

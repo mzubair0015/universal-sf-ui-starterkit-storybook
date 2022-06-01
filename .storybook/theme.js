@@ -9,11 +9,11 @@
   governing permissions and limitations under the License.
 */
 
-import { create } from '@storybook/theming';
+import { create } from "@storybook/theming";
 
 export default create({
-  base: 'light',
-  brandTitle: 'Clustor Ground',
-  brandUrl: 'https://example.com',
-  brandImage: 'cluster-logo.png',
+  base: "light",
+  brandTitle: "Component Explorer",
+  brandUrl: "https://example.com",
+  brandImage: "assets/logo.png",
 });
