@@ -1,4 +1,4 @@
-.accordion {
+.cx-accordion {
   margin: 0;
   padding: 0;
   border: 2px solid hsl(0deg 0% 52%);
@@ -6,24 +6,24 @@
   width: 20em;
 }
 
-.accordion h3 {
+.cx-accordion h3 {
   margin: 0;
   padding: 0;
 }
 
-.accordion:focus-within {
+.cx-accordion:focus-within {
   border-color: hsl(216deg 94% 43%);
 }
 
-.accordion:focus-within h3 {
+.cx-accordion:focus-within h3 {
   background-color: hsl(0deg 0% 97%);
 }
 
-.accordion > * + * {
+.cx-accordion > * + * {
   border-top: 1px solid hsl(0deg 0% 52%);
 }
 
-.accordion-trigger {
+.cx-accordion-trigger {
   background: none;
   color: hsl(0deg 0% 13%);
   display: block;
@@ -37,22 +37,22 @@
   outline: none;
 }
 
-.accordion-trigger:focus,
-.accordion-trigger:hover {
+.cx-accordion-trigger:focus,
+.cx-accordion-trigger:hover {
   background: hsl(216deg 94% 94%);
 }
 
-.accordion-trigger:focus {
+.cx-accordion-trigger:focus {
   outline: 4px solid transparent;
 }
 
-.accordion > *:first-child .accordion-trigger,
-.accordion > *:first-child {
+.cx-accordion > *:first-child .cx-accordion-trigger,
+.cx-accordion > *:first-child {
   border-radius: 5px 5px 0 0;
 }
 
-.accordion > *:last-child .accordion-trigger,
-.accordion > *:last-child {
+.cx-accordion > *:last-child .cx-accordion-trigger,
+.cx-accordion > *:last-child {
   border-radius: 0 0 5px 5px;
 }
 
@@ -60,11 +60,11 @@ button {
   border-style: none;
 }
 
-.accordion button::-moz-focus-inner {
+.cx-accordion button::-moz-focus-inner {
   border: 0;
 }
 
-.accordion-title {
+.cx-accordion-title {
   display: block;
   pointer-events: none;
   border: transparent 2px solid;
@@ -73,11 +73,11 @@ button {
   outline: none;
 }
 
-.accordion-trigger:focus .accordion-title {
+.cx-accordion-trigger:focus .cx-accordion-title {
   border-color: hsl(216deg 94% 43%);
 }
 
-.accordion-icon {
+.cx-accordion-icon {
   border: solid currentcolor;
   border-width: 0 2px 2px 0;
   height: 0.5rem;
@@ -89,22 +89,22 @@ button {
   width: 0.5rem;
 }
 
-.accordion-trigger:focus .accordion-icon,
-.accordion-trigger:hover .accordion-icon {
+.cx-accordion-trigger:focus .cx-accordion-icon,
+.cx-accordion-trigger:hover .cx-accordion-icon {
   border-color: hsl(216deg 94% 43%);
 }
 
-.accordion-trigger[aria-expanded="true"] .accordion-icon {
+.cx-accordion-trigger[aria-expanded="true"] .cx-accordion-icon {
   transform: translateY(-50%) rotate(-135deg);
 }
 
-.accordion-panel {
+.cx-accordion-panel {
   margin: 0;
   padding: 1em 1.5em;
 }
 
 /* For Edge bug https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/4806035/ */
-.accordion-panel[hidden] {
+.cx-accordion-panel[hidden] {
   display: none;
 }
 
@@ -121,3 +121,19 @@ input {
   font-size: inherit;
   padding: 0.3em 0.5em;
 }
+
+// Undo Reset
+
+p {
+  margin: 16px 0;
+}
+
+@media (min-width: 768px) {
+  p {
+    font-size: 1.125rem;
+  }
+}
+
+// button {
+//   text-transform: none;
+// }
