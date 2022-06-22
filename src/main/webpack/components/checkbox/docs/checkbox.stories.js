@@ -1,4 +1,5 @@
 import Checkbox from "../checkbox.hbs";
+import CheckboxMixed from "../checkbox-mixed.hbs";
 
 export default {
   title: "Components/Checkbox",
@@ -7,4 +8,7 @@ export default {
 };
 
 const TemplateCheckbox = ({ label, ...args }) => Checkbox(args);
-export const Primary = TemplateCheckbox.bind({});
+export const TwoStates = TemplateCheckbox.bind({});
+
+const TemplateCheckboxMixed = ({ label, ...args }) => CheckboxMixed(args);
+export const Mixed = TemplateCheckboxMixed.bind({});
