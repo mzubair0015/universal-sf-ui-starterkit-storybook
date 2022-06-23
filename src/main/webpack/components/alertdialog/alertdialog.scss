@@ -27,15 +27,15 @@
   }
 }
 
-.dialog-label {
+.dialog_label {
   text-align: center;
 }
 
-.dialog-form {
+.dialog_form {
   margin: 15px;
 }
 
-.dialog-form .label-text {
+.dialog_form .label_text {
   box-sizing: border-box;
   padding-right: 0.5em;
   display: inline-block;
@@ -45,7 +45,7 @@
   text-align: right;
 }
 
-.dialog-form .label-info {
+.dialog_form .label_info {
   box-sizing: border-box;
   padding-right: 0.5em;
   font-size: 12px;
@@ -54,41 +54,41 @@
   display: inline-block;
 }
 
-.dialog-form-item {
+.dialog_form_item {
   margin: 10px 0;
   font-size: 0;
 }
 
-.dialog-form-item .wide-input {
+.dialog_form_item .wide_input {
   box-sizing: border-box;
   max-width: 70%;
   width: 27em;
 }
 
-.dialog-form-item .city-input {
+.dialog_form_item .city_input {
   box-sizing: border-box;
   max-width: 70%;
   width: 17em;
 }
 
-.dialog-form-item .state-input {
+.dialog_form_item .state_input {
   box-sizing: border-box;
   max-width: 70%;
   width: 15em;
 }
 
-.dialog-form-item .zip-input {
+.dialog_form_item .zip_input {
   box-sizing: border-box;
   max-width: 70%;
   width: 9em;
 }
 
-.dialog-form-actions {
+.dialog_form_actions {
   text-align: right;
   padding: 0 20px 20px;
 }
 
-.dialog-close-button {
+.dialog_close_button {
   float: right;
   position: absolute;
   top: 10px;
@@ -96,11 +96,11 @@
   height: 25px;
 }
 
-.dialog-close-button img {
+.dialog_close_button img {
   border: 0;
 }
 
-.dialog-desc {
+.dialog_desc {
   padding: 10px 20px;
 }
 
@@ -158,18 +158,18 @@
   white-space: nowrap;
 }
 
-#notes-save {
+#notes_save {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-#notes-save svg {
+#notes_save svg {
   display: block;
   width: 0.75rem;
 }
 
-#notes-save .icon {
+#notes_save .icon {
   display: none;
 }
 
@@ -183,11 +183,11 @@
   }
 }
 
-#notes-save.loading .spinner {
+#notes_save.loading .spinner {
   display: block;
   animation: rotate 2s linear infinite;
 }
 
-#notes-save.saved .check {
+#notes_save.saved .check {
   display: block;
 }

@@ -4,7 +4,7 @@
   this text - which triggers a basic alert - or to discard the text - which
   triggers an alert dialog that prompts the user for confirmation.</textarea>
 <div class="visually-hidden" id="notes_save_status" role="alert"></div>
-<button type="button" id="notes_save">
+<button data-component="alertdialog" type="button" id="notes_save">
   Save
   <svg class="icon spinner" viewBox="0 0 32 32" aria-hidden="true">
     <path
@@ -20,6 +20,7 @@
   data-textbox="notes"
   id="notes_discard"
   onclick="openAlertDialog('alert_dialog', this)"
+  data-component="alertdialog"
 >Discard</button>
 <div class="dialog-backdrop no-scroll">
   <div
