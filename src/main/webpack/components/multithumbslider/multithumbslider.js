@@ -7,7 +7,7 @@
  *   Desc:   A dual slider widget that implements ARIA Authoring Practices
  */
 
-"use strict";
+'use strict';
 class SliderMultithumb {
   constructor(domNode) {
     this.isMoving = false;
@@ -15,23 +15,23 @@ class SliderMultithumb {
 
     this.domNode = domNode;
 
-    this.svgNode = domNode.querySelector("svg");
+    this.svgNode = domNode.querySelector('svg');
     this.svgPoint = this.svgNode.createSVGPoint();
 
-    this.railNode = domNode.querySelector(".rail rect");
-    this.rangeNode = domNode.querySelector(".range rect");
+    this.railNode = domNode.querySelector('.rail rect');
+    this.rangeNode = domNode.querySelector('.range rect');
 
-    this.minSliderNode = domNode.querySelector("[role=slider].minimum");
-    this.maxSliderNode = domNode.querySelector("[role=slider].maximum");
+    this.minSliderNode = domNode.querySelector('[role=slider].minimum');
+    this.maxSliderNode = domNode.querySelector('[role=slider].maximum');
 
-    this.minSliderValueNode = this.minSliderNode.querySelector(".value");
-    this.maxSliderValueNode = this.maxSliderNode.querySelector(".value");
+    this.minSliderValueNode = this.minSliderNode.querySelector('.value');
+    this.maxSliderValueNode = this.maxSliderNode.querySelector('.value');
 
-    this.minSliderFocusNode = this.minSliderNode.querySelector(".focus-ring");
-    this.maxSliderFocusNode = this.maxSliderNode.querySelector(".focus-ring");
+    this.minSliderFocusNode = this.minSliderNode.querySelector('.focus-ring');
+    this.maxSliderFocusNode = this.maxSliderNode.querySelector('.focus-ring');
 
-    this.minSliderThumbNode = this.minSliderNode.querySelector(".thumb");
-    this.maxSliderThumbNode = this.maxSliderNode.querySelector(".thumb");
+    this.minSliderThumbNode = this.minSliderNode.querySelector('.thumb');
+    this.maxSliderThumbNode = this.maxSliderNode.querySelector('.thumb');
 
     // Dimensions of the slider focus ring, thumb and rail
 
@@ -59,31 +59,31 @@ class SliderMultithumb {
     this.focusHeight = this.thumbBottom - this.focusY + this.focusOffset + 2;
     this.focusRadius = this.focusWidth / 8;
 
-    this.svgNode.setAttribute("width", this.svgWidth);
-    this.svgNode.setAttribute("height", this.svgHeight);
+    this.svgNode.setAttribute('width', this.svgWidth);
+    this.svgNode.setAttribute('height', this.svgHeight);
 
-    this.minSliderFocusNode.setAttribute("y", this.focusY);
-    this.maxSliderFocusNode.setAttribute("y", this.focusY);
-    this.minSliderFocusNode.setAttribute("width", this.focusWidth);
-    this.maxSliderFocusNode.setAttribute("width", this.focusWidth);
-    this.minSliderFocusNode.setAttribute("height", this.focusHeight);
-    this.maxSliderFocusNode.setAttribute("height", this.focusHeight);
-    this.minSliderFocusNode.setAttribute("rx", this.focusRadius);
-    this.maxSliderFocusNode.setAttribute("rx", this.focusRadius);
+    this.minSliderFocusNode.setAttribute('y', this.focusY);
+    this.maxSliderFocusNode.setAttribute('y', this.focusY);
+    this.minSliderFocusNode.setAttribute('width', this.focusWidth);
+    this.maxSliderFocusNode.setAttribute('width', this.focusWidth);
+    this.minSliderFocusNode.setAttribute('height', this.focusHeight);
+    this.maxSliderFocusNode.setAttribute('height', this.focusHeight);
+    this.minSliderFocusNode.setAttribute('rx', this.focusRadius);
+    this.maxSliderFocusNode.setAttribute('rx', this.focusRadius);
 
-    this.minSliderValueNode.setAttribute("y", this.valueTop);
-    this.maxSliderValueNode.setAttribute("y", this.valueTop);
+    this.minSliderValueNode.setAttribute('y', this.valueTop);
+    this.maxSliderValueNode.setAttribute('y', this.valueTop);
 
-    this.railNode.setAttribute("y", this.railY);
-    this.railNode.setAttribute("x", this.railX);
-    this.railNode.setAttribute("height", this.railHeight);
-    this.railNode.setAttribute("width", this.railWidth + this.thumbWidth);
-    this.railNode.setAttribute("rx", this.railHeight / 2);
+    this.railNode.setAttribute('y', this.railY);
+    this.railNode.setAttribute('x', this.railX);
+    this.railNode.setAttribute('height', this.railHeight);
+    this.railNode.setAttribute('width', this.railWidth + this.thumbWidth);
+    this.railNode.setAttribute('rx', this.railHeight / 2);
 
-    this.rangeNode.setAttribute("y", this.railY);
-    this.rangeNode.setAttribute("x", this.railX / 2);
-    this.rangeNode.setAttribute("height", this.railHeight);
-    this.rangeNode.setAttribute("width", 0);
+    this.rangeNode.setAttribute('y', this.railY);
+    this.rangeNode.setAttribute('x', this.railX / 2);
+    this.rangeNode.setAttribute('height', this.railHeight);
+    this.rangeNode.setAttribute('width', 0);
 
     this.sliderMinValue = this.getValueMin(this.minSliderNode);
     this.sliderMaxValue = this.getValueMax(this.maxSliderNode);
@@ -93,34 +93,34 @@ class SliderMultithumb {
     this.maxSliderLeft = this.railWidth;
 
     this.minSliderNode.addEventListener(
-      "keydown",
+      'keydown',
       this.onSliderKeydown.bind(this)
     );
     this.minSliderNode.addEventListener(
-      "pointerdown",
+      'pointerdown',
       this.onSliderPointerdown.bind(this)
     );
 
-    this.minSliderNode.addEventListener("focus", this.onSliderFocus.bind(this));
-    this.minSliderNode.addEventListener("blur", this.onSliderBlur.bind(this));
+    this.minSliderNode.addEventListener('focus', this.onSliderFocus.bind(this));
+    this.minSliderNode.addEventListener('blur', this.onSliderBlur.bind(this));
 
     this.maxSliderNode.addEventListener(
-      "keydown",
+      'keydown',
       this.onSliderKeydown.bind(this)
     );
     this.maxSliderNode.addEventListener(
-      "pointerdown",
+      'pointerdown',
       this.onSliderPointerdown.bind(this)
     );
 
     // bind a pointermove event handler to move pointer
-    document.addEventListener("pointermove", this.onPointermove.bind(this));
+    document.addEventListener('pointermove', this.onPointermove.bind(this));
 
     // bind a pointerup event handler to stop tracking pointer movements
-    document.addEventListener("pointerup", this.onPointerup.bind(this));
+    document.addEventListener('pointerup', this.onPointerup.bind(this));
 
-    this.maxSliderNode.addEventListener("focus", this.onSliderFocus.bind(this));
-    this.maxSliderNode.addEventListener("blur", this.onSliderBlur.bind(this));
+    this.maxSliderNode.addEventListener('focus', this.onSliderFocus.bind(this));
+    this.maxSliderNode.addEventListener('blur', this.onSliderBlur.bind(this));
 
     this.moveSliderTo(this.minSliderNode, this.getValue(this.minSliderNode));
     this.moveSliderTo(this.maxSliderNode, this.getValue(this.maxSliderNode));
@@ -133,15 +133,15 @@ class SliderMultithumb {
   }
 
   getValue(sliderNode) {
-    return parseInt(sliderNode.getAttribute("aria-valuenow"));
+    return parseInt(sliderNode.getAttribute('aria-valuenow'));
   }
 
   getValueMin(sliderNode) {
-    return parseInt(sliderNode.getAttribute("aria-valuemin"));
+    return parseInt(sliderNode.getAttribute('aria-valuemin'));
   }
 
   getValueMax(sliderNode) {
-    return parseInt(sliderNode.getAttribute("aria-valuemax"));
+    return parseInt(sliderNode.getAttribute('aria-valuemax'));
   }
 
   isMinSlider(sliderNode) {
@@ -161,7 +161,7 @@ class SliderMultithumb {
   }
 
   getXFromThumb(node) {
-    var points = node.getAttribute("points").split(",");
+    var points = node.getAttribute('points').split(',');
     return parseInt(points[0]);
   }
 
@@ -170,7 +170,7 @@ class SliderMultithumb {
       valueMin,
       pos,
       x,
-      points = "",
+      points = '',
       width,
       dollarValue;
 
@@ -184,8 +184,8 @@ class SliderMultithumb {
 
     value = Math.min(Math.max(value, valueMin), valueMax);
 
-    sliderNode.setAttribute("aria-valuenow", value);
-    dollarValue = "$" + value;
+    sliderNode.setAttribute('aria-valuenow', value);
+    dollarValue = '$' + value;
 
     pos = this.railX;
     pos += Math.round(
@@ -196,16 +196,16 @@ class SliderMultithumb {
     if (this.isMinSlider(sliderNode)) {
       // update ARIA attributes
       this.minSliderValueNode.textContent = dollarValue;
-      this.maxSliderNode.setAttribute("aria-valuemin", value);
+      this.maxSliderNode.setAttribute('aria-valuemin', value);
 
       // move the SVG focus ring and thumb elements
       x = pos - this.focusOffset - 1;
-      this.minSliderFocusNode.setAttribute("x", x);
+      this.minSliderFocusNode.setAttribute('x', x);
 
       points = `${pos},${this.thumbTop}`;
       points += ` ${pos + this.thumbWidth},${this.thumbMiddle}`;
       points += ` ${pos},${this.thumbBottom}`;
-      this.minSliderThumbNode.setAttribute("points", points);
+      this.minSliderThumbNode.setAttribute('points', points);
 
       // Position value
       width = this.minSliderValueNode.getBoundingClientRect().width;
@@ -213,21 +213,21 @@ class SliderMultithumb {
       if (pos + width > this.maxSliderLeft - 2) {
         pos = this.maxSliderLeft - width - 2;
       }
-      this.minSliderValueNode.setAttribute("x", pos);
+      this.minSliderValueNode.setAttribute('x', pos);
       this.minSliderRight = pos;
     } else {
       // update label and ARIA attributes
       this.maxSliderValueNode.textContent = dollarValue;
-      this.minSliderNode.setAttribute("aria-valuemax", value);
+      this.minSliderNode.setAttribute('aria-valuemax', value);
 
       // move the SVG focus ring and thumb elements
       x = pos + this.thumbWidth - this.focusOffset + 1;
-      this.maxSliderFocusNode.setAttribute("x", x);
+      this.maxSliderFocusNode.setAttribute('x', x);
 
       points = `${pos + this.thumbWidth},${this.thumbMiddle}`;
       points += ` ${pos + this.thumb2Width},${this.thumbTop}`;
       points += ` ${pos + this.thumb2Width},${this.thumbBottom}`;
-      this.maxSliderThumbNode.setAttribute("points", points);
+      this.maxSliderThumbNode.setAttribute('points', points);
 
       width = this.maxSliderValueNode.getBoundingClientRect().width;
       pos = pos + this.thumbWidth + (this.thumbWidth - width) / 2;
@@ -235,7 +235,7 @@ class SliderMultithumb {
         pos = this.minSliderRight + width + 2;
       }
 
-      this.maxSliderValueNode.setAttribute("x", pos);
+      this.maxSliderValueNode.setAttribute('x', pos);
       this.maxSliderLeft = pos;
     }
 
@@ -244,8 +244,8 @@ class SliderMultithumb {
     x = this.getXFromThumb(this.minSliderThumbNode) + this.thumbWidth / 2;
     width =
       this.getXFromThumb(this.maxSliderThumbNode) - x + this.thumbWidth / 2;
-    this.rangeNode.setAttribute("x", x);
-    this.rangeNode.setAttribute("width", width);
+    this.rangeNode.setAttribute('x', x);
+    this.rangeNode.setAttribute('width', width);
   }
 
   onSliderKeydown(event) {
@@ -256,34 +256,34 @@ class SliderMultithumb {
     var valueMax = this.getValueMax(sliderNode);
 
     switch (event.key) {
-      case "ArrowLeft":
-      case "ArrowDown":
+      case 'ArrowLeft':
+      case 'ArrowDown':
         this.moveSliderTo(sliderNode, value - 1);
         flag = true;
         break;
 
-      case "ArrowRight":
-      case "ArrowUp":
+      case 'ArrowRight':
+      case 'ArrowUp':
         this.moveSliderTo(sliderNode, value + 1);
         flag = true;
         break;
 
-      case "PageDown":
+      case 'PageDown':
         this.moveSliderTo(sliderNode, value - 10);
         flag = true;
         break;
 
-      case "PageUp":
+      case 'PageUp':
         this.moveSliderTo(sliderNode, value + 10);
         flag = true;
         break;
 
-      case "Home":
+      case 'Home':
         this.moveSliderTo(sliderNode, valueMin);
         flag = true;
         break;
 
-      case "End":
+      case 'End':
         this.moveSliderTo(sliderNode, valueMax);
         flag = true;
         break;
@@ -299,13 +299,13 @@ class SliderMultithumb {
   }
 
   onSliderFocus(event) {
-    event.currentTarget.classList.add("focus");
-    this.svgNode.classList.add("active");
+    event.currentTarget.classList.add('focus');
+    this.svgNode.classList.add('active');
   }
 
   onSliderBlur(event) {
-    event.currentTarget.classList.remove("focus");
-    this.svgNode.classList.remove("active");
+    event.currentTarget.classList.remove('focus');
+    this.svgNode.classList.remove('active');
   }
 
   onSliderPointerdown(event) {
@@ -350,8 +350,8 @@ class SliderMultithumb {
 }
 
 // Initialize Multithumb Slider widgets on the page
-window.addEventListener("load", function () {
-  var slidersMultithumb = document.querySelectorAll(".slider-multithumb");
+window.addEventListener('load', function () {
+  var slidersMultithumb = document.querySelectorAll('.slider-multithumb');
 
   for (let i = 0; i < slidersMultithumb.length; i++) {
     new SliderMultithumb(slidersMultithumb[i]);

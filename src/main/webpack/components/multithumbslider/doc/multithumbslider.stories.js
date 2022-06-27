@@ -1,4 +1,4 @@
-import MultiThumbSlider from "./../multi-thumb-slider.hbs";
+import MultiThumbSlider from "../multithumbslider.hbs";
 
 export default {
   title: "Components/Multi-Thumb Slider",
