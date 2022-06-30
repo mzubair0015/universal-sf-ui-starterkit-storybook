@@ -1,38 +1,38 @@
 /* global closeDialog, openDialog */
 
-'use strict';
+"use strict";
 
 var aria = aria || {};
 
 aria.Utils = aria.Utils || {};
 
 aria.Utils.disableCtrl = function (ctrl) {
-  ctrl.setAttribute('aria-disabled', 'true');
+  ctrl.setAttribute("aria-disabled", "true");
 };
 
 aria.Utils.enableCtrl = function (ctrl) {
-  ctrl.removeAttribute('aria-disabled');
+  ctrl.removeAttribute("aria-disabled");
 };
 
 aria.Utils.setLoading = function (saveBtn, saveStatusView) {
-  saveBtn.classList.add('loading');
+  saveBtn.classList.add("cx-loading");
   this.disableCtrl(saveBtn);
 
   // use a timeout for the loading message
   // if the saved state happens very quickly,
   // we don't need to explicitly announce the intermediate loading state
   const loadingTimeout = window.setTimeout(() => {
-    saveStatusView.textContent = 'Loading';
+    saveStatusView.textContent = "Loading";
   }, 200);
 
   // set timeout for saved state, to mimic loading
   const fakeLoadingTimeout = Math.random() * 2000;
   window.setTimeout(() => {
-    saveBtn.classList.remove('loading');
-    saveBtn.classList.add('saved');
+    saveBtn.classList.remove("cx-loading");
+    saveBtn.classList.add("cx-saved");
 
     window.clearTimeout(loadingTimeout);
-    saveStatusView.textContent = 'Saved successfully';
+    saveStatusView.textContent = "Saved successfully";
   }, fakeLoadingTimeout);
 };
 
@@ -43,26 +43,27 @@ aria.Notes = function Notes(
   discardId,
   localStorageKey
 ) {
+  console.log(notesId);
   this.notesInput = document.getElementById(notesId);
   this.saveBtn = document.getElementById(saveId);
   this.saveStatusView = document.getElementById(saveStatusId);
   this.discardBtn = document.getElementById(discardId);
-  this.localStorageKey = localStorageKey || 'alertdialog-notes';
+  this.localStorageKey = localStorageKey || "alertdialog-notes";
   this.initialized = false;
 
-  Object.defineProperty(this, 'controls', {
+  Object.defineProperty(this, "controls", {
     get: function () {
       return document.querySelectorAll(
-        '[data-textbox=' + this.notesInput.id + ']'
+        "[data-textbox=" + this.notesInput.id + "]"
       );
     },
   });
-  Object.defineProperty(this, 'hasContent', {
+  Object.defineProperty(this, "hasContent", {
     get: function () {
       return this.notesInput.value.length > 0;
     },
   });
-  Object.defineProperty(this, 'savedValue', {
+  Object.defineProperty(this, "savedValue", {
     get: function () {
       return JSON.parse(localStorage.getItem(this.localStorageKey));
     },
@@ -70,20 +71,20 @@ aria.Notes = function Notes(
       this.save(val);
     },
   });
-  Object.defineProperty(this, 'isCurrent', {
+  Object.defineProperty(this, "isCurrent", {
     get: function () {
       return this.notesInput.value === this.savedValue;
     },
   });
-  Object.defineProperty(this, 'oninput', {
+  Object.defineProperty(this, "oninput", {
     get: function () {
       return this.notesInput.oninput;
     },
     set: function (fn) {
-      if (typeof fn !== 'function') {
-        throw new TypeError('oninput must be a function');
+      if (typeof fn !== "function") {
+        throw new TypeError("oninput must be a function");
       }
-      this.notesInput.addEventListener('input', fn);
+      this.notesInput.addEventListener("input", fn);
     },
   });
 
@@ -93,7 +94,7 @@ aria.Notes = function Notes(
 };
 
 aria.Notes.prototype.save = function (val) {
-  const isDisabled = this.saveBtn.getAttribute('aria-disabled') === 'true';
+  const isDisabled = this.saveBtn.getAttribute("aria-disabled") === "true";
   if (isDisabled) {
     return;
   }
@@ -112,16 +113,16 @@ aria.Notes.prototype.loadSaved = function () {
 };
 
 aria.Notes.prototype.restoreSaveBtn = function () {
-  this.saveBtn.classList.remove('loading');
-  this.saveBtn.classList.remove('saved');
-  this.saveBtn.removeAttribute('aria-disabled');
+  this.saveBtn.classList.remove("cx-loading");
+  this.saveBtn.classList.remove("cx-saved");
+  this.saveBtn.removeAttribute("aria-disabled");
 
-  this.saveStatusView.textContent = '';
+  this.saveStatusView.textContent = "";
 };
 
 aria.Notes.prototype.discard = function () {
   localStorage.clear();
-  this.notesInput.value = '';
+  this.notesInput.value = "";
   this.toggleControls();
   this.restoreSaveBtn();
 };
@@ -144,18 +145,18 @@ aria.Notes.prototype.toggleControls = function () {
 
 aria.Notes.prototype.toggleCurrent = function () {
   if (!this.isCurrent) {
-    this.notesInput.classList.remove('can-save');
+    this.notesInput.classList.remove("cx-can-save");
     aria.Utils.enableCtrl(this.saveBtn);
     this.restoreSaveBtn();
   } else {
-    this.notesInput.classList.add('can-save');
+    this.notesInput.classList.add("cx-can-save");
     aria.Utils.disableCtrl(this.saveBtn);
   }
 };
 
 aria.Notes.prototype.keydownHandler = function (e) {
-  var mod = navigator.userAgent.includes('Mac') ? e.metaKey : e.ctrlKey;
-  if ((e.key === 's') & mod) {
+  var mod = navigator.userAgent.includes("Mac") ? e.metaKey : e.ctrlKey;
+  if ((e.key === "s") & mod) {
     e.preventDefault();
     this.save();
   }
@@ -165,23 +166,23 @@ aria.Notes.prototype.init = function () {
   if (!this.initialized) {
     this.loadSaved();
     this.toggleCurrent();
-    this.saveBtn.addEventListener('click', this.save.bind(this, undefined));
-    this.discardBtn.addEventListener('click', this.discard.bind(this));
-    this.notesInput.addEventListener('input', this.toggleControls.bind(this));
-    this.notesInput.addEventListener('input', this.toggleCurrent.bind(this));
-    this.notesInput.addEventListener('keydown', this.keydownHandler.bind(this));
+    this.saveBtn.addEventListener("click", this.save.bind(this, undefined));
+    this.discardBtn.addEventListener("click", this.discard.bind(this));
+    this.notesInput.addEventListener("input", this.toggleControls.bind(this));
+    this.notesInput.addEventListener("input", this.toggleCurrent.bind(this));
+    this.notesInput.addEventListener("keydown", this.keydownHandler.bind(this));
     this.initialized = true;
   }
 };
 
 /** initialization */
 //document.addEventListener('DOMContentLoaded', function initAlertDialog() {
-if (document.readyState!=="loading"){
+if (document.readyState !== "loading") {
   var notes = new aria.Notes(
-    'notes',
-    'notes_save',
-    'notes_save_status',
-    'notes_confirm'
+    "cx-notes",
+    "cx-notes_save",
+    "cx-notes_save_status",
+    "cx-notes_confirm"
   );
   window.discardInput = function (closeBtn) {
     notes.discard.call(notes);
@@ -190,32 +191,32 @@ if (document.readyState!=="loading"){
 
   window.openAlertDialog = function (dialogId, triggerBtn, focusFirst) {
     // do not proceed if the trigger button is disabled
-    if (triggerBtn.getAttribute('aria-disabled') === 'true') {
+    if (triggerBtn.getAttribute("aria-disabled") === "true") {
       return;
     }
     var target = document.getElementById(
-      triggerBtn.getAttribute('data-textbox')
+      triggerBtn.getAttribute("data-textbox")
     );
     var dialog = document.getElementById(dialogId);
-    var desc = document.getElementById(dialog.getAttribute('aria-describedby'));
-    var wordCount = document.getElementById('word_count');
+    var desc = document.getElementById(dialog.getAttribute("aria-describedby"));
+    var wordCount = document.getElementById("cx-word_count");
     if (!wordCount) {
-      wordCount = document.createElement('p');
-      wordCount.id = 'word_count';
+      wordCount = document.createElement("p");
+      wordCount.id = "cx-word_count";
       desc.appendChild(wordCount);
     }
     var count = target.value.split(/\s/).length;
-    var frag = count > 1 ? 'words' : 'word';
-    wordCount.textContent = count + ' ' + frag + ' will be deleted.';
+    var frag = count > 1 ? "words" : "word";
+    wordCount.textContent = count + " " + frag + " will be deleted.";
     openDialog(dialogId, target, focusFirst);
   };
-};
+}
 /*
  *   This content is licensed according to the W3C Software License at
  *   https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document
  */
 
-'use strict';
+("use strict");
 
 var aria = aria || {};
 
@@ -228,7 +229,7 @@ aria.Utils = aria.Utils || {};
    */
   aria.Utils.IgnoreUtilFocusChanges = false;
 
-  aria.Utils.dialogOpenClass = 'has-dialog';
+  aria.Utils.dialogOpenClass = "has-dialog";
 
   /**
    * @description Set focus on descendant nodes until the first focusable element is
@@ -323,7 +324,7 @@ aria.Utils = aria.Utils || {};
     }
   };
 
-  document.addEventListener('keyup', aria.handleEscape);
+  document.addEventListener("keyup", aria.handleEscape);
 
   /**
    * @class
@@ -347,8 +348,8 @@ aria.Utils = aria.Utils || {};
       throw new Error('No element found with id="' + dialogId + '".');
     }
 
-    var validRoles = ['dialog', 'alertdialog'];
-    var isDialog = (this.dialogNode.getAttribute('role') || '')
+    var validRoles = ["dialog", "alertdialog"];
+    var isDialog = (this.dialogNode.getAttribute("role") || "")
       .trim()
       .split(/\s+/g)
       .some(function (token) {
@@ -358,18 +359,18 @@ aria.Utils = aria.Utils || {};
       });
     if (!isDialog) {
       throw new Error(
-        'Dialog() requires a DOM element with ARIA role of dialog or alertdialog.'
+        "Dialog() requires a DOM element with ARIA role of dialog or alertdialog."
       );
     }
 
     // Wrap in an individual backdrop element if one doesn't exist
     // Native <dialog> elements use the ::backdrop pseudo-element, which
     // works similarly.
-    var backdropClass = 'dialog-backdrop';
+    var backdropClass = "dialog-backdrop";
     if (this.dialogNode.parentNode.classList.contains(backdropClass)) {
       this.backdropNode = this.dialogNode.parentNode;
     } else {
-      this.backdropNode = document.createElement('div');
+      this.backdropNode = document.createElement("div");
       this.backdropNode.className = backdropClass;
       this.dialogNode.parentNode.insertBefore(
         this.backdropNode,
@@ -377,24 +378,24 @@ aria.Utils = aria.Utils || {};
       );
       this.backdropNode.appendChild(this.dialogNode);
     }
-    this.backdropNode.classList.add('active');
+    this.backdropNode.classList.add("cx-active");
 
     // Disable scroll on the body element
     document.body.classList.add(aria.Utils.dialogOpenClass);
 
-    if (typeof focusAfterClosed === 'string') {
+    if (typeof focusAfterClosed === "string") {
       this.focusAfterClosed = document.getElementById(focusAfterClosed);
-    } else if (typeof focusAfterClosed === 'object') {
+    } else if (typeof focusAfterClosed === "object") {
       this.focusAfterClosed = focusAfterClosed;
     } else {
       throw new Error(
-        'the focusAfterClosed parameter is required for the aria.Dialog constructor.'
+        "the focusAfterClosed parameter is required for the aria.Dialog constructor."
       );
     }
 
-    if (typeof focusFirst === 'string') {
+    if (typeof focusFirst === "string") {
       this.focusFirst = document.getElementById(focusFirst);
-    } else if (typeof focusFirst === 'object') {
+    } else if (typeof focusFirst === "object") {
       this.focusFirst = focusFirst;
     } else {
       this.focusFirst = null;
@@ -403,13 +404,13 @@ aria.Utils = aria.Utils || {};
     // Bracket the dialog node with two invisible, focusable nodes.
     // While this dialog is open, we use these to make sure that focus never
     // leaves the document even if dialogNode is the first or last node.
-    var preDiv = document.createElement('div');
+    var preDiv = document.createElement("div");
     this.preNode = this.dialogNode.parentNode.insertBefore(
       preDiv,
       this.dialogNode
     );
     this.preNode.tabIndex = 0;
-    var postDiv = document.createElement('div');
+    var postDiv = document.createElement("div");
     this.postNode = this.dialogNode.parentNode.insertBefore(
       postDiv,
       this.dialogNode.nextSibling
@@ -425,7 +426,7 @@ aria.Utils = aria.Utils || {};
     this.addListeners();
     aria.OpenDialogList.push(this);
     this.clearDialog();
-    this.dialogNode.className = 'default_dialog'; // make visible
+    this.dialogNode.className = "default_dialog"; // make visible
 
     if (this.focusFirst) {
       this.focusFirst.focus();
@@ -438,9 +439,9 @@ aria.Utils = aria.Utils || {};
 
   aria.Dialog.prototype.clearDialog = function () {
     Array.prototype.map.call(
-      this.dialogNode.querySelectorAll('input'),
+      this.dialogNode.querySelectorAll("input"),
       function (input) {
-        input.value = '';
+        input.value = "";
       }
     );
   };
@@ -457,8 +458,8 @@ aria.Utils = aria.Utils || {};
     this.removeListeners();
     aria.Utils.remove(this.preNode);
     aria.Utils.remove(this.postNode);
-    this.dialogNode.className = 'hidden';
-    this.backdropNode.classList.remove('active');
+    this.dialogNode.className = "hidden";
+    this.backdropNode.classList.remove("cx-active");
     this.focusAfterClosed.focus();
 
     // If a dialog was open underneath this one, restore its listeners.
@@ -490,19 +491,19 @@ aria.Utils = aria.Utils || {};
     this.removeListeners();
     aria.Utils.remove(this.preNode);
     aria.Utils.remove(this.postNode);
-    this.dialogNode.className = 'hidden';
-    this.backdropNode.classList.remove('active');
+    this.dialogNode.className = "hidden";
+    this.backdropNode.classList.remove("cx-active");
 
     var focusAfterClosed = newFocusAfterClosed || this.focusAfterClosed;
     new aria.Dialog(newDialogId, focusAfterClosed, newFocusFirst);
   }; // end replace
 
   aria.Dialog.prototype.addListeners = function () {
-    document.addEventListener('focus', this.trapFocus, true);
+    document.addEventListener("focus", this.trapFocus, true);
   }; // end addListeners
 
   aria.Dialog.prototype.removeListeners = function () {
-    document.removeEventListener('focus', this.trapFocus, true);
+    document.removeEventListener("focus", this.trapFocus, true);
   }; // end removeListeners
 
   aria.Dialog.prototype.trapFocus = function (event) {
@@ -543,7 +544,7 @@ aria.Utils = aria.Utils || {};
     }
   }; // end replaceDialog
 })();
-'use strict';
+("use strict");
 /**
  * @namespace aria
  */
@@ -597,13 +598,13 @@ aria.Utils.matches = function (element, selector) {
 };
 
 aria.Utils.remove = function (item) {
-  if (item.remove && typeof item.remove === 'function') {
+  if (item.remove && typeof item.remove === "function") {
     return item.remove();
   }
   if (
     item.parentNode &&
     item.parentNode.removeChild &&
-    typeof item.parentNode.removeChild === 'function'
+    typeof item.parentNode.removeChild === "function"
   ) {
     return item.parentNode.removeChild(item);
   }
@@ -620,13 +621,13 @@ aria.Utils.isFocusable = function (element) {
   }
 
   switch (element.nodeName) {
-    case 'A':
-      return !!element.href && element.rel != 'ignore';
-    case 'INPUT':
-      return element.type != 'hidden';
-    case 'BUTTON':
-    case 'SELECT':
-    case 'TEXTAREA':
+    case "A":
+      return !!element.href && element.rel != "ignore";
+    case "INPUT":
+      return element.type != "hidden";
+    case "BUTTON":
+    case "SELECT":
+    case "TEXTAREA":
       return true;
     default:
       return false;
@@ -634,7 +635,7 @@ aria.Utils.isFocusable = function (element) {
 };
 
 aria.Utils.getAncestorBySelector = function (element, selector) {
-  if (!aria.Utils.matches(element, selector + ' ' + element.tagName)) {
+  if (!aria.Utils.matches(element, selector + " " + element.tagName)) {
     // Element is not inside an element that matches selector
     return null;
   }
@@ -654,18 +655,18 @@ aria.Utils.getAncestorBySelector = function (element, selector) {
 };
 
 aria.Utils.hasClass = function (element, className) {
-  return new RegExp('(\\s|^)' + className + '(\\s|$)').test(element.className);
+  return new RegExp("(\\s|^)" + className + "(\\s|$)").test(element.className);
 };
 
 aria.Utils.addClass = function (element, className) {
   if (!aria.Utils.hasClass(element, className)) {
-    element.className += ' ' + className;
+    element.className += " " + className;
   }
 };
 
 aria.Utils.removeClass = function (element, className) {
-  var classRegex = new RegExp('(\\s|^)' + className + '(\\s|$)');
-  element.className = element.className.replace(classRegex, ' ').trim();
+  var classRegex = new RegExp("(\\s|^)" + className + "(\\s|$)");
+  element.className = element.className.replace(classRegex, " ").trim();
 };
 
 aria.Utils.bindMethods = function (object /* , ...methodNames */) {
