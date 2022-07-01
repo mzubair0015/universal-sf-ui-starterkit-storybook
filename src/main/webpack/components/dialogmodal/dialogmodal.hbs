@@ -1,79 +1,79 @@
-<button type="button" onclick="openDialog('dialog1', this)" data-component="dialogmodal">Add Delivery Address</button>
-<div id="dialog_layer" class="dialogs">
+<button type="button" onclick="openDialog('cx-dialog1', this)" data-component="dialogmodal">Add Delivery Address</button>
+<div id="dialog_layer" class="cx-dialogs">
   <div
     role="dialog"
-    id="dialog1"
+    id="cx-dialog1"
     aria-labelledby="dialog1_label"
     aria-modal="true"
-    class="hidden"
+    class="cx-hidden"
   >
-    <h2 id="dialog1_label" class="dialog_label">Add Delivery Address</h2>
-    <div class="dialog_form">
-      <div class="dialog_form_item">
+    <h2 id="cx-dialog1_label" class="cx-dialog_label">Add Delivery Address</h2>
+    <div class="cx-dialog_form">
+      <div class="cx-dialog_form_item">
         <label>
-          <span class="label_text">Street:</span>
-          <input type="text" class="wide_input" />
+          <span class="cx-label_text">Street:</span>
+          <input type="text" class="cx-wide_input" />
         </label>
       </div>
-      <div class="dialog_form_item">
+      <div class="cx-dialog_form_item">
         <label>
-          <span class="label_text">City:</span>
-          <input type="text" class="city_input" />
+          <span class="cx-label_text">City:</span>
+          <input type="text" class="cx-city_input" />
         </label>
       </div>
-      <div class="dialog_form_item">
+      <div class="cx-dialog_form_item">
         <label>
-          <span class="label_text">State:</span>
-          <input type="text" class="state_input" />
+          <span class="cx-label_text">State:</span>
+          <input type="text" class="cx-state_input" />
         </label>
       </div>
-      <div class="dialog_form_item">
+      <div class="cx-dialog_form_item">
         <label>
-          <span class="label_text">Zip:</span>
-          <input type="text" class="zip_input" />
+          <span class="cx-label_text">Zip:</span>
+          <input type="text" class="cx-zip_input" />
         </label>
       </div>
 
-      <div class="dialog_form_item">
+      <div class="cx-dialog_form_item">
         <label for="special_instructions">
-          <span class="label_text">Special instructions:</span>
+          <span class="cx-label_text">Special instructions:</span>
         </label>
         <input
-          id="special_instructions"
+          id="cx-special_instructions"
           type="text"
           aria-describedby="special_instructions_desc"
-          class="wide_input"
+          class="cx-wide_input"
         />
-        <div class="label_info" id="special_instructions_desc">
+        <div class="cx-label_info" id="cx-special_instructions_desc">
           For example, gate code or other information to help the driver find
           you
         </div>
       </div>
     </div>
-    <div class="dialog_form_actions">
+    <div class="cx-dialog_form_actions">
       <button
         type="button"
-        onclick="openDialog('dialog2', this, 'dialog2_para1')"
+        onclick="openDialog('cx-dialog2', this, 'cx-dialog2_para1')"
       >Verify Address</button>
       <button
         type="button"
-        onclick="replaceDialog('dialog3', undefined, 'dialog3_close_btn')"
+        onclick="replaceDialog('cx-dialog3', undefined, 'cx-dialog3_close_btn')"
       >Add</button>
       <button type="button" onclick="closeDialog(this)">Cancel</button>
     </div>
   </div>
 
   <div
-    id="dialog2"
+    id="cx-dialog2"
     role="dialog"
     aria-labelledby="dialog2_label"
     aria-describedby="dialog2_desc"
     aria-modal="true"
-    class="hidden"
+    class="cx-hidden"
   >
-    <h2 id="dialog2_label" class="dialog_label">Verification Result</h2>
-    <div id="dialog2_desc" class="dialog_desc">
-      <p tabindex="-1" id="dialog2_para1">This is just a demonstration. If it
+    <h2 id="cx-dialog2_label" class="cx-dialog_label">Verification Result</h2>
+    <div id="cx-dialog2_desc" class="cx-dialog_desc">
+      <p tabindex="-1" id="cx-dialog2_para1">This is just a demonstration. If it
         were a real application, it would provide a message telling whether the
         entered address is valid.</p>
       <p>
@@ -130,55 +130,55 @@
         most broadly accessible option.
       </p>
     </div>
-    <div class="dialog_form_actions">
-      <a href="#" onclick="openDialog('dialog4', this)">link to help</a>
-      <button type="button" onclick="openDialog('dialog4', this)">accepting an
+    <div class="cx-dialog_form_actions">
+      <a href="#" onclick="openDialog('cx-dialog4', this)">link to help</a>
+      <button type="button" onclick="openDialog('cx-dialog4', this)">accepting an
         alternative form</button>
       <button type="button" onclick="closeDialog(this)">Close</button>
     </div>
   </div>
 
   <div
-    id="dialog3"
+    id="cx-dialog3"
     role="dialog"
     aria-labelledby="dialog3_label"
     aria-describedby="dialog3_desc"
     aria-modal="true"
-    class="hidden"
+    class="cx-hidden"
   >
-    <h2 id="dialog3_label" class="dialog_label">Address Added</h2>
-    <p id="dialog3_desc" class="dialog_desc">
+    <h2 id="cx-dialog3_label" class="cx-dialog_label">Address Added</h2>
+    <p id="cx-dialog3_desc" class="cx-dialog_desc">
       The address you provided has been added to your list of delivery
       addresses. It is ready for immediate use. If you wish to remove it, you
       can do so from
-      <a href="#" onclick="openDialog('dialog4', this)">your profile.</a>
+      <a href="#" onclick="openDialog('cx-dialog4', this)">your profile.</a>
     </p>
-    <div class="dialog_form_actions">
+    <div class="cx-dialog_form_actions">
       <button
         type="button"
-        id="dialog3_close_btn"
+        id="cx-dialog3_close_btn"
         onclick="closeDialog(this)"
       >OK</button>
     </div>
   </div>
 
   <div
-    id="dialog4"
+    id="cx-dialog4"
     role="dialog"
     aria-labelledby="dialog4_label"
     aria-describedby="dialog4_desc"
-    class="hidden"
+    class="cx-hidden"
     aria-modal="true"
   >
-    <h2 id="dialog4_label" class="dialog_label">End of the Road!</h2>
-    <p id="dialog4_desc" class="dialog_desc">
+    <h2 id="cx-dialog4_label" class="cx-dialog_label">End of the Road!</h2>
+    <p id="cx-dialog4_desc" class="cx-dialog_desc">
       You activated a fake link or button that goes nowhere! The link or button
       is present for demonstration purposes only.
     </p>
-    <div class="dialog_form_actions">
+    <div class="cx-dialog_form_actions">
       <button
         type="button"
-        id="dialog4_close_btn"
+        id="cx-dialog4_close_btn"
         onclick="closeDialog(this)"
       >Close</button>
     </div>

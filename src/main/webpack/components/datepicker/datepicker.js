@@ -29,23 +29,23 @@ class ComboboxDatePicker {
     this.lastMessage = '';
 
     this.comboboxNode = cdp.querySelector('input[type="text"]');
-    this.buttonNode = cdp.querySelector('.group button');
+    this.buttonNode = cdp.querySelector('.cx-group button');
     this.dialogNode = cdp.querySelector('[role="dialog"]');
-    this.messageNode = this.dialogNode.querySelector('.dialog-message');
+    this.messageNode = this.dialogNode.querySelector('.cx-dialog-message');
 
-    this.monthYearNode = this.dialogNode.querySelector('.month-year');
+    this.monthYearNode = this.dialogNode.querySelector('.cx-month-year');
 
-    this.prevYearNode = this.dialogNode.querySelector('.prev-year');
-    this.prevMonthNode = this.dialogNode.querySelector('.prev-month');
-    this.nextMonthNode = this.dialogNode.querySelector('.next-month');
-    this.nextYearNode = this.dialogNode.querySelector('.next-year');
+    this.prevYearNode = this.dialogNode.querySelector('.cx-prev-year');
+    this.prevMonthNode = this.dialogNode.querySelector('.cx-prev-month');
+    this.nextMonthNode = this.dialogNode.querySelector('.cx-next-month');
+    this.nextYearNode = this.dialogNode.querySelector('.cx-next-year');
 
     this.okButtonNode = this.dialogNode.querySelector('button[value="ok"]');
     this.cancelButtonNode = this.dialogNode.querySelector(
       'button[value="cancel"]'
     );
 
-    this.tbodyNode = this.dialogNode.querySelector('table.dates tbody');
+    this.tbodyNode = this.dialogNode.querySelector('table.cx-dates tbody');
 
     this.lastRowNode = null;
 
@@ -231,7 +231,7 @@ class ComboboxDatePicker {
     this.dialogNode.style.zIndex = 2;
 
     this.comboboxNode.setAttribute('aria-expanded', 'true');
-    this.buttonNode.classList.add('open');
+    this.buttonNode.classList.add('cx-open');
     this.getDateFromCombobox();
     this.updateGrid();
   }
@@ -249,7 +249,7 @@ class ComboboxDatePicker {
     this.setMessage('');
     this.dialogNode.style.display = 'none';
     this.comboboxNode.setAttribute('aria-expanded', 'false');
-    this.buttonNode.classList.remove('open');
+    this.buttonNode.classList.remove('cx-open');
 
     if (flag) {
       this.comboboxNode.focus();
@@ -580,10 +580,10 @@ class ComboboxDatePicker {
     domNode.setAttribute('data-date', day.getFullYear() + '-' + m + '-' + d);
 
     if (disable) {
-      domNode.classList.add('disabled');
+      domNode.classList.add('cx-disabled');
       domNode.textContent = '';
     } else {
-      domNode.classList.remove('disabled');
+      domNode.classList.remove('cx-disabled');
       domNode.textContent = day.getDate();
       if (selected) {
         domNode.setAttribute('aria-selected', 'true');
@@ -805,11 +805,11 @@ class ComboboxDatePicker {
   }
 
   onComboboxFocus(event) {
-    event.currentTarget.parentNode.classList.add('focus');
+    event.currentTarget.parentNode.classList.add('cx-focus');
   }
 
   onComboboxBlur(event) {
-    event.currentTarget.parentNode.classList.remove('focus');
+    event.currentTarget.parentNode.classList.remove('cx-focus');
   }
 
   onButtonKeyDown(event) {
@@ -852,7 +852,7 @@ class ComboboxDatePicker {
 // Initialize menu button date picker
 
 window.addEventListener('load', function () {
-  var comboboxDatePickers = document.querySelectorAll('.combobox-datepicker');
+  var comboboxDatePickers = document.querySelectorAll('.cx-combobox-datepicker');
   comboboxDatePickers.forEach(function (dp) {
     new ComboboxDatePicker(dp);
   });

@@ -153,7 +153,7 @@ aria.Utils = aria.Utils || {};
     // Wrap in an individual backdrop element if one doesn't exist
     // Native <dialog> elements use the ::backdrop pseudo-element, which
     // works similarly.
-    var backdropClass = "dialog-backdrop";
+    var backdropClass = "cx-dialog-backdrop";
     if (this.dialogNode.parentNode.classList.contains(backdropClass)) {
       this.backdropNode = this.dialogNode.parentNode;
     } else {
@@ -165,7 +165,7 @@ aria.Utils = aria.Utils || {};
       );
       this.backdropNode.appendChild(this.dialogNode);
     }
-    this.backdropNode.classList.add("active");
+    this.backdropNode.classList.add("cx-active");
 
     // Disable scroll on the body element
     document.body.classList.add(aria.Utils.dialogOpenClass);
@@ -213,7 +213,7 @@ aria.Utils = aria.Utils || {};
     this.addListeners();
     aria.OpenDialogList.push(this);
     this.clearDialog();
-    this.dialogNode.className = "default_dialog"; // make visible
+    this.dialogNode.className = "cx-default_dialog"; // make visible
 
     if (this.focusFirst) {
       this.focusFirst.focus();
@@ -245,8 +245,8 @@ aria.Utils = aria.Utils || {};
     this.removeListeners();
     aria.Utils.remove(this.preNode);
     aria.Utils.remove(this.postNode);
-    this.dialogNode.className = "hidden";
-    this.backdropNode.classList.remove("active");
+    this.dialogNode.className = "cx-hidden";
+    this.backdropNode.classList.remove("cx-active");
     this.focusAfterClosed.focus();
 
     // If a dialog was open underneath this one, restore its listeners.
@@ -278,8 +278,8 @@ aria.Utils = aria.Utils || {};
     this.removeListeners();
     aria.Utils.remove(this.preNode);
     aria.Utils.remove(this.postNode);
-    this.dialogNode.className = "hidden";
-    this.backdropNode.classList.remove("active");
+    this.dialogNode.className = "cx-hidden";
+    this.backdropNode.classList.remove("cx-active");
 
     var focusAfterClosed = newFocusAfterClosed || this.focusAfterClosed;
     new aria.Dialog(newDialogId, focusAfterClosed, newFocusFirst);
