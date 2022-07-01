@@ -23,10 +23,10 @@ var CarouselPreviousNext = function (node, options) {
   /* DOM properties */
   this.domNode = node;
 
-  this.carouselItemNodes = node.querySelectorAll('.carousel-item');
+  this.carouselItemNodes = node.querySelectorAll('.cx-carousel-item');
 
-  this.containerNode = node.querySelector('.carousel-items');
-  this.liveRegionNode = node.querySelector('.carousel-items');
+  this.containerNode = node.querySelector('.cx-carousel-items');
+  this.liveRegionNode = node.querySelector('.cx-carousel-items');
   this.pausePlayButtonNode = null;
   this.previousButtonNode = null;
   this.nextButtonNode = null;
@@ -44,7 +44,7 @@ var CarouselPreviousNext = function (node, options) {
 
   // Pause Button
 
-  var elem = document.querySelector('.carousel .controls button.rotation');
+  var elem = document.querySelector('.cx-carousel .cx-controls button.cx-rotation');
   if (elem) {
     this.pausePlayButtonNode = elem;
     this.pausePlayButtonNode.addEventListener(
@@ -55,7 +55,7 @@ var CarouselPreviousNext = function (node, options) {
 
   // Previous Button
 
-  elem = document.querySelector('.carousel .controls button.previous');
+  elem = document.querySelector('.cx-carousel .cx-controls button.cx-previous');
   if (elem) {
     this.previousButtonNode = elem;
     this.previousButtonNode.addEventListener(
@@ -74,7 +74,7 @@ var CarouselPreviousNext = function (node, options) {
 
   // Next Button
 
-  elem = document.querySelector('.carousel .controls button.next');
+  elem = document.querySelector('.cx-carousel .cx-controls button.cx-next');
   if (elem) {
     this.nextButtonNode = elem;
     this.nextButtonNode.addEventListener(
@@ -103,7 +103,7 @@ var CarouselPreviousNext = function (node, options) {
       this.handleFocusOut.bind(this)
     );
 
-    var imageLinkNode = carouselItemNode.querySelector('.carousel-image a');
+    var imageLinkNode = carouselItemNode.querySelector('.cx-carousel-image a');
 
     if (imageLinkNode) {
       imageLinkNode.addEventListener(
@@ -140,9 +140,9 @@ CarouselPreviousNext.prototype.enableOrDisableAutoRotation = function (
 /* Public function to update controls/caption styling */
 CarouselPreviousNext.prototype.setAccessibleStyling = function (accessible) {
   if (accessible) {
-    this.domNode.classList.add('carousel-moreaccessible');
+    this.domNode.classList.add('cx-carousel-moreaccessible');
   } else {
-    this.domNode.classList.remove('carousel-moreaccessible');
+    this.domNode.classList.remove('cx-carousel-moreaccessible');
   }
 };
 
@@ -152,9 +152,9 @@ CarouselPreviousNext.prototype.showCarouselItem = function (index) {
   for (var i = 0; i < this.carouselItemNodes.length; i++) {
     var carouselItemNode = this.carouselItemNodes[i];
     if (index === i) {
-      carouselItemNode.classList.add('active');
+      carouselItemNode.classList.add('cx-active');
     } else {
-      carouselItemNode.classList.remove('active');
+      carouselItemNode.classList.remove('cx-active');
     }
   }
 };
@@ -196,13 +196,13 @@ CarouselPreviousNext.prototype.updatePlaying = function (play) {
 
   if (play) {
     this.pausePlayButtonNode.setAttribute('aria-label', this.pauseLabel);
-    this.pausePlayButtonNode.classList.remove('play');
-    this.pausePlayButtonNode.classList.add('pause');
+    this.pausePlayButtonNode.classList.remove('cx-play');
+    this.pausePlayButtonNode.classList.add('cx-pause');
     this.liveRegionNode.setAttribute('aria-live', 'off');
   } else {
     this.pausePlayButtonNode.setAttribute('aria-label', this.playLabel);
-    this.pausePlayButtonNode.classList.remove('pause');
-    this.pausePlayButtonNode.classList.add('play');
+    this.pausePlayButtonNode.classList.remove('cx-pause');
+    this.pausePlayButtonNode.classList.add('cx-play');
     this.liveRegionNode.setAttribute('aria-live', 'polite');
   }
 };
@@ -261,14 +261,14 @@ CarouselPreviousNext.prototype.handleFocusOut = function () {
 window.addEventListener(
   'load',
   function () {
-    var carouselEls = document.querySelectorAll('.carousel');
+    var carouselEls = document.querySelectorAll('.cx-carousel');
     var carousels = [];
 
     // set example behavior based on
     // default setting of the checkboxes and the parameters in the URL
     // update checkboxes based on any corresponding URL parameters
     var checkboxes = document.querySelectorAll(
-      '.carousel-options input[type=checkbox]'
+      '.cx-carousel-options input[type=checkbox]'
     );
     var urlParams = new URLSearchParams(location.search);
     var carouselOptions = {};
@@ -298,10 +298,10 @@ window.addEventListener(
     checkboxes.forEach(function (checkbox) {
       var updateEvent;
       switch (checkbox.value) {
-        case 'moreaccessible':
+        case 'cx-moreaccessible':
           updateEvent = 'setAccessibleStyling';
           break;
-        case 'norotate':
+        case 'cx-norotate':
           updateEvent = 'enableOrDisableAutoRotation';
           break;
       }

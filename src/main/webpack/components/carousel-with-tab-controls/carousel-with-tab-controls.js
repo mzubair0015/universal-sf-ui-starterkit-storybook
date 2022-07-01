@@ -27,14 +27,14 @@ var CarouselTablist = function (node, options) {
   this.domNode = node;
 
   this.tablistNode = node.querySelector('[role=tablist]');
-  this.containerNode = node.querySelector('.carousel-items');
+  this.containerNode = node.querySelector('.cx-carousel-items');
 
   this.tabNodes = [];
   this.tabpanelNodes = [];
 
-  this.liveRegionNode = node.querySelector('.carousel-items');
+  this.liveRegionNode = node.querySelector('.cx-carousel-items');
   this.pausePlayButtonNode = document.querySelector(
-    '.carousel-tablist .controls button.rotation'
+    '.cx-carousel-tablist .cx-controls button.cx-rotation'
   );
 
   this.playLabel = 'Start automatic slide show';
@@ -79,7 +79,7 @@ var CarouselTablist = function (node, options) {
         this.handleTabpanelFocusOut.bind(this)
       );
 
-      var imageLink = tabpanelNode.querySelector('.carousel-image a');
+      var imageLink = tabpanelNode.querySelector('.cx-carousel-image a');
 
       if (imageLink) {
         imageLink.addEventListener(
@@ -122,9 +122,9 @@ CarouselTablist.prototype.enableOrDisableAutoRotation = function (disable) {
 /* Public function to update controls/caption styling */
 CarouselTablist.prototype.setAccessibleStyling = function (accessible) {
   if (accessible) {
-    this.domNode.classList.add('carousel-tablist-moreaccessible');
+    this.domNode.classList.add('cx-carousel-tablist-moreaccessible');
   } else {
-    this.domNode.classList.remove('carousel-tablist-moreaccessible');
+    this.domNode.classList.remove('cx-carousel-tablist-moreaccessible');
   }
 };
 
@@ -136,7 +136,7 @@ CarouselTablist.prototype.hideTabpanel = function (index) {
   tabNode.setAttribute('tabindex', '-1');
 
   if (panelNode) {
-    panelNode.classList.remove('active');
+    panelNode.classList.remove('cx-active');
   }
 };
 
@@ -148,7 +148,7 @@ CarouselTablist.prototype.showTabpanel = function (index, moveFocus) {
   tabNode.removeAttribute('tabindex');
 
   if (panelNode) {
-    panelNode.classList.add('active');
+    panelNode.classList.add('cx-active');
   }
 
   if (moveFocus) {
@@ -210,13 +210,13 @@ CarouselTablist.prototype.updatePlaying = function (play) {
 
   if (play) {
     this.pausePlayButtonNode.setAttribute('aria-label', this.pauseLabel);
-    this.pausePlayButtonNode.classList.remove('play');
-    this.pausePlayButtonNode.classList.add('pause');
+    this.pausePlayButtonNode.classList.remove('cx-play');
+    this.pausePlayButtonNode.classList.add('cx-pause');
     this.liveRegionNode.setAttribute('aria-live', 'off');
   } else {
     this.pausePlayButtonNode.setAttribute('aria-label', this.playLabel);
-    this.pausePlayButtonNode.classList.remove('pause');
-    this.pausePlayButtonNode.classList.add('play');
+    this.pausePlayButtonNode.classList.remove('cx-pause');
+    this.pausePlayButtonNode.classList.add('cx-play');
     this.liveRegionNode.setAttribute('aria-live', 'polite');
   }
 };
@@ -290,13 +290,13 @@ CarouselTablist.prototype.handleTabClick = function (event) {
 };
 
 CarouselTablist.prototype.handleTabFocus = function () {
-  this.tablistNode.classList.add('focus');
+  this.tablistNode.classList.add('cx-focus');
   this.liveRegionNode.setAttribute('aria-live', 'polite');
   this.hasFocus = true;
 };
 
 CarouselTablist.prototype.handleTabBlur = function () {
-  this.tablistNode.classList.remove('focus');
+  this.tablistNode.classList.remove('cx-focus');
   if (this.playState) {
     this.liveRegionNode.setAttribute('aria-live', 'off');
   }
@@ -319,14 +319,14 @@ CarouselTablist.prototype.handleTabpanelFocusOut = function () {
 window.addEventListener(
   'load',
   function () {
-    var carouselEls = document.querySelectorAll('.carousel-tablist');
+    var carouselEls = document.querySelectorAll('.cx-carousel-tablist');
     var carousels = [];
 
     // set example behavior based on
     // default setting of the checkboxes and the parameters in the URL
     // update checkboxes based on any corresponding URL parameters
     var checkboxes = document.querySelectorAll(
-      '.carousel-options input[type=checkbox]'
+      '.cx-carousel-options input[type=checkbox]'
     );
     var urlParams = new URLSearchParams(location.search);
     var carouselOptions = {};
