@@ -1,7 +1,7 @@
 'use strict';
 var Meter = function (element) {
   this.rootEl = element;
-  this.fillEl = element.querySelector('.fill');
+  this.fillEl = element.querySelector('.cx-fill');
 
   // set up min, max, and current value
   var min = element.getAttribute('aria-valuemin');
@@ -98,17 +98,17 @@ window.addEventListener('load', function () {
   var updateInterval = playMeters();
 
   // play/pause meter updates
-  var playButton = document.querySelector('.play-meters');
+  var playButton = document.querySelector('.cx-play-meters');
   playButton.addEventListener('click', function () {
-    var isPaused = playButton.classList.contains('paused');
+    var isPaused = playButton.classList.contains('cx-paused');
 
     if (isPaused) {
       updateInterval = playMeters();
-      playButton.classList.remove('paused');
+      playButton.classList.remove('cx-paused');
       playButton.innerHTML = 'Pause Updates';
     } else {
       clearInterval(updateInterval);
-      playButton.classList.add('paused');
+      playButton.classList.add('cx-paused');
       playButton.innerHTML = 'Start Updates';
     }
   });
