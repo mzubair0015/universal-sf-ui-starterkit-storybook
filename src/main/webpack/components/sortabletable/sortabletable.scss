@@ -1,29 +1,29 @@
-.sr-only {
+.cx-sr-only {
   position: absolute;
   top: -30em;
 }
 
-table.sortable td,
-table.sortable th {
+table.cx-sortable td,
+table.cx-sortable th {
   padding: 0.125em 0.25em;
   width: 8em;
 }
 
-table.sortable th {
+table.cx-sortable th {
   font-weight: bold;
   border-bottom: thin solid #888;
   position: relative;
 }
 
-table.sortable th.no-sort {
+table.cx-sortable th.cx-no-sort {
   padding-top: 0.35em;
 }
 
-table.sortable th:nth-child(5) {
+table.cx-sortable th:nth-child(5) {
   width: 10em;
 }
 
-table.sortable th button {
+table.cx-sortable th button {
   position: absolute;
   padding: 4px;
   margin: 1px;
@@ -42,26 +42,26 @@ table.sortable th button {
   cursor: pointer;
 }
 
-table.sortable th button span {
+table.cx-sortable th button span {
   position: absolute;
   right: 4px;
 }
 
-table.sortable th[aria-sort="descending"] span::after {
+table.cx-sortable th[aria-sort="descending"] span::after {
   content: "▼";
   color: currentcolor;
   font-size: 100%;
   top: 0;
 }
 
-table.sortable th[aria-sort="ascending"] span::after {
+table.cx-sortable th[aria-sort="ascending"] span::after {
   content: "▲";
   color: currentcolor;
   font-size: 100%;
   top: 0;
 }
 
-table.show-unsorted-icon th:not([aria-sort]) button span::after {
+table.cx-show-unsorted-icon th:not([aria-sort]) button span::after {
   content: "♢";
   color: currentcolor;
   font-size: 100%;
@@ -70,30 +70,30 @@ table.show-unsorted-icon th:not([aria-sort]) button span::after {
   left: -4px;
 }
 
-table.sortable td.num {
+table.cx-sortable td.cx-num {
   text-align: right;
 }
 
-table.sortable tbody tr:nth-child(odd) {
+table.cx-sortable tbody tr:nth-child(odd) {
   background-color: #ddd;
 }
 
 /* Focus and hover styling */
 
-table.sortable th button:focus,
-table.sortable th button:hover {
+table.cx-sortable th button:focus,
+table.cx-sortable th button:hover {
   padding: 2px;
   border: 2px solid currentcolor;
   background-color: #e5f4ff;
 }
 
-table.sortable th button:focus span,
-table.sortable th button:hover span {
+table.cx-sortable th button:focus span,
+table.cx-sortable th button:hover span {
   right: 2px;
 }
 
-table.sortable th:not([aria-sort]) button:focus span::after,
-table.sortable th:not([aria-sort]) button:hover span::after {
+table.cx-sortable th:not([aria-sort]) button:focus span::after,
+table.cx-sortable th:not([aria-sort]) button:hover span::after {
   content: "▼";
   color: currentcolor;
   font-size: 100%;

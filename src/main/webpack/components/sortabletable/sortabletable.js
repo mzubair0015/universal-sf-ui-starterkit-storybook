@@ -37,7 +37,7 @@ class SortableTable {
         this.handleOptionChange.bind(this)
       );
       if (this.optionCheckbox.checked) {
-        this.tableNode.classList.add("show-unsorted-icon");
+        this.tableNode.classList.add("cx-show-unsorted-icon");
       }
     }
   }
@@ -57,14 +57,14 @@ class SortableTable {
           this.sortColumn(
             columnIndex,
             "ascending",
-            ch.classList.contains("num")
+            ch.classList.contains("cx-num")
           );
         } else {
           ch.setAttribute("aria-sort", "descending");
           this.sortColumn(
             columnIndex,
             "descending",
-            ch.classList.contains("num")
+            ch.classList.contains("cx-num")
           );
         }
       } else {
@@ -151,16 +151,16 @@ class SortableTable {
     var tgt = event.currentTarget;
 
     if (tgt.checked) {
-      this.tableNode.classList.add("show-unsorted-icon");
+      this.tableNode.classList.add("cx-show-unsorted-icon");
     } else {
-      this.tableNode.classList.remove("show-unsorted-icon");
+      this.tableNode.classList.remove("cx-show-unsorted-icon");
     }
   }
 }
 
 // Initialize sortable table buttons
 window.addEventListener("load", function () {
-  var sortableTables = document.querySelectorAll("table.sortable");
+  var sortableTables = document.querySelectorAll("table.cx-sortable");
   for (var i = 0; i < sortableTables.length; i++) {
     new SortableTable(sortableTables[i]);
   }
