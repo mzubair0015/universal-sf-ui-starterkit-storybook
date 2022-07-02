@@ -16,20 +16,20 @@ var aria = aria || {};
 
 window.addEventListener('load', function () {
   // Setup Example 1
-  if (document.getElementById('ex1-grid')) {
-    new aria.Grid(document.getElementById('ex1-grid'));
+  if (document.getElementById('cx-ex1-grid')) {
+    new aria.Grid(document.getElementById('cx-ex1-grid'));
 
     // Setup NUX; activates when the first grid cell is focused
-    var gridNUX = document.getElementById('grid-nux');
-    var firstGridCell = document.querySelector('#ex1-grid [tabindex="0"]');
-    var NUXCloseButton = document.getElementById('close-nux-button');
+    var gridNUX = document.getElementById('cx-grid-nux');
+    var firstGridCell = document.querySelector('#cx-ex1-grid [tabindex="0"]');
+    var NUXCloseButton = document.getElementById('cx-close-nux-button');
     var closeNUX = function () {
-      aria.Utils.addClass(gridNUX, 'hidden');
+      aria.Utils.addClass(gridNUX, 'cx-hidden');
       firstGridCell.focus();
     };
     var setupInstructions = function () {
       firstGridCell.removeEventListener('focus', setupInstructions);
-      aria.Utils.removeClass(gridNUX, 'hidden');
+      aria.Utils.removeClass(gridNUX, 'cx-hidden');
 
       NUXCloseButton.addEventListener('click', closeNUX);
       NUXCloseButton.addEventListener('keyup', function (event) {
@@ -42,24 +42,24 @@ window.addEventListener('load', function () {
   }
 
   // Setup Example 2
-  if (document.getElementById('ex2-grid')) {
-    var ex2Grid = new aria.Grid(document.getElementById('ex2-grid'));
+  if (document.getElementById('cx-ex2-grid')) {
+    var ex2Grid = new aria.Grid(document.getElementById('cx-ex2-grid'));
 
     new PillList(
       ex2Grid,
-      document.getElementById('add-recipient-input'),
-      document.getElementById('add-recipient-button'),
-      document.getElementById('form-action-text')
+      document.getElementById('cx-add-recipient-input'),
+      document.getElementById('cx-add-recipient-button'),
+      document.getElementById('cx-form-action-text')
     );
   }
 
   // Setup Example 3
   if (document.getElementById('ex3-grid')) {
-    var ex3Grid = new aria.Grid(document.getElementById('ex3-grid'));
-    var startIndexText = document.getElementById('ex3_start_index');
-    var endIndexText = document.getElementById('ex3_end_index');
-    var previousButton = document.getElementById('ex3_pageup_button');
-    var nextButton = document.getElementById('ex3_pagedown_button');
+    var ex3Grid = new aria.Grid(document.getElementById('cx-ex3-grid'));
+    var startIndexText = document.getElementById('cx-ex3_start_index');
+    var endIndexText = document.getElementById('cx-ex3_end_index');
+    var previousButton = document.getElementById('cx-ex3_pageup_button');
+    var nextButton = document.getElementById('cx-ex3_pagedown_button');
     ex3Grid.setPaginationChangeHandler(function (startIndex, endIndex) {
       startIndexText.innerText = startIndex + 1;
       endIndexText.innerText = endIndex + 1;
@@ -133,20 +133,20 @@ PillList.prototype.addPillItem = function (recipientName) {
   var newPillItem = document.createElement('div');
   newPillItem.setAttribute('role', 'row');
   newPillItem.setAttribute('data-id', 'id');
-  newPillItem.className = 'pill-item';
+  newPillItem.className = 'cx-pill-item';
 
   newPillItem.innerHTML =
     '<span role="gridcell">' +
-    '<a id="r' +
+    '<a id="cx-r' +
     id +
-    '" class="pill-name" tabindex="-1" href="#">' +
+    '" class="cx-pill-name" tabindex="-1" href="#">' +
     recipientName +
     '</a>' +
     '</span>' +
     '<span role="gridcell">' +
-    '<span id="rb' +
+    '<span id="cx-rb' +
     id +
-    '" class="pill-remove" tabindex="-1" role="button"' +
+    '" class="cx-pill-remove" tabindex="-1" role="button"' +
     'aria-label="Remove" aria-labelledby="rb' +
     id +
     ' r' +
@@ -183,10 +183,10 @@ PillList.prototype.checkRemovePill = function (event) {
     return;
   }
 
-  if (event.target.className === 'pill-remove') {
+  if (event.target.className === 'cx-pill-remove') {
     pillItem = event.target.parentNode.parentNode;
     pillID = pillItem.getAttribute('data-id');
-    pillName = pillItem.querySelector('.pill-name').innerText;
+    pillName = pillItem.querySelector('.cx-pill-name').innerText;
   } else {
     return;
   }
@@ -248,7 +248,7 @@ aria.GridSelector = {
  *  CSS Class names
  */
 aria.CSSClass = {
-  HIDDEN: 'hidden',
+  HIDDEN: 'cx-hidden',
 };
 
 /**
@@ -271,7 +271,7 @@ aria.Grid = function (gridNode) {
   this.shouldRestructure = this.gridNode.hasAttribute('data-restructure');
   this.topIndex = 0;
 
-  this.keysIndicator = document.getElementById('arrow-keys-indicator');
+  this.keysIndicator = document.getElementById('cx-arrow-keys-indicator');
 
   aria.Utils.bindMethods(
     this,
@@ -476,7 +476,7 @@ aria.Grid.prototype.focusCell = function (row, col) {
 
 aria.Grid.prototype.showKeysIndicator = function () {
   if (this.keysIndicator) {
-    aria.Utils.removeClass(this.keysIndicator, 'hidden');
+    aria.Utils.removeClass(this.keysIndicator, 'cx-hidden');
   }
 };
 
@@ -485,7 +485,7 @@ aria.Grid.prototype.hideKeysIndicator = function () {
     this.keysIndicator &&
     this.grid[this.focusedRow][this.focusedCol].tabIndex === 0
   ) {
-    aria.Utils.addClass(this.keysIndicator, 'hidden');
+    aria.Utils.addClass(this.keysIndicator, 'cx-hidden');
   }
 };
 
@@ -636,20 +636,20 @@ aria.Grid.prototype.delegateButtonHandler = function (event) {
   }
 
   if (
-    aria.Utils.matches(target, '.editable-text, .edit-text-button') &&
+    aria.Utils.matches(target, '.cx-editable-text, .cx-edit-text-button') &&
     (isClickEvent || key === aria.KeyCode.RETURN)
   ) {
     event.preventDefault();
-    this.toggleEditMode(this.findClosest(target, '.editable-text'), true, true);
+    this.toggleEditMode(this.findClosest(target, '.cx-editable-text'), true, true);
   }
 
   if (
-    aria.Utils.matches(target, '.edit-text-input') &&
+    aria.Utils.matches(target, '.cx-edit-text-input') &&
     (key === aria.KeyCode.RETURN || key === aria.KeyCode.ESC)
   ) {
     event.preventDefault();
     this.toggleEditMode(
-      this.findClosest(target, '.editable-text'),
+      this.findClosest(target, '.cx-editable-text'),
       false,
       key === aria.KeyCode.RETURN
     );
@@ -668,8 +668,8 @@ aria.Grid.prototype.delegateButtonHandler = function (event) {
  *  Whether or not to update the button text with the input text
  */
 aria.Grid.prototype.toggleEditMode = function (editCell, toggleOn, updateText) {
-  var onClassName = toggleOn ? 'edit-text-input' : 'edit-text-button';
-  var offClassName = toggleOn ? 'edit-text-button' : 'edit-text-input';
+  var onClassName = toggleOn ? 'cx-edit-text-input' : 'cx-edit-text-button';
+  var offClassName = toggleOn ? 'cx-edit-text-button' : 'cx-edit-text-input';
   var onNode = editCell.querySelector('.' + onClassName);
   var offNode = editCell.querySelector('.' + offClassName);
 

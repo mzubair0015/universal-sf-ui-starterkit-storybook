@@ -37,7 +37,7 @@ aria.GridSelector = {
  *  CSS Class names
  */
 aria.CSSClass = {
-  HIDDEN: "hidden",
+  HIDDEN: "cx-hidden",
 };
 
 /**
@@ -60,7 +60,7 @@ aria.Grid = function (gridNode) {
   this.shouldRestructure = this.gridNode.hasAttribute("data-restructure");
   this.topIndex = 0;
 
-  this.keysIndicator = document.getElementById("arrow-keys-indicator");
+  this.keysIndicator = document.getElementById("cx-arrow-keys-indicator");
 
   aria.Utils.bindMethods(
     this,
@@ -265,7 +265,7 @@ aria.Grid.prototype.focusCell = function (row, col) {
 
 aria.Grid.prototype.showKeysIndicator = function () {
   if (this.keysIndicator) {
-    aria.Utils.removeClass(this.keysIndicator, "hidden");
+    aria.Utils.removeClass(this.keysIndicator, "cx-hidden");
   }
 };
 
@@ -274,7 +274,7 @@ aria.Grid.prototype.hideKeysIndicator = function () {
     this.keysIndicator &&
     this.grid[this.focusedRow][this.focusedCol].tabIndex === 0
   ) {
-    aria.Utils.addClass(this.keysIndicator, "hidden");
+    aria.Utils.addClass(this.keysIndicator, "cx-hidden");
   }
 };
 
@@ -425,20 +425,20 @@ aria.Grid.prototype.delegateButtonHandler = function (event) {
   }
 
   if (
-    aria.Utils.matches(target, ".editable-text, .edit-text-button") &&
+    aria.Utils.matches(target, ".cx-editable-text, .cx-edit-text-button") &&
     (isClickEvent || key === aria.KeyCode.RETURN)
   ) {
     event.preventDefault();
-    this.toggleEditMode(this.findClosest(target, ".editable-text"), true, true);
+    this.toggleEditMode(this.findClosest(target, ".cx-editable-text"), true, true);
   }
 
   if (
-    aria.Utils.matches(target, ".edit-text-input") &&
+    aria.Utils.matches(target, ".cx-edit-text-input") &&
     (key === aria.KeyCode.RETURN || key === aria.KeyCode.ESC)
   ) {
     event.preventDefault();
     this.toggleEditMode(
-      this.findClosest(target, ".editable-text"),
+      this.findClosest(target, ".cx-editable-text"),
       false,
       key === aria.KeyCode.RETURN
     );
@@ -457,8 +457,8 @@ aria.Grid.prototype.delegateButtonHandler = function (event) {
  *  Whether or not to update the button text with the input text
  */
 aria.Grid.prototype.toggleEditMode = function (editCell, toggleOn, updateText) {
-  var onClassName = toggleOn ? "edit-text-input" : "edit-text-button";
-  var offClassName = toggleOn ? "edit-text-button" : "edit-text-input";
+  var onClassName = toggleOn ? "cx-edit-text-input" : "cx-edit-text-button";
+  var offClassName = toggleOn ? "cx-edit-text-button" : "cx-edit-text-input";
   var onNode = editCell.querySelector("." + onClassName);
   var offNode = editCell.querySelector("." + offClassName);
 
@@ -890,22 +890,22 @@ aria.Grid.prototype.findClosest = function (element, selector) {
 
 window.addEventListener("load", function () {
   // Initialize Example 1 Grid (if it is present in the DOM)
-  var ex1GridElement = document.getElementById("ex1-grid");
+  var ex1GridElement = document.getElementById("cx-ex1-grid");
   if (ex1GridElement) {
     new aria.Grid(ex1GridElement);
   }
 
   // Initialize Example 2 Grid (if it is present in the DOM)
-  var ex2GridElement = document.getElementById("ex2-grid");
+  var ex2GridElement = document.getElementById("cx-ex2-grid");
   if (ex2GridElement) {
     new aria.Grid(ex2GridElement);
   }
 
   // Initialize Example 3 Grid (if it is present in the DOM)
-  var ex3GridElement = document.getElementById("ex3-grid");
+  var ex3GridElement = document.getElementById("cx-ex3-grid");
   if (ex3GridElement) {
     var ex3Grid = new aria.Grid(ex3GridElement);
-    var toggleButton = document.getElementById("toggle_column_btn");
+    var toggleButton = document.getElementById("cx-toggle_column_btn");
     var toggledOn = true;
 
     toggleButton.addEventListener("click", function () {
@@ -1357,6 +1357,7 @@ aria.widget.MenuButton.prototype.toggleMenu = function () {
  */
 
 aria.widget.MenuButton.prototype.moveFocusToFirstMenuItem = function () {
+  console.log(this);
   if (this.menu.firstMenuItem) {
     this.openMenu();
     this.menu.firstMenuItem.focus();
