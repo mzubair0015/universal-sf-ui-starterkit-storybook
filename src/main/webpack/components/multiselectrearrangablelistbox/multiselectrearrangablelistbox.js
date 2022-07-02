@@ -97,8 +97,10 @@ aria.Listbox.prototype.checkKeyPress = function (evt) {
   var key = evt.which || evt.keyCode;
   var lastActiveId = this.activeDescendant;
   var allOptions = this.listboxNode.querySelectorAll('[role="option"]');
+  console.log(allOptions);
   var currentItem =
     document.getElementById(this.activeDescendant) || allOptions[0];
+  console.log(currentItem);
   var nextItem = currentItem;
 
   if (!currentItem) {
@@ -242,6 +244,7 @@ aria.Listbox.prototype.checkKeyPress = function (evt) {
 
 aria.Listbox.prototype.findItemToFocus = function (key) {
   var itemList = this.listboxNode.querySelectorAll('[role="option"]');
+  console.log(itemList);
   var character = String.fromCharCode(key);
   var searchIndex = 0;
 
@@ -269,6 +272,7 @@ aria.Listbox.prototype.findItemToFocus = function (key) {
 /* Return the index of the passed element within the passed array, or null if not found */
 aria.Listbox.prototype.getElementIndex = function (option, options) {
   var allOptions = Array.prototype.slice.call(options); // convert to array
+  console.log(allOptions);
   var optionIndex = allOptions.indexOf(option);
 
   return typeof optionIndex === 'number' ? optionIndex : null;
@@ -278,7 +282,8 @@ aria.Listbox.prototype.getElementIndex = function (option, options) {
 aria.Listbox.prototype.findNextOption = function (currentOption) {
   var allOptions = Array.prototype.slice.call(
     this.listboxNode.querySelectorAll('[role="option"]')
-  ); // get options array
+  ); 
+  console.log(allOptions);// get options array
   var currentOptionIndex = allOptions.indexOf(currentOption);
   var nextOption = null;
 
@@ -294,6 +299,7 @@ aria.Listbox.prototype.findPreviousOption = function (currentOption) {
   var allOptions = Array.prototype.slice.call(
     this.listboxNode.querySelectorAll('[role="option"]')
   ); // get options array
+  console.log(allOptions);
   var currentOptionIndex = allOptions.indexOf(currentOption);
   var previousOption = null;
 
@@ -341,6 +347,7 @@ aria.Listbox.prototype.findMatchInRange = function (
  *  The click event object
  */
 aria.Listbox.prototype.checkClickItem = function (evt) {
+  console.log(evt.target.getAttribute('role'));
   if (evt.target.getAttribute('role') !== 'option') {
     return;
   }
@@ -449,6 +456,7 @@ aria.Listbox.prototype.checkInRange = function (index, start, end) {
 aria.Listbox.prototype.selectRange = function (start, end) {
   // get start/end indices
   var allOptions = this.listboxNode.querySelectorAll('[role="option"]');
+  console.log(allOptions);
   var startIndex =
     typeof start === 'number' ? start : this.getElementIndex(start, allOptions);
   var endIndex =
@@ -716,8 +724,8 @@ var aria = aria || {};
  */
 aria.Toolbar = function (toolbarNode) {
   this.toolbarNode = toolbarNode;
-  this.items = this.toolbarNode.querySelectorAll('.toolbar-item');
-  this.selectedItem = this.toolbarNode.querySelector('.selected');
+  this.items = this.toolbarNode.querySelectorAll('.cx-toolbar-item');
+  this.selectedItem = this.toolbarNode.querySelector('.cx-selected');
   this.registerEvents();
 };
 
@@ -757,7 +765,7 @@ aria.Toolbar.prototype.checkFocusChange = function (evt) {
       break;
     case aria.KeyCode.DOWN:
       // if selected item is menu button, pressing DOWN should act like a click
-      if (aria.Utils.hasClass(this.selectedItem, 'menu-button')) {
+      if (aria.Utils.hasClass(this.selectedItem, 'cx-menu-button')) {
         evt.preventDefault();
         this.selectedItem.click();
       }
@@ -772,7 +780,7 @@ aria.Toolbar.prototype.checkFocusChange = function (evt) {
  *  The click event object
  */
 aria.Toolbar.prototype.checkClickItem = function (evt) {
-  if (aria.Utils.hasClass(evt.target, 'toolbar-item')) {
+  if (aria.Utils.hasClass(evt.target, 'cx-toolbar-item')) {
     this.selectItem(evt.target);
   }
 };
@@ -784,7 +792,7 @@ aria.Toolbar.prototype.checkClickItem = function (evt) {
  *  The item to deselect
  */
 aria.Toolbar.prototype.deselectItem = function (element) {
-  aria.Utils.removeClass(element, 'selected');
+  aria.Utils.removeClass(element, 'cx-selected');
   element.setAttribute('aria-selected', 'false');
   element.setAttribute('tabindex', '-1');
 };
@@ -797,7 +805,7 @@ aria.Toolbar.prototype.deselectItem = function (element) {
  */
 aria.Toolbar.prototype.selectItem = function (element) {
   this.deselectItem(this.selectedItem);
-  aria.Utils.addClass(element, 'selected');
+  aria.Utils.addClass(element, 'cx-selected');
   element.setAttribute('aria-selected', 'true');
   element.setAttribute('tabindex', '0');
   this.selectedItem = element;
@@ -831,21 +839,21 @@ aria.Toolbar.prototype.focusItem = function (element) {
 window.addEventListener('load', function () {
   // This onload handle initializes two examples. Only initialize example if the example
   // can be found in the dom.
-  if (document.getElementById('ss_imp_list')) {
+  if (document.getElementById('cx-ss_imp_list')) {
     var ex1ImportantListbox = new aria.Listbox(
-      document.getElementById('ss_imp_list')
+      document.getElementById('cx-ss_imp_list')
     );
     var ex1UnimportantListbox = new aria.Listbox(
-      document.getElementById('ss_unimp_list')
+      document.getElementById('cx-ss_unimp_list')
     );
     new aria.Toolbar(document.querySelector('[role="toolbar"]'));
 
     ex1ImportantListbox.enableMoveUpDown(
-      document.getElementById('ex1-up'),
-      document.getElementById('ex1-down')
+      document.getElementById('cx-ex1-up'),
+      document.getElementById('cx-ex1-down')
     );
     ex1ImportantListbox.setupMove(
-      document.getElementById('ex1-delete'),
+      document.getElementById('cx-ex1-delete'),
       ex1UnimportantListbox
     );
     ex1ImportantListbox.setHandleItemChange(function (event, items) {
@@ -872,32 +880,32 @@ window.addEventListener('load', function () {
       }
 
       if (updateText) {
-        var ex1LiveRegion = document.getElementById('ss_live_region');
+        var ex1LiveRegion = document.getElementById('cx-ss_live_region');
         ex1LiveRegion.innerText = updateText;
       }
     });
     ex1UnimportantListbox.setupMove(
-      document.getElementById('ex1-add'),
+      document.getElementById('cx-ex1-add'),
       ex1ImportantListbox
     );
   }
 
   // This onload handle initializes two examples. Only initialize example if the example
   // can be found in the dom.
-  if (document.getElementById('ms_imp_list')) {
+  if (document.getElementById('cx-ms_imp_list')) {
     var ex2ImportantListbox = new aria.Listbox(
-      document.getElementById('ms_imp_list')
+      document.getElementById('cx-ms_imp_list')
     );
     var ex2UnimportantListbox = new aria.Listbox(
-      document.getElementById('ms_unimp_list')
+      document.getElementById('cx-ms_unimp_list')
     );
 
     ex2ImportantListbox.setupMove(
-      document.getElementById('ex2-add'),
+      document.getElementById('cx-ex2-add'),
       ex2UnimportantListbox
     );
     ex2UnimportantListbox.setupMove(
-      document.getElementById('ex2-delete'),
+      document.getElementById('cx-ex2-delete'),
       ex2ImportantListbox
     );
     ex2UnimportantListbox.setHandleItemChange(function (event, items) {
@@ -914,7 +922,7 @@ window.addEventListener('load', function () {
       }
 
       if (updateText) {
-        var ex1LiveRegion = document.getElementById('ms_live_region');
+        var ex1LiveRegion = document.getElementById('cx-ms_live_region');
         ex1LiveRegion.innerText = updateText;
       }
     });

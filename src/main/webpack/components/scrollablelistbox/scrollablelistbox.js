@@ -712,7 +712,7 @@ aria.Listbox.prototype.setHandleFocusChange = function (focusChangeHandler) {
  */
 
 window.addEventListener('load', function () {
-  new aria.Listbox(document.getElementById('ss_elem_list'));
+  new aria.Listbox(document.getElementById('cx-ss_elem_list'));
 });
 'use strict';
 /**

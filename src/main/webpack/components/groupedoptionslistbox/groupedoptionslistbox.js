@@ -399,7 +399,7 @@ aria.Listbox.prototype.defocusItem = function (element) {
   if (!this.multiselectable) {
     element.removeAttribute('aria-selected');
   }
-  element.classList.remove('focused');
+  element.classList.remove('cx-focused');
 };
 
 /**
@@ -413,7 +413,7 @@ aria.Listbox.prototype.focusItem = function (element) {
   if (!this.multiselectable) {
     element.setAttribute('aria-selected', 'true');
   }
-  element.classList.add('focused');
+  element.classList.add('cx-focused');
   this.listboxNode.setAttribute('aria-activedescendant', element.id);
   this.activeDescendant = element.id;
 
@@ -712,7 +712,7 @@ aria.Listbox.prototype.setHandleFocusChange = function (focusChangeHandler) {
  */
 
 window.addEventListener('load', function () {
-  new aria.Listbox(document.getElementById('ss_elem_list'));
+  new aria.Listbox(document.getElementById('cx-ss_elem_list'));
 });
 'use strict';
 /**
