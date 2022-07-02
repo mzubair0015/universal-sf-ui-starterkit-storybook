@@ -18,20 +18,20 @@ class SliderMultithumb {
     this.svgNode = domNode.querySelector('svg');
     this.svgPoint = this.svgNode.createSVGPoint();
 
-    this.railNode = domNode.querySelector('.rail rect');
-    this.rangeNode = domNode.querySelector('.range rect');
+    this.railNode = domNode.querySelector('.cx-rail rect');
+    this.rangeNode = domNode.querySelector('.cx-range rect');
 
-    this.minSliderNode = domNode.querySelector('[role=slider].minimum');
-    this.maxSliderNode = domNode.querySelector('[role=slider].maximum');
+    this.minSliderNode = domNode.querySelector('[role=slider].cx-minimum');
+    this.maxSliderNode = domNode.querySelector('[role=slider].cx-maximum');
 
-    this.minSliderValueNode = this.minSliderNode.querySelector('.value');
-    this.maxSliderValueNode = this.maxSliderNode.querySelector('.value');
+    this.minSliderValueNode = this.minSliderNode.querySelector('.cx-value');
+    this.maxSliderValueNode = this.maxSliderNode.querySelector('.cx-value');
 
-    this.minSliderFocusNode = this.minSliderNode.querySelector('.focus-ring');
-    this.maxSliderFocusNode = this.maxSliderNode.querySelector('.focus-ring');
+    this.minSliderFocusNode = this.minSliderNode.querySelector('.cx-focus-ring');
+    this.maxSliderFocusNode = this.maxSliderNode.querySelector('.cx-focus-ring');
 
-    this.minSliderThumbNode = this.minSliderNode.querySelector('.thumb');
-    this.maxSliderThumbNode = this.maxSliderNode.querySelector('.thumb');
+    this.minSliderThumbNode = this.minSliderNode.querySelector('.cx-thumb');
+    this.maxSliderThumbNode = this.maxSliderNode.querySelector('.cx-thumb');
 
     // Dimensions of the slider focus ring, thumb and rail
 
@@ -299,13 +299,13 @@ class SliderMultithumb {
   }
 
   onSliderFocus(event) {
-    event.currentTarget.classList.add('focus');
-    this.svgNode.classList.add('active');
+    event.currentTarget.classList.add('cx-focus');
+    this.svgNode.classList.add('cx-active');
   }
 
   onSliderBlur(event) {
-    event.currentTarget.classList.remove('focus');
-    this.svgNode.classList.remove('active');
+    event.currentTarget.classList.remove('cx-focus');
+    this.svgNode.classList.remove('cx-active');
   }
 
   onSliderPointerdown(event) {
@@ -351,7 +351,7 @@ class SliderMultithumb {
 
 // Initialize Multithumb Slider widgets on the page
 window.addEventListener('load', function () {
-  var slidersMultithumb = document.querySelectorAll('.slider-multithumb');
+  var slidersMultithumb = document.querySelectorAll('.cx-slider-multithumb');
 
   for (let i = 0; i < slidersMultithumb.length; i++) {
     new SliderMultithumb(slidersMultithumb[i]);
