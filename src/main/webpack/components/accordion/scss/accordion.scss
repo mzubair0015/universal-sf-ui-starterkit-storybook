@@ -4,19 +4,34 @@
   border: 2px solid hsl(0deg 0% 52%);
   border-radius: 7px;
   width: 20em;
-}
 
-.cx-accordion h3 {
-  margin: 0;
-  padding: 0;
-}
+  p {
+    margin: 16px 0;
+  }
 
-.cx-accordion:focus-within {
-  border-color: hsl(216deg 94% 43%);
-}
+  @media (min-width: 768px) {
+    p {
+      font-size: 1.125rem;
+    }
+  }
 
-.cx-accordion:focus-within h3 {
-  background-color: hsl(0deg 0% 97%);
+  button {
+    border-style: none;
+    text-transform: none;
+  }
+
+  h3 {
+    margin: 0;
+    padding: 0;
+  }
+
+  &:focus-within {
+    border-color: hsl(216deg 94% 43%);
+  }
+
+  &:focus-within h3 {
+    background-color: hsl(0deg 0% 97%);
+  }
 }
 
 .cx-accordion > * + * {
@@ -35,15 +50,15 @@
   text-align: left;
   width: 100%;
   outline: none;
-}
 
-.cx-accordion-trigger:focus,
-.cx-accordion-trigger:hover {
-  background: hsl(216deg 94% 94%);
-}
+  &:focus,
+  &:hover {
+    background: hsl(216deg 94% 94%);
+  }
 
-.cx-accordion-trigger:focus {
-  outline: 4px solid transparent;
+  &:focus {
+    outline: 4px solid transparent;
+  }
 }
 
 .cx-accordion > *:first-child .cx-accordion-trigger,
@@ -54,10 +69,6 @@
 .cx-accordion > *:last-child .cx-accordion-trigger,
 .cx-accordion > *:last-child {
   border-radius: 0 0 5px 5px;
-}
-
-button {
-  border-style: none;
 }
 
 .cx-accordion button::-moz-focus-inner {
@@ -121,19 +132,3 @@ input {
   font-size: inherit;
   padding: 0.3em 0.5em;
 }
-
-// Undo Reset
-
-p {
-  margin: 16px 0;
-}
-
-@media (min-width: 768px) {
-  p {
-    font-size: 1.125rem;
-  }
-}
-
-// button {
-//   text-transform: none;
-// }
