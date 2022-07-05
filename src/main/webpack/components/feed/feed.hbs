@@ -1,0 +1,328 @@
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Feed Display | WAI-ARIA Authoring Practices 1.2</title>
+
+    <!--  Core js and css shared by all examples; do not modify when using this template. -->
+    <link href="../css/core.css" rel="stylesheet" />
+    <script src="../js/utils.js" type="text/javascript"></script>
+
+    <!--  js and css for this example. -->
+    <link href="css/feedDisplay.css" rel="stylesheet" />
+    <script src="js/feed.js" type="text/javascript"></script>
+    <script src="js/feedDisplay.js" type="text/javascript"></script>
+    <script src="js/main.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <main data-component="feed">
+      <h1>Recommended Restaurants</h1>
+      <section id="main-content">
+        <div id="restaurant-feed" role="feed">
+          <div
+            role="article"
+            class="restaurant-item"
+            aria-posinset="1"
+            tabindex="0"
+            aria-labelledby="restaurant-name-1"
+            aria-describedby="restaurant-rating-1 restaurant-type-1 restaurant-location-1"
+            aria-setsize="10"
+          >
+            <div class="restaurant-details"><div
+                class="restaurant-name"
+                id="restaurant-name-1"
+              >Tito's Tacos</div>
+              <div class="restaurant-rating" id="restaurant-rating-1">
+                <img
+                  class="restaurant-star-img"
+                  alt="5 stars"
+                  src="imgs/rating-5.png"
+                /></div>
+              <div class="restaurant-type" id="restaurant-type-1">Mexican, Tacos</div>
+            </div>
+            <div id="restaurant-location-1" class="location-block">
+              <div class="restaurant-street">123 Blueberry Ln</div>
+              <div class="restaurant-citystate">San Dimas, CA</div>
+              <div class="restaurant-phone">(111) 111-1111</div>
+            </div>
+            <div class="restaurant-actions">
+              <button type="button" class="bookmark-button">Bookmark</button>
+            </div>
+          </div>
+          <div
+            role="article"
+            class="restaurant-item"
+            aria-posinset="2"
+            tabindex="0"
+            aria-labelledby="restaurant-name-2"
+            aria-describedby="restaurant-rating-2 restaurant-type-2 restaurant-location-2"
+            aria-setsize="10"
+          >
+            <div class="restaurant-details">
+              <div class="restaurant-name" id="restaurant-name-2">Sakura Sushi</div>
+              <div class="restaurant-rating" id="restaurant-rating-2"><img
+                  class="restaurant-star-img"
+                  alt="4 stars"
+                  src="imgs/rating-4.png"
+                /></div>
+              <div class="restaurant-type" id="restaurant-type-2">Japanese,
+                Fish, Sushi</div>
+            </div>
+            <div id="restaurant-location-2" class="location-block">
+              <div class="restaurant-street">123 Blueberry Ln</div>
+              <div class="restaurant-citystate">Pomona, CA</div>
+              <div class="restaurant-phone">(111) 111-1111</div>
+            </div>
+            <div class="restaurant-actions"><button
+                type="button"
+                class="bookmark-button"
+              >Bookmark</button></div>
+          </div>
+          <div
+            role="article"
+            class="restaurant-item"
+            aria-posinset="3"
+            tabindex="0"
+            aria-labelledby="restaurant-name-3"
+            aria-describedby="restaurant-rating-3 restaurant-type-3 restaurant-location-3"
+            aria-setsize="10"
+          >
+            <div class="restaurant-details">
+              <div class="restaurant-name" id="restaurant-name-3">Prime
+                Steakhouse</div>
+              <div class="restaurant-rating" id="restaurant-rating-3"><img
+                  class="restaurant-star-img"
+                  alt="4 stars"
+                  src="imgs/rating-4.png"
+                /></div>
+              <div
+                class="restaurant-type"
+                id="restaurant-type-3"
+              >Steakhouses</div>
+            </div>
+            <div id="restaurant-location-3" class="location-block">
+              <div class="restaurant-street">123 Blueberry Ln</div>
+              <div class="restaurant-citystate">Claremont, CA</div>
+              <div class="restaurant-phone">(111) 111-1111</div>
+            </div>
+            <div class="restaurant-actions"><button
+                type="button"
+                class="bookmark-button"
+              >Bookmark</button></div>
+          </div>
+          <div
+            role="article"
+            class="restaurant-item"
+            aria-posinset="4"
+            tabindex="0"
+            aria-labelledby="restaurant-name-4"
+            aria-describedby="restaurant-rating-4 restaurant-type-4 restaurant-location-4"
+            aria-setsize="10"
+          >
+            <div class="restaurant-details">
+              <div class="restaurant-name" id="restaurant-name-4">The Pizza
+                Factory</div>
+              <div class="restaurant-rating" id="restaurant-rating-4"><img
+                  class="restaurant-star-img"
+                  alt="4 stars"
+                  src="imgs/rating-4.png"
+                /></div>
+              <div class="restaurant-type" id="restaurant-type-4">Pizza</div>
+            </div>
+            <div id="restaurant-location-4" class="location-block">
+              <div class="restaurant-street">123 Blueberry Ln</div>
+              <div class="restaurant-citystate">Pomona, CA</div>
+              <div class="restaurant-phone">(111) 111-1111</div>
+            </div>
+            <div class="restaurant-actions"><button
+                type="button"
+                class="bookmark-button"
+              >Bookmark</button></div>
+          </div>
+          <div
+            role="article"
+            class="restaurant-item"
+            aria-posinset="5"
+            tabindex="0"
+            aria-labelledby="restaurant-name-5"
+            aria-describedby="restaurant-rating-5 restaurant-type-5 restaurant-location-5"
+            aria-setsize="10"
+          >
+            <div class="restaurant-details">
+              <div class="restaurant-name" id="restaurant-name-5">Emperor's
+                Mongolian</div>
+              <div class="restaurant-rating" id="restaurant-rating-5"><img
+                  class="restaurant-star-img"
+                  alt="5 stars"
+                  src="imgs/rating-5.png"
+                /></div>
+              <div class="restaurant-type" id="restaurant-type-5">Mongolian,
+                Barbecue, Buffets</div>
+            </div>
+            <div id="restaurant-location-5" class="location-block">
+              <div class="restaurant-street">123 Blueberry Ln</div>
+              <div class="restaurant-citystate">La Verne, CA</div>
+              <div class="restaurant-phone">(111) 111-1111</div>
+            </div>
+            <div class="restaurant-actions"><button
+                type="button"
+                class="bookmark-button"
+              >Bookmark</button></div>
+          </div>
+          <div
+            role="article"
+            class="restaurant-item"
+            aria-posinset="6"
+            tabindex="0"
+            aria-labelledby="restaurant-name-6"
+            aria-describedby="restaurant-rating-6 restaurant-type-6 restaurant-location-6"
+            aria-setsize="10"
+          >
+            <div class="restaurant-details">
+              <div class="restaurant-name" id="restaurant-name-6">Backyard Grill</div>
+              <div class="restaurant-rating" id="restaurant-rating-6"><img
+                  class="restaurant-star-img"
+                  alt="3 stars"
+                  src="imgs/rating-3.png"
+                /></div>
+              <div class="restaurant-type" id="restaurant-type-6">American,
+                Burgers</div>
+            </div>
+            <div id="restaurant-location-6" class="location-block">
+              <div class="restaurant-street">123 Blueberry Ln</div>
+              <div class="restaurant-citystate">San Dimas, CA</div>
+              <div class="restaurant-phone">(111) 111-1111</div>
+            </div>
+            <div class="restaurant-actions"><button
+                type="button"
+                class="bookmark-button"
+              >Bookmark</button></div>
+          </div>
+          <div
+            role="article"
+            class="restaurant-item"
+            aria-posinset="7"
+            tabindex="0"
+            aria-labelledby="restaurant-name-7"
+            aria-describedby="restaurant-rating-7 restaurant-type-7 restaurant-location-7"
+            aria-setsize="10"
+          >
+            <div class="restaurant-details">
+              <div class="restaurant-name" id="restaurant-name-7">Taste Kitchen</div>
+              <div class="restaurant-rating" id="restaurant-rating-7"><img
+                  class="restaurant-star-img"
+                  alt="4 stars"
+                  src="imgs/rating-4.png"
+                /></div>
+              <div class="restaurant-type" id="restaurant-type-7">American</div>
+            </div>
+            <div id="restaurant-location-7" class="location-block">
+              <div class="restaurant-street">123 Blueberry Ln</div>
+              <div class="restaurant-citystate">Claremont, CA</div>
+              <div class="restaurant-phone">(111) 111-1111</div>
+            </div>
+            <div class="restaurant-actions"><button
+                type="button"
+                class="bookmark-button"
+              >Bookmark</button></div>
+          </div>
+          <div
+            role="article"
+            class="restaurant-item"
+            aria-posinset="8"
+            tabindex="0"
+            aria-labelledby="restaurant-name-8"
+            aria-describedby="restaurant-rating-8 restaurant-type-8 restaurant-location-8"
+            aria-setsize="10"
+          >
+            <div class="restaurant-details">
+              <div class="restaurant-name" id="restaurant-name-8">Bon Appetit</div>
+              <div class="restaurant-rating" id="restaurant-rating-8"><img
+                  class="restaurant-star-img"
+                  alt="4 stars"
+                  src="imgs/rating-4.png"
+                /></div>
+              <div class="restaurant-type" id="restaurant-type-8">French</div>
+            </div>
+            <div id="restaurant-location-8" class="location-block">
+              <div class="restaurant-street">123 Blueberry Ln</div>
+              <div class="restaurant-citystate">La Verne, CA</div>
+              <div class="restaurant-phone">(111) 111-1111</div>
+            </div>
+            <div class="restaurant-actions"><button
+                type="button"
+                class="bookmark-button"
+              >Bookmark</button></div>
+          </div>
+          <div
+            role="article"
+            class="restaurant-item"
+            aria-posinset="9"
+            tabindex="0"
+            aria-labelledby="restaurant-name-9"
+            aria-describedby="restaurant-rating-9 restaurant-type-9 restaurant-location-9"
+            aria-setsize="10"
+          >
+            <div class="restaurant-details">
+              <div class="restaurant-name" id="restaurant-name-9">Sally's
+                Sandwiches</div>
+              <div class="restaurant-rating" id="restaurant-rating-9"><img
+                  class="restaurant-star-img"
+                  alt="3 stars"
+                  src="imgs/rating-3.png"
+                /></div>
+              <div class="restaurant-type" id="restaurant-type-9">Sandwiches,
+                American</div>
+            </div>
+            <div id="restaurant-location-9" class="location-block">
+              <div class="restaurant-street">123 Blueberry Ln</div>
+              <div class="restaurant-citystate">San Dimas, CA</div>
+              <div class="restaurant-phone">(111) 111-1111</div>
+            </div>
+            <div class="restaurant-actions"><button
+                type="button"
+                class="bookmark-button"
+              >Bookmark</button></div>
+          </div>
+          <div
+            role="article"
+            class="restaurant-item"
+            aria-posinset="10"
+            tabindex="0"
+            aria-labelledby="restaurant-name-10"
+            aria-describedby="restaurant-rating-10 restaurant-type-10 restaurant-location-10"
+            aria-setsize="10"
+          >
+            <div class="restaurant-details">
+              <div class="restaurant-name" id="restaurant-name-10">The HotPot
+                Spot</div>
+              <div class="restaurant-rating" id="restaurant-rating-10"><img
+                  class="restaurant-star-img"
+                  alt="5 stars"
+                  src="imgs/rating-5.png"
+                /></div>
+              <div class="restaurant-type" id="restaurant-type-10">Hot Pot,
+                Japanese</div>
+            </div>
+            <div id="restaurant-location-10" class="location-block">
+              <div class="restaurant-street">123 Blueberry Ln</div>
+              <div class="restaurant-citystate">Pomona, CA</div>
+              <div class="restaurant-phone">(111) 111-1111</div>
+            </div>
+            <div class="restaurant-actions"><button
+                type="button"
+                class="bookmark-button"
+              >Bookmark</button></div>
+          </div>
+        </div>
+      </section>
+      <section id="side-panel">
+        <label for="delay-time-select">Select article loading delay</label>
+        <select id="delay-time-select" name="delay_time">
+          <option value="200">200 ms</option>
+          <option value="400">400 ms</option>
+        </select>
+      </section>
+    </main>
+  </body>
+</html>
