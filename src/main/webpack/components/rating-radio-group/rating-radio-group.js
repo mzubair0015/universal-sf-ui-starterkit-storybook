@@ -9,7 +9,7 @@
 
 "use strict";
 
-class RatingRadioGroup {
+export default class RatingRadioGroup {
   constructor(groupNode) {
     this.groupNode = groupNode;
 
@@ -128,13 +128,17 @@ class RatingRadioGroup {
   handleClick(event) {
     this.setChecked(event.currentTarget);
   }
+
+  static init(el) {
+    return new RatingRadioGroup(el);
+  }
 }
 
 // Initialize radio button group
 
-window.addEventListener("load", function () {
-  var radios = document.querySelectorAll(".rating-radio");
-  for (var i = 0; i < radios.length; i++) {
-    new RatingRadioGroup(radios[i]);
-  }
-});
+// window.addEventListener("load", function () {
+//   var radios = document.querySelectorAll(".rating-radio");
+//   for (var i = 0; i < radios.length; i++) {
+//     new RatingRadioGroup(radios[i]);
+//   }
+// });

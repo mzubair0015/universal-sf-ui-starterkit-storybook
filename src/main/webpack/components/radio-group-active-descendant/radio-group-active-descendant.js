@@ -9,7 +9,7 @@
 
 "use strict";
 
-class RadioGroupActiveDescendant {
+export default class RadioGroupActiveDescendant {
   constructor(groupNode) {
     this.groupNode = groupNode;
 
@@ -167,12 +167,16 @@ class RadioGroupActiveDescendant {
     var currentItem = this.getCurrentRadioButton();
     currentItem.classList.remove("focus");
   }
+
+  static init(el) {
+    return new RadioGroupActiveDescendant(el);
+  }
 }
 
 // Initialize radio button group using aria-activedescendant
-window.addEventListener("load", function () {
-  var radios = document.querySelectorAll(".radiogroup-activedescendant");
-  for (var i = 0; i < radios.length; i++) {
-    new RadioGroupActiveDescendant(radios[i]);
-  }
-});
+// window.addEventListener("load", function () {
+//   var radios = document.querySelectorAll(".radiogroup-activedescendant");
+//   for (var i = 0; i < radios.length; i++) {
+//     new RadioGroupActiveDescendant(radios[i]);
+//   }
+// });

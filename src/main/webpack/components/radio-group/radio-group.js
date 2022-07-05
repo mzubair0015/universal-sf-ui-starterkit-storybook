@@ -9,7 +9,7 @@
 
 "use strict";
 
-class RadioGroup {
+export default class RadioGroup {
   constructor(groupNode) {
     this.groupNode = groupNode;
 
@@ -124,12 +124,16 @@ class RadioGroup {
   handleBlur(event) {
     event.currentTarget.classList.remove("focus");
   }
+
+  static init(el) {
+    return new RadioGroup(el);
+  }
 }
 
 // Initialize radio button group
-window.addEventListener("load", function () {
-  var radios = document.querySelectorAll('[role="radiogroup"]');
-  for (var i = 0; i < radios.length; i++) {
-    new RadioGroup(radios[i]);
-  }
-});
+// window.addEventListener("load", function () {
+//   var radios = document.querySelectorAll('[role="radiogroup"]');
+//   for (var i = 0; i < radios.length; i++) {
+//     new RadioGroup(radios[i]);
+//   }
+// });
