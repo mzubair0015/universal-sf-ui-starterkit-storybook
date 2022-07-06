@@ -10,7 +10,7 @@
 
 "use strict";
 
-class CheckboxMixed {
+export default class CheckboxMixed {
   constructor(domNode) {
     this.mixedNode = domNode.querySelector('[role="checkbox"]');
     this.checkboxNodes = domNode.querySelectorAll('input[type="checkbox"]');
@@ -162,12 +162,16 @@ class CheckboxMixed {
   onCheckboxBlur(event) {
     event.currentTarget.parentNode.classList.remove("focus");
   }
+
+  static init(el) {
+    return new CheckboxMixed(el);
+  }
 }
 
-// Initialize mixed checkboxes on the page
-window.addEventListener("load", function () {
-  let mixed = document.querySelectorAll(".checkbox-mixed");
-  for (let i = 0; i < mixed.length; i++) {
-    new CheckboxMixed(mixed[i]);
-  }
-});
+// // Initialize mixed checkboxes on the page
+// window.addEventListener("load", function () {
+//   let mixed = document.querySelectorAll(".checkbox-mixed");
+//   for (let i = 0; i < mixed.length; i++) {
+//     new CheckboxMixed(mixed[i]);
+//   }
+// });

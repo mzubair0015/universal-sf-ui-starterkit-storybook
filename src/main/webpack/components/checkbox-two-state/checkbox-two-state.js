@@ -9,7 +9,7 @@
 
 "use strict";
 
-class Checkbox {
+export default class Checkbox {
   constructor(domNode) {
     this.domNode = domNode;
     this.domNode.tabIndex = 0;
@@ -54,12 +54,16 @@ class Checkbox {
   onClick() {
     this.toggleCheckbox();
   }
+
+  static init(el) {
+    return new Checkbox(el);
+  }
 }
 
 // Initialize checkboxes on the page
-window.addEventListener("load", function () {
-  let checkboxes = document.querySelectorAll('.checkboxes [role="checkbox"]');
-  for (let i = 0; i < checkboxes.length; i++) {
-    new Checkbox(checkboxes[i]);
-  }
-});
+// window.addEventListener("load", function () {
+//   let checkboxes = document.querySelectorAll('.checkboxes [role="checkbox"]');
+//   for (let i = 0; i < checkboxes.length; i++) {
+//     new Checkbox(checkboxes[i]);
+//   }
+// });
