@@ -6,7 +6,7 @@
  */
 
 "use strict";
-
+// todo - convert to class
 var ICON_MUTE_URL = "#icon-mute";
 var ICON_SOUND_URL = "#icon-sound";
 
