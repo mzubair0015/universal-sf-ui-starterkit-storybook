@@ -2,17 +2,16 @@
  *   This content is licensed according to the W3C Software License at
  *   https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document
  *
- *   File:   menu-button-actions.js
+ *   File:   menu-button-links.js
  *
- *   Desc:   Creates a menu button that opens a menu of actions
+ *   Desc:   Creates a menu button that opens a menu of links
  */
 
 'use strict';
 
-class MenuButtonActions {
-  constructor(domNode, performMenuAction) {
+class MenuButtonLinks {
+  constructor(domNode) {
     this.domNode = domNode;
-    this.performMenuAction = performMenuAction;
     this.buttonNode = domNode.querySelector('button');
     this.menuNode = domNode.querySelector('[role="menu"]');
     this.menuitemNodes = [];
@@ -35,8 +34,6 @@ class MenuButtonActions {
       this.firstChars.push(menuitem.textContent.trim()[0].toLowerCase());
 
       menuitem.addEventListener('keydown', this.onMenuitemKeydown.bind(this));
-
-      menuitem.addEventListener('click', this.onMenuitemClick.bind(this));
 
       menuitem.addEventListener(
         'mouseover',
@@ -192,6 +189,7 @@ class MenuButtonActions {
       case 'Esc':
       case 'Escape':
         this.closePopup();
+        this.buttonNode.focus();
         flag = true;
         break;
 
@@ -252,11 +250,7 @@ class MenuButtonActions {
     } else {
       switch (key) {
         case ' ':
-        case 'Enter':
-          this.closePopup();
-          this.performMenuAction(tgt);
-          this.buttonNode.focus();
-          flag = true;
+          window.location.href = tgt.href;
           break;
 
         case 'Esc':
@@ -309,13 +303,6 @@ class MenuButtonActions {
     }
   }
 
-  onMenuitemClick(event) {
-    var tgt = event.currentTarget;
-    this.closePopup();
-    this.buttonNode.focus();
-    this.performMenuAction(tgt);
-  }
-
   onMenuitemMouseover(event) {
     var tgt = event.currentTarget;
     tgt.focus();
@@ -329,23 +316,16 @@ class MenuButtonActions {
       }
     }
   }
-
   static init(el) {
-    return new MenuButtonActions(el);
+    return new MenuButtonLinks(el);
   }
-
 }
 
 // Initialize menu buttons
+
 // window.addEventListener('load', function () {
-//   document.getElementById('action_output').value = 'none';
-
-//   function performMenuAction(node) {
-//     document.getElementById('action_output').value = node.textContent.trim();
-//   }
-
-//   var menuButtons = document.querySelectorAll('.menu-button-actions');
-//   for (var i = 0; i < menuButtons.length; i++) {
-//     new MenuButtonActions(menuButtons[i], performMenuAction);
+//   var menuButtons = document.querySelectorAll('.menu-button-links');
+//   for (let i = 0; i < menuButtons.length; i++) {
+//     new MenuButtonLinks(menuButtons[i]);
 //   }
 // });
