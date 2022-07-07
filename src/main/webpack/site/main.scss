@@ -3,7 +3,9 @@
 @import "./../components/footer/footer";
 @import "./../components/header/header";
 
-@import "./../components/slider-color-viewer/scss/slider-color-viewer";
-@import "./../components/slider-media-seek/scss/slider-media-seek";
-@import "./../components/slider-rating/scss/slider-rating";
-@import "./../components/slider-vertical-temperature/scss/slider-vertical-temperature";
+@import "./../components/combobox/scss/combobox";
+@import "./../components/combobox-date-picker/scss/combobox-date-picker";
+@import "./../components/combobox-grid-popup/scss/combobox-grid-popup";
+@import "./../components/combobox-inline-autocomplete/scss/combobox-inline-autocomplete";
+@import "./../components/combobox-manual-selection/scss/combobox-manual-selection";
+@import "./../components/combobox-without-autocomplete/scss/combobox-without-autocomplete";
