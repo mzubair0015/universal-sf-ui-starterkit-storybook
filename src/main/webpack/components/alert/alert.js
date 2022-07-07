@@ -6,24 +6,31 @@
 
 "use strict";
 
-window.addEventListener("load", function () {
-  var button = document.getElementById("alert-trigger");
+import Event from "../../site/js/event";
 
-  button.addEventListener("click", addAlert);
-});
+export default class Alert {
+  constructor(el) {
+    this.el = el;
+    Event.subscribe("SHOW_ALERT", this.addAlert);
+  }
 
-/*
- * @function addAlert
- *
- * @desc Adds an alert to the page
- *
- * @param   {object}  event  -  Standard W3C event object
- *
- */
+  /*
+   * @function addAlert
+   *
+   * @desc Adds an alert to the page
+   *
+   * @param   {object}  event  -  Standard W3C event object
+   *
+   */
 
-function addAlert() {
-  var example = document.getElementById("example");
-  var template = document.getElementById("alert-template").innerHTML;
+  addAlert() {
+    var example = this.el.getElementById("example");
+    var template = this.el.getElementById("alert-template").innerHTML;
 
-  example.innerHTML = template;
+    example.innerHTML = template;
+  }
+
+  static init(el) {
+    return new Alert(el);
+  }
 }
