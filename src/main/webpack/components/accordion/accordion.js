@@ -7,7 +7,7 @@
 
 "use strict";
 
-class Accordion {
+export default class Accordion {
   constructor(domNode) {
     this.rootEl = domNode;
     this.buttonEl = this.rootEl.querySelector("button[aria-expanded]");
@@ -51,10 +51,8 @@ class Accordion {
   close() {
     this.toggle(false);
   }
-}
 
-// init accordions
-const accordions = document.querySelectorAll(".accordion h3");
-accordions.forEach((accordionEl) => {
-  new Accordion(accordionEl);
-});
+  static init(el) {
+    return new Accordion(el);
+  }
+}
