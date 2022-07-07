@@ -1,0 +1,127 @@
+.color-viewer-sliders {
+	label {
+		display: block;
+	}
+	.color-box {
+		width: 200px;
+		height: 200px;
+		border: black solid medium;
+		text-align: center;
+		padding: 0.25em;
+		forced-color-adjust: none;
+	}
+	.color-info {
+		padding-top: 5px;
+		label {
+			margin-top: 0.25em;
+			display: block;
+		}
+	}
+}
+.color-slider {
+	margin: 0;
+	margin-bottom: 1em;
+	padding: 2px;
+	touch-action: pan-y;
+	width: 350px;
+	outline: none;
+	div {
+		display: block;
+		width: 350px;
+	}
+	svg {
+		display: block;
+		width: 350px;
+	}
+	.value {
+		color: currentcolor;
+		fill: currentcolor;
+	}
+	.valueBackground {
+		fill: white;
+		stroke-width: 0;
+	}
+	.rail {
+		fill: #bbb;
+		stroke: currentcolor;
+		stroke-width: 2px;
+		opacity: 0.8;
+	}
+	.fill {
+		stroke-width: 0;
+		opacity: 0.5;
+		pointer-events: none;
+	}
+	.thumb {
+		fill: #666;
+		stroke: currentcolor;
+		stroke-width: 2px;
+	}
+	.focus {
+		fill: transparent;
+		stroke: transparent;
+		stroke-width: 2px;
+	}
+	&:focus {
+		.value {
+			font-weight: bold;
+		}
+		.fill {
+			opacity: 1;
+		}
+		.rail {
+			fill: transparent;
+			stroke: currentcolor;
+			opacity: 1;
+		}
+		.thumb {
+			fill: #ddd;
+			stroke: currentcolor;
+			opacity: 1;
+		}
+		.focus {
+			stroke: currentcolor;
+		}
+	}
+	&:hover {
+		.value {
+			font-weight: bold;
+		}
+		.fill {
+			opacity: 1;
+		}
+		.rail {
+			fill: transparent;
+			stroke: currentcolor;
+			opacity: 1;
+		}
+		.thumb {
+			fill: #ddd;
+			stroke: currentcolor;
+			opacity: 1;
+		}
+		.focus {
+			stroke: currentcolor;
+		}
+	}
+}
+.color-slider-label {
+	margin: 0;
+	padding: 0;
+	font-weight: bold;
+}
+.color-slider.red {
+	.fill {
+		fill: red;
+	}
+}
+.color-slider.green {
+	.fill {
+		fill: green;
+	}
+}
+.color-slider.blue {
+	.fill {
+		fill: blue;
+	}
+}
