@@ -37,7 +37,7 @@ class NavigationContentGenerator {
   }
 }
 
-class TreeViewNavigation {
+export default class TreeViewNavigation {
   constructor(node) {
     var linkURL, linkTitle;
 
@@ -488,6 +488,10 @@ class TreeViewNavigation {
       event.preventDefault();
     }
   }
+
+  static init(el) {
+    return new TreeViewNavigation(el);
+  }
 }
 
 /**
@@ -497,10 +501,10 @@ class TreeViewNavigation {
  * @description  after page has loaded initialize all treeitems based on the role=treeitem
  */
 
-window.addEventListener("load", function () {
-  var trees = document.querySelectorAll('nav [role="tree"]');
+// window.addEventListener("load", function () {
+//   var trees = document.querySelectorAll('nav [role="tree"]');
 
-  for (let i = 0; i < trees.length; i++) {
-    new TreeViewNavigation(trees[i]);
-  }
-});
+//   for (let i = 0; i < trees.length; i++) {
+//     new TreeViewNavigation(trees[i]);
+//   }
+// });
