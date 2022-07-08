@@ -8,113 +8,115 @@
 "use strict";
 
 /* global SpinButtonDate */
+export default class DatePickerSpinButtons {
+  constructor(domNode) {
+    this.domNode = domNode;
+    this.monthNode = domNode.querySelector(".spinbutton.month");
+    this.dayNode = domNode.querySelector(".spinbutton.day");
+    this.yearNode = domNode.querySelector(".spinbutton.year");
+    this.dateNode = domNode.querySelector(".date");
 
-function DatePickerSpinButtons(domNode) {
-  this.domNode = domNode;
-  this.monthNode = domNode.querySelector(".spinbutton.month");
-  this.dayNode = domNode.querySelector(".spinbutton.day");
-  this.yearNode = domNode.querySelector(".spinbutton.year");
-  this.dateNode = domNode.querySelector(".date");
+    this.valuesWeek = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    this.valuesDay = [
+      "",
+      "first",
+      "second",
+      "third",
+      "fourth",
+      "fifth",
+      "sixth",
+      "seventh",
+      "eighth",
+      "ninth",
+      "tenth",
+      "eleventh",
+      "twelfth",
+      "thirteenth",
+      "fourteenth",
+      "fifteenth",
+      "sixteenth",
+      "seventeenth",
+      "eighteenth",
+      "nineteenth",
+      "twentieth",
+      "twenty first",
+      "twenty second",
+      "twenty third",
+      "twenty fourth",
+      "twenty fifth",
+      "twenty sixth",
+      "twenty seventh",
+      "twenty eighth",
+      "twenty ninth",
+      "thirtieth",
+      "thirty first",
+    ];
+    this.valuesMonth = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
 
-  this.valuesWeek = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  this.valuesDay = [
-    "",
-    "first",
-    "second",
-    "third",
-    "fourth",
-    "fifth",
-    "sixth",
-    "seventh",
-    "eighth",
-    "ninth",
-    "tenth",
-    "eleventh",
-    "twelfth",
-    "thirteenth",
-    "fourteenth",
-    "fifteenth",
-    "sixteenth",
-    "seventeenth",
-    "eighteenth",
-    "nineteenth",
-    "twentieth",
-    "twenty first",
-    "twenty second",
-    "twenty third",
-    "twenty fourth",
-    "twenty fifth",
-    "twenty sixth",
-    "twenty seventh",
-    "twenty eighth",
-    "twenty ninth",
-    "thirtieth",
-    "thirty first",
-  ];
-  this.valuesMonth = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
+    this.spinbuttonDay = new SpinButtonDate(
+      this.dayNode,
+      null,
+      this.updateDay.bind(this)
+    );
+    this.spinbuttonDay.init();
+
+    this.spinbuttonMonth = new SpinButtonDate(
+      this.monthNode,
+      this.valuesMonth,
+      this.updateMonth.bind(this)
+    );
+    this.spinbuttonMonth.init();
+
+    this.spinbuttonYear = new SpinButtonDate(
+      this.yearNode,
+      null,
+      this.updateYear.bind(this)
+    );
+    this.spinbuttonYear.init();
+    this.spinbuttonYear.noWrap();
+
+    this.minYear = this.spinbuttonYear.getValueMin();
+    this.maxYear = this.spinbuttonYear.getValueMax();
+
+    this.currentDate = new Date();
+
+    this.day = this.currentDate.getDate();
+    this.month = this.currentDate.getMonth();
+    this.year = this.currentDate.getFullYear();
+    this.daysInMonth = this.getDaysInMonth(this.year, this.month);
+
+    this.spinbuttonDay.setValue(this.day, false);
+    this.spinbuttonMonth.setValue(this.month, false);
+    this.spinbuttonYear.setValue(this.year, false);
+
+    this.updateSpinButtons();
+  }
+
+  static init(el) {
+    return new DatePickerSpinButtons(el);
+  }
 }
-
-// Initialize slider
-DatePickerSpinButtons.prototype.init = function () {
-  this.spinbuttonDay = new SpinButtonDate(
-    this.dayNode,
-    null,
-    this.updateDay.bind(this)
-  );
-  this.spinbuttonDay.init();
-
-  this.spinbuttonMonth = new SpinButtonDate(
-    this.monthNode,
-    this.valuesMonth,
-    this.updateMonth.bind(this)
-  );
-  this.spinbuttonMonth.init();
-
-  this.spinbuttonYear = new SpinButtonDate(
-    this.yearNode,
-    null,
-    this.updateYear.bind(this)
-  );
-  this.spinbuttonYear.init();
-  this.spinbuttonYear.noWrap();
-
-  this.minYear = this.spinbuttonYear.getValueMin();
-  this.maxYear = this.spinbuttonYear.getValueMax();
-
-  this.currentDate = new Date();
-
-  this.day = this.currentDate.getDate();
-  this.month = this.currentDate.getMonth();
-  this.year = this.currentDate.getFullYear();
-  this.daysInMonth = this.getDaysInMonth(this.year, this.month);
-
-  this.spinbuttonDay.setValue(this.day, false);
-  this.spinbuttonMonth.setValue(this.month, false);
-  this.spinbuttonYear.setValue(this.year, false);
-
-  this.updateSpinButtons();
-};
 
 DatePickerSpinButtons.prototype.getDaysInMonth = function (year, month) {
   return new Date(year, month + 1, 0).getDate();
@@ -193,16 +195,6 @@ DatePickerSpinButtons.prototype.updateSpinButtons = function () {
     this.spinbuttonYear.getValue();
 };
 
-// Initialize menu button date picker
-
-window.addEventListener("load", function () {
-  var spinButtons = document.querySelectorAll(".datepicker-spinbuttons");
-
-  spinButtons.forEach(function (spinButton) {
-    var datepicker = new DatePickerSpinButtons(spinButton);
-    datepicker.init();
-  });
-});
 /*
  *   This content is licensed according to the W3C Software License at
  *   https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document
@@ -210,49 +202,55 @@ window.addEventListener("load", function () {
  *   File:   spinbutton-date.js
  */
 
-("use strict");
+class SpinButtonDate {
+  constructor(domNode, values, callback) {
+    this.domNode = domNode;
+    this.values = values;
+    this.callback = callback;
+    this.wrap = true;
 
-function SpinButtonDate(domNode, values, callback) {
-  this.domNode = domNode;
-  this.values = values;
-  this.callback = callback;
-  this.wrap = true;
+    var initialValue = domNode.getAttribute("aria-valuetext");
 
-  var initialValue = domNode.getAttribute("aria-valuetext");
+    this.spinbuttonNode = domNode.querySelector('[role="spinbutton"]');
 
-  this.spinbuttonNode = domNode.querySelector('[role="spinbutton"]');
+    this.previousValueNode = domNode.querySelector(".previous");
+    this.nextValueNode = domNode.querySelector(".next");
 
-  this.previousValueNode = domNode.querySelector(".previous");
-  this.nextValueNode = domNode.querySelector(".next");
+    this.increaseNode = domNode.querySelector(".increase");
+    this.decreaseNode = domNode.querySelector(".decrease");
 
-  this.increaseNode = domNode.querySelector(".increase");
-  this.decreaseNode = domNode.querySelector(".decrease");
-
-  if (values) {
-    this.valueMin = 0;
-    this.valueMax = values.length - 1;
-    if (initialValue) {
-      this.valueNow = values.indexOf(initialValue);
-      this.valueText = initialValue;
+    if (values) {
+      this.valueMin = 0;
+      this.valueMax = values.length - 1;
+      if (initialValue) {
+        this.valueNow = values.indexOf(initialValue);
+        this.valueText = initialValue;
+      } else {
+        this.valueNow = values.length / 2;
+        this.valueText = values[this.valueNow];
+      }
     } else {
-      this.valueNow = values.length / 2;
-      this.valueText = values[this.valueNow];
+      this.valueMin = parseInt(
+        this.spinbuttonNode.getAttribute("aria-valuemin")
+      );
+      this.valueMax = parseInt(
+        this.spinbuttonNode.getAttribute("aria-valuemax")
+      );
+      this.valueNow = parseInt(
+        this.spinbuttonNode.getAttribute("aria-valuenow")
+      );
+      this.valueText = this.spinbuttonNode.getAttribute("aria-valuenow");
     }
-  } else {
-    this.valueMin = parseInt(this.spinbuttonNode.getAttribute("aria-valuemin"));
-    this.valueMax = parseInt(this.spinbuttonNode.getAttribute("aria-valuemax"));
-    this.valueNow = parseInt(this.spinbuttonNode.getAttribute("aria-valuenow"));
-    this.valueText = this.spinbuttonNode.getAttribute("aria-valuenow");
-  }
 
-  this.keyCode = Object.freeze({
-    UP: 38,
-    DOWN: 40,
-    PAGEUP: 33,
-    PAGEDOWN: 34,
-    END: 35,
-    HOME: 36,
-  });
+    this.keyCode = Object.freeze({
+      UP: 38,
+      DOWN: 40,
+      PAGEUP: 33,
+      PAGEDOWN: 34,
+      END: 35,
+      HOME: 36,
+    });
+  }
 }
 
 // Initialize slider
