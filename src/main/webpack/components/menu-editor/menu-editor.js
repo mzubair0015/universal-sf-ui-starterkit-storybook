@@ -11,7 +11,7 @@
 
 "use strict";
 
-class MenubarEditor {
+export default class MenubarEditor {
   constructor(domNode) {
     this.domNode = domNode;
     this.menubarNode = domNode.querySelector("[role=menubar]");
@@ -686,16 +686,12 @@ class MenubarEditor {
       this.setFocusToMenuitem(this.getMenu(tgt), tgt);
     }
   }
+
+  static init(el) {
+    return new MenubarEditor(el);
+  }
 }
 
-// Initialize menubar editor
-
-window.addEventListener("load", function () {
-  var menubarEditors = document.querySelectorAll(".menubar-editor");
-  for (var i = 0; i < menubarEditors.length; i++) {
-    new MenubarEditor(menubarEditors[i]);
-  }
-});
 /*
  *   This content is licensed according to the W3C Software License at
  *   https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document

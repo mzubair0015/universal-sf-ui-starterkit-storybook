@@ -34,7 +34,7 @@ class NavigationContentGenerator {
   }
 }
 
-class MenubarNavigation {
+export default class MenubarNavigation {
   constructor(domNode) {
     var linkURL, linkTitle;
 
@@ -727,13 +727,8 @@ class MenubarNavigation {
       this.closePopupAll();
     }
   }
-}
 
-// Initialize menubar editor
-
-window.addEventListener("load", function () {
-  var menubarNavs = document.querySelectorAll(".menubar-navigation");
-  for (var i = 0; i < menubarNavs.length; i++) {
-    new MenubarNavigation(menubarNavs[i]);
+  static init(el) {
+    return new MenubarNavigation(el);
   }
-});
+}
