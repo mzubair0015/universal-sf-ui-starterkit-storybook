@@ -97,33 +97,33 @@
 }
 
 /* Styles for example page content section */
-.disclosure-page-content {
+.cx-disclosure-page-content {
   border: 1px solid #ccc;
   padding: 1em;
+
+  h3 {
+    margin-top: 0.5em;
+  }
 }
 
-.disclosure-page-content h3 {
-  margin-top: 0.5em;
-}
-
-.sample-header {
+.cx-sample-header {
   border: #005a9c solid 2px;
   background: #005a9c;
   color: white;
   text-align: center;
+
+  .tagline {
+    font-style: italic;
+  }
+
+  .title {
+    font-size: 2.5em;
+    font-weight: bold;
+    font-family: serif;
+  }
 }
 
-.sample-header .title {
-  font-size: 2.5em;
-  font-weight: bold;
-  font-family: serif;
-}
-
-.sample-header .tagline {
-  font-style: italic;
-}
-
-.sample-footer {
+.cx-sample-footer {
   border: #005a9c solid 2px;
   background: #005a9c;
   font-family: serif;

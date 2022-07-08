@@ -14,7 +14,7 @@
  *
  *
  */
-class DisclosureButton {
+export default class DisclosureButton {
   constructor(buttonNode) {
     this.buttonNode = buttonNode;
     this.controlledNode = false;
@@ -68,20 +68,8 @@ class DisclosureButton {
   onBlur() {
     this.buttonNode.classList.remove("focus");
   }
+
+  static init(el) {
+    return new DisclosureButton(el);
+  }
 }
-
-/* Initialize Hide/Show Buttons */
-
-window.addEventListener(
-  "load",
-  function () {
-    var buttons = document.querySelectorAll(
-      "button[aria-expanded][aria-controls]"
-    );
-
-    for (var i = 0; i < buttons.length; i++) {
-      new DisclosureButton(buttons[i]);
-    }
-  },
-  false
-);
