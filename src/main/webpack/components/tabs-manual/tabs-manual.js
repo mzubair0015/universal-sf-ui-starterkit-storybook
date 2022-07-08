@@ -2,14 +2,14 @@
  *   This content is licensed according to the W3C Software License at
  *   https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document
  *
- *   File:   tabs-automatic.js
+ *   File:   tabs-manual.js
  *
  *   Desc:   Tablist widget that implements ARIA Authoring Practices
  */
 
 "use strict";
 
-class TabsAutomatic {
+export default class TabsManual {
   constructor(groupNode) {
     this.tablistNode = groupNode;
 
@@ -38,22 +38,16 @@ class TabsAutomatic {
       this.lastTab = tab;
     }
 
-    this.setSelectedTab(this.firstTab, false);
+    this.setSelectedTab(this.firstTab);
   }
 
-  setSelectedTab(currentTab, setFocus) {
-    if (typeof setFocus !== "boolean") {
-      setFocus = true;
-    }
+  setSelectedTab(currentTab) {
     for (var i = 0; i < this.tabs.length; i += 1) {
       var tab = this.tabs[i];
       if (currentTab === tab) {
         tab.setAttribute("aria-selected", "true");
         tab.removeAttribute("tabindex");
         this.tabpanels[i].classList.remove("is-hidden");
-        if (setFocus) {
-          tab.focus();
-        }
       } else {
         tab.setAttribute("aria-selected", "false");
         tab.tabIndex = -1;
@@ -62,25 +56,29 @@ class TabsAutomatic {
     }
   }
 
-  setSelectedToPreviousTab(currentTab) {
+  moveFocusToTab(currentTab) {
+    currentTab.focus();
+  }
+
+  moveFocusToPreviousTab(currentTab) {
     var index;
 
     if (currentTab === this.firstTab) {
-      this.setSelectedTab(this.lastTab);
+      this.moveFocusToTab(this.lastTab);
     } else {
       index = this.tabs.indexOf(currentTab);
-      this.setSelectedTab(this.tabs[index - 1]);
+      this.moveFocusToTab(this.tabs[index - 1]);
     }
   }
 
-  setSelectedToNextTab(currentTab) {
+  moveFocusToNextTab(currentTab) {
     var index;
 
     if (currentTab === this.lastTab) {
-      this.setSelectedTab(this.firstTab);
+      this.moveFocusToTab(this.firstTab);
     } else {
       index = this.tabs.indexOf(currentTab);
-      this.setSelectedTab(this.tabs[index + 1]);
+      this.moveFocusToTab(this.tabs[index + 1]);
     }
   }
 
@@ -92,22 +90,22 @@ class TabsAutomatic {
 
     switch (event.key) {
       case "ArrowLeft":
-        this.setSelectedToPreviousTab(tgt);
+        this.moveFocusToPreviousTab(tgt);
         flag = true;
         break;
 
       case "ArrowRight":
-        this.setSelectedToNextTab(tgt);
+        this.moveFocusToNextTab(tgt);
         flag = true;
         break;
 
       case "Home":
-        this.setSelectedTab(this.firstTab);
+        this.moveFocusToTab(this.firstTab);
         flag = true;
         break;
 
       case "End":
-        this.setSelectedTab(this.lastTab);
+        this.moveFocusToTab(this.lastTab);
         flag = true;
         break;
 
@@ -121,16 +119,13 @@ class TabsAutomatic {
     }
   }
 
+  // Since this example uses buttons for the tabs, the click onr also is activated
+  // with the space and enter keys
   onClick(event) {
     this.setSelectedTab(event.currentTarget);
   }
-}
 
-// Initialize tablist
-
-window.addEventListener("load", function () {
-  var tablists = document.querySelectorAll("[role=tablist].automatic");
-  for (var i = 0; i < tablists.length; i++) {
-    new TabsAutomatic(tablists[i]);
+  static init(el) {
+    return new TabsManual(el);
   }
-});
+}
