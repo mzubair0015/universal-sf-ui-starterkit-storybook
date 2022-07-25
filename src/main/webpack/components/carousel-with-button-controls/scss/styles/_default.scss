@@ -1,0 +1,277 @@
+img.cx-reload {
+	padding: 0.25em;
+	display: block-inline;
+	position: relative;
+	top: 6px;
+	height: 0.9em;
+}
+.cx-carousel {
+	background-color: #eee;
+	max-width: 900px;
+	.cx-carousel-inner {
+		position: relative;
+	}
+	.cx-carousel-items {
+		padding: 5px;
+	}
+	.cx-carousel-items.cx-focus {
+		padding: 2px;
+		border: solid 3px #005a9c;
+	}
+	.cx-carousel-item {
+		display: none;
+		max-height: 400px;
+		max-width: 900px;
+		position: relative;
+		overflow: hidden;
+		width: 100%;
+		.cx-carousel-image {
+			a {
+				img {
+					height: 100%;
+					width: 100%;
+				}
+			}
+		}
+		.cx-carousel-caption {
+			a {
+				cursor: pointer;
+				text-decoration: underline;
+				color: #fff;
+				font-weight: 600;
+				display: inline-block;
+				margin: 0;
+				padding: 6px;
+				background-color: rgb(0 0 0 / 65%);
+				border-radius: 5px;
+				border: 0 solid transparent;
+				&:hover {
+					background-color: rgb(0 0 0 / 100%);
+				}
+				&:focus {
+					padding: 4px;
+					border: 2px solid #fff;
+					background-color: rgb(0 0 0 / 100%);
+					outline: none;
+					border-width: 2px solid #fff;
+					color: #fff;
+				}
+			}
+			span.cx-contrast {
+				display: inline-block;
+				margin: 0;
+				padding: 6px;
+				background-color: rgb(0 0 0 / 65%);
+				border-radius: 5px;
+				border: 0 solid transparent;
+				&:hover {
+					background-color: rgb(0 0 0 / 100%);
+				}
+			}
+			p {
+				font-size: 1em;
+				line-height: 1.5;
+				margin-bottom: 0;
+			}
+			position: absolute;
+			right: 15%;
+			bottom: 0;
+			left: 15%;
+			padding-top: 20px;
+			padding-bottom: 20px;
+			color: #fff;
+			text-align: center;
+		}
+	}
+	.cx-carousel-item.cx-active {
+		display: block;
+	}
+	.cx-controls {
+		box-sizing: border-box;
+		position: absolute;
+		top: 1em;
+		z-index: 10;
+		display: flex;
+		width: 100%;
+		padding: 0.25em 1.25em 0;
+		button {
+			position: absolute;
+			z-index: 10;
+			flex: 0 0 auto;
+			margin: 0;
+			padding: 0;
+			border: none;
+			background: transparent;
+			outline: none;
+			&:focus {
+				svg {
+					.cx-background {
+						fill: #005a9c;
+						stroke: #005a9c;
+						opacity: 1;
+					}
+					.cx-border {
+						stroke: white;
+					}
+				}
+			}
+			&:hover {
+				svg {
+					.cx-background {
+						fill: #005a9c;
+						stroke: #005a9c;
+						opacity: 1;
+					}
+					.cx-border {
+						fill: #005a9c;
+						stroke: #005a9c;
+						opacity: 1;
+					}
+				}
+			}
+		}
+		button.cx-previous {
+			right: 70px;
+		}
+		button.cx-next {
+			right: 18px;
+		}
+		svg {
+			.cx-background {
+				stroke: black;
+				fill: black;
+				stroke-width: 1px;
+				opacity: 0.6;
+			}
+			.cx-border {
+				fill: transparent;
+				stroke: transparent;
+				stroke-width: 2px;
+			}
+			.cx-pause {
+				stroke-width: 4;
+				fill: transparent;
+				stroke: transparent;
+			}
+			.cx-play {
+				stroke-width: 1;
+				fill: transparent;
+				stroke: transparent;
+			}
+			polygon {
+				fill: white;
+				stroke: white;
+			}
+		}
+		.cx-pause {
+			svg {
+				.cx-pause {
+					fill: white;
+					stroke: white;
+				}
+			}
+		}
+		.cx-play {
+			svg {
+				.cx-play {
+					fill: white;
+					stroke: white;
+				}
+			}
+		}
+	}
+}
+.cx-carousel-moreaccessible {
+	.cx-carousel-items {
+		.cx-carousel-image {
+			a {
+				display: block;
+				margin: 0;
+				padding: 5px;
+				text-decoration: none;
+				border: none;
+			}
+		}
+		padding: 0;
+		border: none;
+	}
+	.cx-carousel-item {
+		.cx-carousel-caption {
+			a {
+				display: inline-block;
+				margin: 0;
+				padding: 6px;
+				color: black;
+				background-color: transparent;
+				border: none;
+				border-radius: 5px;
+				&:hover {
+					background-color: rgb(0 0 0 / 20%);
+				}
+				&:focus {
+					padding: 4px;
+					border: 2px solid #005a9c;
+					background-color: transparent;
+					color: black;
+					outline: none;
+				}
+			}
+			span.cx-contrast {
+				background-color: transparent;
+				&:hover {
+					background-color: transparent;
+				}
+			}
+			position: static;
+			padding: 0;
+			margin: 0;
+			height: 60px;
+			color: black;
+			p {
+				padding: 0;
+				margin: 0;
+			}
+			h3 {
+				font-size: 1.1em;
+				padding: 0;
+				margin: 0;
+			}
+		}
+		padding: 0;
+		margin: 0;
+		max-height: none;
+	}
+	padding: 0;
+	margin: 0;
+	position: relative;
+	border: #eee solid 4px;
+	border-radius: 5px;
+	.cx-controls {
+		position: relative;
+		top: 0;
+		left: 0;
+		padding: 0.25em 0.25em 0;
+	}
+	.cx-carousel-items.cx-focus {
+		padding: 0;
+		border: none;
+		.cx-carousel-image {
+			a {
+				padding: 2px;
+				border: 3px solid #005a9c;
+			}
+		}
+	}
+}
+.cx-carousel.cx-carousel-moreaccessible {
+	.cx-controls {
+		position: static;
+		height: 36px;
+		button.cx-previous {
+			right: 60px;
+		}
+		button.cx-next {
+			right: 6px;
+		}
+	}
+}

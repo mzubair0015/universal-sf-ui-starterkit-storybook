@@ -1,0 +1,125 @@
+.combobox-list {
+	position: relative;
+}
+.combobox {
+	.group {
+		display: inline-flex;
+		padding: 4px;
+		cursor: pointer;
+		&:hover {
+			padding: 2px;
+			border: 2px solid currentcolor;
+			border-radius: 4px;
+			polygon {
+				fill-opacity: 1;
+			}
+		}
+		input {
+			&:hover {
+				background-color: #def;
+			}
+		}
+		button {
+			&:hover {
+				background-color: #def;
+			}
+		}
+	}
+	input {
+		background-color: white;
+		color: black;
+		box-sizing: border-box;
+		height: 24px;
+		padding: 0;
+		margin: 0;
+		vertical-align: bottom;
+		border: 1px solid gray;
+		position: relative;
+		cursor: pointer;
+		width: 150px;
+		border-right: none;
+		outline: none;
+		font-size: 87.5%;
+		padding: 1px 3px;
+	}
+	button {
+		background-color: white;
+		color: black;
+		box-sizing: border-box;
+		height: 24px;
+		padding: 0;
+		margin: 0;
+		vertical-align: bottom;
+		border: 1px solid gray;
+		position: relative;
+		cursor: pointer;
+		width: 19px;
+		border-left: none;
+		outline: none;
+		color: rgb(0 90 156);
+	}
+	button[aria-expanded="true"] {
+		svg {
+			transform: rotate(180deg) translate(0, -3px);
+		}
+	}
+	.group.focus {
+		padding: 2px;
+		border: 2px solid currentcolor;
+		border-radius: 4px;
+		polygon {
+			fill-opacity: 1;
+		}
+		input {
+			background-color: #def;
+		}
+		button {
+			background-color: #def;
+		}
+	}
+}
+ul[role="listbox"] {
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	left: 4px;
+	top: 28px;
+	list-style: none;
+	background-color: white;
+	display: none;
+	box-sizing: border-box;
+	border: 2px currentcolor solid;
+	max-height: 250px;
+	width: 168px;
+	overflow: scroll;
+	overflow-x: hidden;
+	font-size: 87.5%;
+	cursor: pointer;
+	li[role="option"] {
+		margin: 0;
+		display: block;
+		padding-left: 3px;
+		padding-top: 2px;
+		padding-bottom: 2px;
+	}
+}
+[role="listbox"].focus {
+	[role="option"][aria-selected="true"] {
+		background-color: #def;
+		padding-top: 0;
+		padding-bottom: 0;
+		border-top: 2px solid currentcolor;
+		border-bottom: 2px solid currentcolor;
+	}
+}
+[role="listbox"] {
+	[role="option"] {
+		&:hover {
+			background-color: #def;
+			padding-top: 0;
+			padding-bottom: 0;
+			border-top: 2px solid currentcolor;
+			border-bottom: 2px solid currentcolor;
+		}
+	}
+}
