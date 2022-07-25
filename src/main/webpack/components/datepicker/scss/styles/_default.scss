@@ -1,0 +1,289 @@
+@import "https://use.fontawesome.com/releases/v5.1.0/css/all.css";
+@import "https://www.w3.org/examples/css/core.css";
+@import "https://www.w3.org/StyleSheets/TR/2016/base.css";
+
+.cx-combobox-datepicker {
+	margin-top: 1em;
+	position: relative;
+	.cx-group {
+		display: inline-flex;
+		position: relative;
+		width: 12.125rem;
+		input {
+			background-color: white;
+			color: black;
+			box-sizing: border-box;
+			height: 1.75rem;
+			padding: 0;
+			margin: 0;
+			vertical-align: bottom;
+			border: 1px solid gray;
+			position: relative;
+			width: 10.75rem;
+			border-right: none;
+			outline: none;
+			font-size: 87.5%;
+			padding: 0.1em 0.3em;
+		}
+		button {
+			background-color: white;
+			color: black;
+			box-sizing: border-box;
+			height: 1.75rem;
+			padding: 0;
+			margin: 0;
+			vertical-align: bottom;
+			border: 1px solid gray;
+			position: relative;
+			position: absolute;
+			left: 10.75rem;
+			padding-right: 0.125rem;
+			border-left: none;
+			outline: none;
+		}
+		.cx-desc {
+			position: absolute;
+			top: 2em;
+			left: 0;
+			margin-top: 0.1em;
+			font-size: 90%;
+			font-style: italic;
+			letter-spacing: 0.025em;
+		}
+		polygon {
+			fill: gray;
+			stroke: transparent;
+		}
+		button[aria-expanded="true"] {
+			polygon {
+				fill: black;
+				stroke: white;
+			}
+		}
+		button.cx-open {
+			svg {
+				transform: rotate(180deg) translate(0, -1px);
+			}
+		}
+	}
+	label {
+		display: block;
+	}
+	.cx-group.cx-focus {
+		outline: 2px solid black;
+		outline-offset: 2px;
+		input {
+			background-color: #def;
+		}
+		button {
+			background-color: #def;
+		}
+		polygon {
+			fill: black;
+			stroke: white;
+		}
+	}
+	.cx-dialog {
+		button {
+			border-style: none;
+			background: transparent;
+			&::-moz-focus-inner {
+				border: 0;
+			}
+		}
+		position: absolute;
+		width: 320px;
+		clear: both;
+		border: 3px solid hsl(216deg 80% 51%);
+		margin-top: 4em;
+		border-radius: 5px;
+		padding: 0;
+		background-color: #fff;
+		h2 {
+			margin: 0;
+			padding: 0;
+			display: inline-block;
+			font-size: 1em;
+			color: white;
+			text-transform: none;
+			font-weight: bold;
+		}
+	}
+	.cx-dialog-ok-cancel-group {
+		button {
+			padding: 6px;
+			margin-left: 1em;
+			width: 5em;
+			background-color: hsl(216deg 80% 92%);
+			font-size: 0.85em;
+			color: black;
+			outline: none;
+			border-radius: 5px;
+		}
+		text-align: right;
+		margin-top: 1em;
+		margin-bottom: 1em;
+		margin-right: 1em;
+	}
+	.cx-header {
+		cursor: default;
+		width: 320px;
+		background-color: hsl(216deg 80% 51%);
+		padding: 7px;
+		font-weight: bold;
+		text-transform: uppercase;
+		color: white;
+		display: flex;
+		justify-content: space-around;
+	}
+	.cx-dates {
+		width: 320px;
+		padding-left: 1em;
+		padding-right: 1em;
+		padding-top: 1em;
+		th {
+			text-align: center;
+		}
+		td {
+			text-align: center;
+			padding: 3px;
+			margin: 0;
+			line-height: inherit;
+			height: 40px;
+			width: 40px;
+			border-radius: 5px;
+			font-size: 15px;
+			background: #eee;
+			&:hover {
+				padding: 0;
+				background-color: hsl(216deg 80% 92%);
+			}
+			&:focus {
+				padding: 1px;
+				border: 2px solid rgb(100 100 100);
+				outline: 0;
+			}
+			&:not(.disabled) {
+				&:hover {
+					padding: 2px;
+					border: 1px solid rgb(100 100 100);
+				}
+			}
+		}
+		tr {
+			border: 1px solid black;
+		}
+		td[aria-selected] {
+			padding: 1px;
+			border: 2px dotted black;
+			background-color: hsl(216deg 80% 96%);
+		}
+		td[tabindex="0"] {
+			background-color: hsl(216deg 80% 51%);
+			color: white;
+		}
+	}
+	.cx-prev-year {
+		padding: 4px;
+		width: 24px;
+		height: 24px;
+		color: white;
+		&:focus {
+			padding: 2px;
+			border: 2px solid white;
+			border-radius: 4px;
+			outline: 0;
+		}
+		&:hover {
+			padding: 3px;
+			border: 1px solid white;
+			border-radius: 4px;
+			outline: 0;
+		}
+	}
+	.cx-prev-month {
+		padding: 4px;
+		width: 24px;
+		height: 24px;
+		color: white;
+		&:focus {
+			padding: 2px;
+			border: 2px solid white;
+			border-radius: 4px;
+			outline: 0;
+		}
+		&:hover {
+			padding: 3px;
+			border: 1px solid white;
+			border-radius: 4px;
+			outline: 0;
+		}
+	}
+	.cx-next-month {
+		padding: 4px;
+		width: 24px;
+		height: 24px;
+		color: white;
+		&:focus {
+			padding: 2px;
+			border: 2px solid white;
+			border-radius: 4px;
+			outline: 0;
+		}
+		&:hover {
+			padding: 3px;
+			border: 1px solid white;
+			border-radius: 4px;
+			outline: 0;
+		}
+	}
+	.cx-next-year {
+		padding: 4px;
+		width: 24px;
+		height: 24px;
+		color: white;
+		&:focus {
+			padding: 2px;
+			border: 2px solid white;
+			border-radius: 4px;
+			outline: 0;
+		}
+		&:hover {
+			padding: 3px;
+			border: 1px solid white;
+			border-radius: 4px;
+			outline: 0;
+		}
+	}
+	.cx-dialog-button {
+		&:focus {
+			padding: 4px;
+			border: 2px solid black;
+		}
+		&:hover {
+			padding: 5px;
+			border: 1px solid black;
+		}
+	}
+	.fa-calendar-alt {
+		color: hsl(216deg 89% 51%);
+	}
+	.cx-month-year {
+		display: inline-block;
+		width: 12em;
+		text-align: center;
+	}
+	.cx-dialog-message {
+		padding-top: 0.25em;
+		padding-left: 1em;
+		height: 1.75em;
+		background: hsl(216deg 80% 51%);
+		color: white;
+	}
+}
+.cx-dialog {
+	.cx-dialog-header {
+		background-color: hsl(216deg 89% 51%);
+		color: white;
+	}
+}
