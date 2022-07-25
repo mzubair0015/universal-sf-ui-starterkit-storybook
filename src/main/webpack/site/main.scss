@@ -3,7 +3,11 @@
 @import "./../components/footer/footer";
 @import "./../components/header/header";
 
+
 /* Custom Component */
+
+@import "./../components/treeview-nav/scss/treeview-nav";
+@import "./../components/treeview/scss/tree";
 @import "./../components/tabs-automatic/scss/tabs";
 @import "./../components/spinbutton/scss/spinbutton";
 @import "./../components/radio-group/scss/radio";
