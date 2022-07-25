@@ -4,8 +4,7 @@
 @import "./../components/header/header";
 
 
-/* Custom Component */
-
+@import "./../components/meter/scss/meter.scss";
 @import "./../components/treeview-nav/scss/treeview-nav";
 @import "./../components/treeview/scss/tree";
 @import "./../components/tabs-automatic/scss/tabs";
@@ -26,3 +25,4 @@
 @import "./../components/accordion/scss/accordion";
 @import "./../components/simpletable/scss/simpletable.scss";
 @import "./../components/sortabletable/scss/sortabletable.scss";
+
