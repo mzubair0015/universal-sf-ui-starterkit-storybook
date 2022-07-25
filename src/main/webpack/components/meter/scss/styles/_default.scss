@@ -1,0 +1,21 @@
+@import url('https://www.w3.org/examples/css/core.css');
+@import url('https://www.w3.org/StyleSheets/TR/2016/base.css');
+@import url('https://use.fontawesome.com/releases/v5.1.0/css/all.css');
+
+[role="meter"] {
+  padding: 2px;
+  width: 200px;
+  height: 40px;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+.cx-fill {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  border: 2px solid black;
+  border-radius: 3px;
+  background-color: black;
+}
+
