@@ -3,7 +3,11 @@
 @import "./../components/footer/footer";
 @import "./../components/header/header";
 
+/* Custom Component */
 @import "./../components/breadcrumb/scss/breadcrumb";
+@import "./../components/checkbox-two-state/scss/checkbox-two-state";
+@import "./../components/checkbox-mixed-state/scss/checkbox-mixed-state";
+@import "./../components/multithumbslider/scss/multithumbslider.scss";
 @import "./../components/accordion/scss/accordion";
 @import "./../components/simpletable/scss/simpletable.scss";
 @import "./../components/sortabletable/scss/sortabletable.scss";
