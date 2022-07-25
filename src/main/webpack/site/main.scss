@@ -3,8 +3,10 @@
 @import "./../components/footer/footer";
 @import "./../components/header/header";
 
-
 /* Custom Component */
+
+@import "./../components/menu-nav/scss/menu-nav";
+@import "./../components/menu-editor/scss/menu-editor";
 @import "./../components/disclosure-faq/scss/disclosure-faq";
 @import "./../components/disclosure-img-desc/scss/disclosure-img-desc";
 @import "./../components/disclosure-nav-menu/scss/disclosure-nav-menu";
@@ -16,4 +18,3 @@
 @import "./../components/accordion/scss/accordion";
 @import "./../components/simpletable/scss/simpletable.scss";
 @import "./../components/sortabletable/scss/sortabletable.scss";
-
