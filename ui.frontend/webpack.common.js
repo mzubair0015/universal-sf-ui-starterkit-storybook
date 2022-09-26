@@ -84,6 +84,12 @@ module.exports = {
     // new ESLintPlugin({
     //     extensions: ['js', 'ts', 'tsx']
     // }),
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery",
+      "window.jQuery": "jquery",
+      "window.$": "jquery",
+    }),
     new MiniCssExtractPlugin({
       filename: "clientlib-[name]/[name].css",
     }),
