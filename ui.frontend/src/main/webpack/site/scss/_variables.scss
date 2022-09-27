@@ -1,0 +1,45 @@
+// == Font
+
+$font-family-default: "Montserrat", verdana, sans-serif;
+$font-family-secondary: "Muli", sans-serif;
+$font-size: 16px;
+$font-height: 1.5;
+$font-weight: normal;
+
+// == Color
+
+:root {
+  --color-foreground: #202020;
+  --color-background: yellow;
+  --color-link: #2020e0;
+}
+
+// Normal mode
+$color-foreground: #202020;
+$color-background: get-color("light-yellow");
+$color-link: #2020e0;
+
+// Dark mode
+$color-foreground-dark: $color-foreground;
+$color-background-dark: $color-background;
+$color-link-dark: $color-link;
+
+// ----------------- Media query --------------------
+
+// $screen-xxs: 320px;
+// $screen-xs: 375px;
+// $screen-sm: 768px;
+// $screen-md: 1024px;
+// $screen-lg: 1280px;
+// $screen-xl: 1920px;
+
+$screen-m-xxs: 320px;
+$screen-m-xs: 375px;
+$screen-m-sm: 540px;
+$screen-t-sm: 768px;
+$screen-t-lg: 900px;
+$screen-d-sm: 1024px;
+$screen-d-md: 1280px;
+$screen-d-ml: 1440px;
+$screen-d-xl: 1600px;
+$screen-d-xxl: 1920px;
