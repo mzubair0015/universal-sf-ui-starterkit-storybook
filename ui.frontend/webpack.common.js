@@ -10,7 +10,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const SOURCE_ROOT = __dirname + "/src/main/webpack";
 
 const resolve = {
-  extensions: [".js", ".ts"],
+  extensions: [".js", ".ts", ".jsx", ".tsx"],
   plugins: [
     new TSConfigPathsPlugin({
       configFile: "./tsconfig.json",
