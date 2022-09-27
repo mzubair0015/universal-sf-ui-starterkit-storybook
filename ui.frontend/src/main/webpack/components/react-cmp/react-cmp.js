@@ -1,8 +1,7 @@
 /**
- * Header class
+ * Sample React Component Integration
  */
 import React from "react";
-
 import ReactDOM from "react-dom/client";
 import ReactComponent from "./ReactComponent.jsx";
 
