@@ -19,7 +19,8 @@
     "watch": "webpack-dev-server --config ./webpack.dev.js --env writeToDisk & chokidar -c \"clientlib\" ./dist & aemsync -w ../ui.apps/src/main/content",
     "storybook": "start-storybook -p 6006 --no-manager-cache -s static",
     "build:storybook": "build-storybook",
-    "build:htl": "node ./tools/htl-converter/index.mjs"
+    "build:htl": "node ./tools/htl-converter/index.mjs",
+    "plop": "plop"
   },
   "lint-staged": {
     "ui.frontend/src/main/webpack/!(core-components)/**/*.js": [
@@ -34,10 +35,10 @@
   "devDependencies": {
     "@adobe/htlengine": "^6.4.2",
     "@babel/core": "^7.19.1",
-    "@babel/preset-react": "^7.18.6",
-    "@babel/preset-env": "^7.19.1",
     "@babel/plugin-proposal-class-properties": "^7.3.3",
     "@babel/plugin-proposal-object-rest-spread": "^7.3.2",
+    "@babel/preset-env": "^7.19.1",
+    "@babel/preset-react": "^7.18.6",
     "@storybook/addon-actions": "^6.5.12",
     "@storybook/addon-essentials": "^6.5.12",
     "@storybook/addon-links": "^6.5.12",
@@ -63,6 +64,7 @@
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.4.5",
     "muban-convert-hbs": "^1.1.1",
+    "plop": "^3.1.1",
     "postcss": "^8.2.15",
     "postcss-loader": "^3.0.0",
     "prettier": "2.6.2",
