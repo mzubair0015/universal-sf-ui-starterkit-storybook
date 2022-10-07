@@ -75,6 +75,19 @@ export default function (plop) {
         type: "add",
         path: "src/main/webpack/components/{{dashCase name}}/{{pascalCase name}}.jsx",
         templateFile: "plop-templates/react-cmp/Component.jsx",
+      },
+      {
+        type: "add",
+        path: "src/main/webpack/components/{{dashCase name}}/{{dashCase name}}.scss",
+        templateFile: "plop-templates/react-cmp/component.scss",
+      },
+      {
+        type: "modify",
+        path: "src/main/webpack/site/main.scss",
+        pattern:
+          /(\/\/ import core component end \| do not remove see, plopfile\.mjs)/,
+        template:
+          "@import './../components/{{dashCase name}}/{{dashCase name}}';\n$1",
       }
     ],
   });
