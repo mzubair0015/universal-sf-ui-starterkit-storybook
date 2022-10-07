@@ -8,7 +8,6 @@ import ReactComponent from "./ReactComponent.jsx";
 export default class {
   static init(el) {
     const props = JSON.parse(JSON.stringify(el.dataset));
-    // console.info(props);
     createRoot(el).render(<ReactComponent {...props} />);
   }
 }
