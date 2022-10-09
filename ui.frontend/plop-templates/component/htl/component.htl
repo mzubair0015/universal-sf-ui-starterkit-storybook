@@ -1,0 +1,5 @@
+<div class="{{dashCase name}}" data-component="{{dashCase name}}">
+    <div class="container">
+       {{camelCase name}}   
+    </div>
+</div>

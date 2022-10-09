@@ -132,3 +132,4 @@ class Initializer {
 }
 
 export { Initializer };
+/* eslint-enable */
