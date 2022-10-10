@@ -97,6 +97,12 @@
     "stylelint-config-prettier-scss": "^0.0.1",
     "stylelint-config-standard-scss": "^3.0.0"
   },
+  "overrides": {
+    "glob-parent": "6.0.2",
+    "moment": "2.29.4",
+    "trim": "1.0.1",
+    "trim-newlines": "4.0.2"
+  },
   "browserslist": [
     "last 2 version",
     "> 1%"
