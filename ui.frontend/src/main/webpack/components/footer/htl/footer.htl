@@ -4,4 +4,7 @@
 		<span>${ copy }</span>
 		<span>${ content }</span>
 	</div>
+	<div>
+		Secondary
+	</div>
 </footer>
