@@ -17,7 +17,7 @@
     "start": "webpack-dev-server --open --config ./webpack.dev.js",
     "sync": "aemsync -d -p ../ui.apps/src/main/content",
     "watch": "webpack-dev-server --config ./webpack.dev.js --env writeToDisk & chokidar -c \"clientlib\" ./dist & aemsync -w ../ui.apps/src/main/content",
-    "storybook": "start-storybook -p 6006 --no-manager-cache -s static",
+    "storybook": "start-storybook -p 6006 --no-manager-cache",
     "build:storybook": "build-storybook",
     "build:htl": "node ./tools/htl-converter/index.mjs",
     "plop": "plop"
