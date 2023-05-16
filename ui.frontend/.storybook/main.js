@@ -11,7 +11,7 @@ module.exports = {
     "@storybook/theming",
     "@storybook/addon-a11y",
   ],
-  staticDirs: ['../src/main/webpack/resources', 'static'],
+  staticDirs: ['../src/main/webpack/resources', '../static'],
   webpackFinal: async (config, { configType }) => {
     config.module.rules.push({
       test: /\.handlebars|hbs$/,
