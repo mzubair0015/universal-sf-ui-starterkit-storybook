@@ -1,0 +1,13 @@
+<div class="cardgroup">
+    <div class="aem-Grid aem-Grid--12">
+        <div class="aem-GridColumn aem-GridColumn--default--4 aem-GridColumn--phone--12 aem-GridColumn--tablet--6">
+            <sly data-sly-use.lib="TeaserWithImage.html" data-sly-call="${ lib.TeaserWithImage }" />
+        </div>
+        <div class="aem-GridColumn aem-GridColumn--default--4 aem-GridColumn--phone--12 aem-GridColumn--tablet--6">
+            <sly data-sly-use.lib="TeaserWithImage.html" data-sly-call="${ lib.TeaserWithImage }" />
+        </div>
+        <div class="aem-GridColumn aem-GridColumn--default--4 aem-GridColumn--phone--12 aem-GridColumn--tablet--6">
+            <sly data-sly-use.lib="TeaserWithImage.html" data-sly-call="${ lib.TeaserWithImage }" />
+        </div>
+    </div>
+</div>
