@@ -26,11 +26,11 @@
     "ui.frontend/src/main/webpack/!(core-components)/**/*.js": [
       "eslint"
     ],
-    "*.css": "stylelint",
+    "*.css": "npx stylelint",
     "ui.frontend/src/main/webpack/**/*.scss": [
-      "stylelint"
+      "npx stylelint"
     ],
-    "*": "prettier --ignore-unknown --write"
+    "*": "npx prettier --ignore-unknown --write"
   },
   "devDependencies": {
     "@adobe/htlengine": "^6.4.2",

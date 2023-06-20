@@ -1,6 +1,7 @@
-@import "./core-components/sass/main";
 @import "./scss/main";
+@import "./../components/breadcrumb/breadcrumb";
 @import "./../components/footer/footer";
 @import "./../components/header/header";
+@import "./../components/cardgroup/cardgroup";
 
 // import core component end | do not remove see, plopfile.mjs
