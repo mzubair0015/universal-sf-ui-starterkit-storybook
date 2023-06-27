@@ -10,7 +10,8 @@
 * Run `npm run build:htl` - Convert Handlebar files to HTL.
 * Run `npm run plop` - Generate any new component.
 * Run `npm run eslint` - Runs the ESLint script to analyze and identify issues in JavaScript code.
-* Run `npm run stylelint`- Runs the Stylelint script to analyze and identify issues in CSS or SCSS code.
+* Run `npm run stylelint` - Runs the Stylelint script to analyze and identify issues in CSS or SCSS code.
+* Run `npm run prettier` - Runs the prettier script to beautify all the project JavaScript and SCSS files.
  
 
 ## FAQ
@@ -23,3 +24,7 @@
    - `npm install` - This command installs project dependencies. 
    - `npm run storybook`  -  This command starts the Storybook development environment. 
    - Open browser and navigate to `http://localhost:6006/`
+
+2. `npm audit` throws vulnerabilities issues.
+* Open package.json and add `"trim-newlines": "4.0.2"` under `overrides`.
+* Reinstall the node packages (Note this may stop stylelint actions).
