@@ -52,7 +52,7 @@ module.exports = {
             sourceMap: true,
             additionalData: [
               `$env: ${process.env.NODE_ENV}`,
-              `$resource-path: ${process.env.LOCAL_PATH}`
+              `$resource-path: ${process.env.RESOURCE_LOCAL_PATH}`
             ],
           },
         },

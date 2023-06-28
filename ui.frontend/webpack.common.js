@@ -75,7 +75,7 @@ module.exports = {
           {
             loader: "sass-loader",
             options: {
-              additionalData: `$resource-path: ${process.env.AEM_RESOURCE_PATH}`
+              additionalData: `$resource-path: ${process.env.RESOURCE_AEM_PATH}`
             }
           },
           {
