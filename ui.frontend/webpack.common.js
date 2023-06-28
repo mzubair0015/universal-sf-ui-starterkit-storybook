@@ -74,6 +74,9 @@ module.exports = {
           },
           {
             loader: "sass-loader",
+            options: {
+              additionalData: `$resource-path: ${process.env.AEM_RESOURCE_PATH}`
+            }
           },
           {
             loader: "glob-import-loader",

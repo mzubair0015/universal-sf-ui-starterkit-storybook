@@ -50,7 +50,10 @@ module.exports = {
           loader: "sass-loader",
           options: {
             sourceMap: true,
-            additionalData: "$env: " + process.env.NODE_ENV + ";",
+            additionalData: [
+              `$env: ${process.env.NODE_ENV}`,
+              `$resource-path: ${process.env.LOCAL_PATH}`
+            ],
           },
         },
       ],
