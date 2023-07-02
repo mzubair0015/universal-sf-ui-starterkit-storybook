@@ -15,7 +15,7 @@ module.exports =  {
         '@typescript-eslint/no-use-before-define': 'off',
         "ordered-imports": [0],
         "object-literal-sort-keys": [0],
-        "max-len": [1, 120],
+        "max-len": [1, 120, { "ignoreUrls": true }, { "ignoreComments": true }],
         "new-parens": 1,
         "no-bitwise": 1,
         "no-cond-assign": 1,
@@ -24,6 +24,7 @@ module.exports =  {
         "func-style": ["error", "declaration", { "allowArrowFunctions": true }],
         "semi": 1,
         "no-var": 0,
-        "prefer-rest-params": "off"
+        "prefer-rest-params": "off",
+        "@typescript-eslint/no-unused-vars": 2
     },
   };
