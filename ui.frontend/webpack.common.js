@@ -7,7 +7,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 // const ESLintPlugin = require('eslint-webpack-plugin');
 const webpack = require("webpack");
-const Dotenv = require("dotenv").config({ path: "./.env" });
+const dotenv = require("dotenv").config({ path: "./.env" });
 
 const SOURCE_ROOT = __dirname + "/src/main/webpack";
 
