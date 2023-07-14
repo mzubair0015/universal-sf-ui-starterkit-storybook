@@ -9,7 +9,7 @@ module.exports = {
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/theming",
-    "@storybook/addon-a11y",
+    "@storybook/addon-a11y"
   ],
   staticDirs: ['../src/main/webpack/resources', '../src/main/webpack/static', '../static', '../src/main/webpack/core-components'],
   webpackFinal: async (config, { configType }) => {
@@ -20,8 +20,8 @@ module.exports = {
         ignoreHelpers: true,
         ignorePartials: [],
         rootRelative: "../src/main/webpack/",
-        partialDirs: [path.join(__dirname, "../src/main/webpack/")],
-      },
+        partialDirs: [path.join(__dirname, "../src/main/webpack/")]
+      }
     });
 
     config.module.rules.push({
@@ -29,40 +29,34 @@ module.exports = {
       exclude: /node_modules/,
       use: [
         {
-          loader: "style-loader",
+          loader: "style-loader"
         },
         {
           loader: "css-loader",
           options: {
-            sourceMap: true,
-          },
-        },
-        {
-          loader: "postcss-loader",
-          options: {
-            sourceMap: true,
-            plugins() {
-              return [require("autoprefixer")];
-            },
-          },
-        },
-        {
-          loader: "sass-loader",
-          options: {
-            sourceMap: true,
-            additionalData: [
-              `$env: ${process.env.NODE_ENV}`,
-              `$resource-path: ${process.env.RESOURCE_LOCAL_PATH}`
-            ],
-          },
-        },
-      ],
-      include: path.resolve(__dirname, "../src/main/webpack/"),
+          sourceMap: true
+        }
+      },
+      {
+        loader: "postcss-loader",
+        options: {
+          sourceMap: true,
+          plugins() {
+            return [require("autoprefixer")];
+          }
+        }
+      }, {
+        loader: "sass-loader",
+        options: {
+          sourceMap: true,
+          additionalData: `$env: ${process.env.NODE_ENV}; $resource-path: ${process.env.RESOURCE_LOCAL_PATH};`
+        }
+      }],
+      include: path.resolve(__dirname, "../src/main/webpack/")
     });
-
     config.module.rules.push({
       test: /\.htl$/,
-      use: ["htl-template-loader"],
+      use: ["htl-template-loader"]
     });
 
     // config.module.rules.push({
@@ -104,12 +98,16 @@ module.exports = {
 
     config.experiments = {
       ...config.experiments,
-      topLevelAwait: true,
+      topLevelAwait: true
     };
 
     return config;
   },
-  core: {
-    builder: "webpack5",
+  framework: {
+    name: "@storybook/html-webpack5",
+    options: {}
   },
+  docs: {
+    autodocs: true
+  }
 };
