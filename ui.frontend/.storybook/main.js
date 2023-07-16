@@ -9,7 +9,7 @@ module.exports = {
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/theming",
-    "@storybook/addon-a11y",
+    "@storybook/addon-a11y"
   ],
   staticDirs: [
     "../src/main/webpack/resources",
@@ -25,8 +25,8 @@ module.exports = {
         ignoreHelpers: true,
         ignorePartials: [],
         rootRelative: "../src/main/webpack/",
-        partialDirs: [path.join(__dirname, "../src/main/webpack/")],
-      },
+        partialDirs: [path.join(__dirname, "../src/main/webpack/")]
+      }
     });
 
     config.module.rules.push({
@@ -34,7 +34,7 @@ module.exports = {
       exclude: /node_modules/,
       use: [
         {
-          loader: "style-loader",
+          loader: "style-loader"
         },
         {
           loader: "css-loader",
@@ -64,10 +64,9 @@ module.exports = {
       ],
       include: path.resolve(__dirname, "../src/main/webpack/"),
     });
-
     config.module.rules.push({
       test: /\.htl$/,
-      use: ["htl-template-loader"],
+      use: ["htl-template-loader"]
     });
 
     // config.module.rules.push({
@@ -109,12 +108,16 @@ module.exports = {
 
     config.experiments = {
       ...config.experiments,
-      topLevelAwait: true,
+      topLevelAwait: true
     };
 
     return config;
   },
-  core: {
-    builder: "webpack5",
+  framework: {
+    name: "@storybook/html-webpack5",
+    options: {}
   },
+  docs: {
+    autodocs: true
+  }
 };
