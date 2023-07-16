@@ -7,6 +7,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 // const ESLintPlugin = require('eslint-webpack-plugin');
 const webpack = require("webpack");
+const dotenv = require("dotenv").config({ path: "./.env" });
 
 const SOURCE_ROOT = __dirname + "/src/main/webpack";
 
@@ -75,8 +76,8 @@ module.exports = {
           {
             loader: "sass-loader",
             options: {
-              additionalData: `$resource-path: ${process.env.RESOURCE_AEM_PATH}`
-            }
+              additionalData: `$resource-path: ${process.env.RESOURCE_AEM_PATH}`,
+            },
           },
           {
             loader: "glob-import-loader",

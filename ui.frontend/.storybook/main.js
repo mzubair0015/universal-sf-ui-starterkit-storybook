@@ -11,7 +11,12 @@ module.exports = {
     "@storybook/theming",
     "@storybook/addon-a11y"
   ],
-  staticDirs: ['../src/main/webpack/resources', '../src/main/webpack/static', '../static', '../src/main/webpack/core-components'],
+  staticDirs: [
+    "../src/main/webpack/resources",
+    "../src/main/webpack/static",
+    "../static",
+    "../src/main/webpack/core-components",
+  ],
   webpackFinal: async (config, { configType }) => {
     config.module.rules.push({
       test: /\.handlebars|hbs$/,
@@ -34,25 +39,30 @@ module.exports = {
         {
           loader: "css-loader",
           options: {
-          sourceMap: true
-        }
-      },
-      {
-        loader: "postcss-loader",
-        options: {
-          sourceMap: true,
-          plugins() {
-            return [require("autoprefixer")];
-          }
-        }
-      }, {
-        loader: "sass-loader",
-        options: {
-          sourceMap: true,
-          additionalData: `$env: ${process.env.NODE_ENV}; $resource-path: ${process.env.RESOURCE_LOCAL_PATH};`
-        }
-      }],
-      include: path.resolve(__dirname, "../src/main/webpack/")
+            sourceMap: true,
+          },
+        },
+        {
+          loader: "postcss-loader",
+          options: {
+            sourceMap: true,
+            plugins() {
+              return [require("autoprefixer")];
+            },
+          },
+        },
+        {
+          loader: "sass-loader",
+          options: {
+            sourceMap: true,
+            additionalData: `
+              $env: ${process.env.NODE_ENV};
+              $resource-path: ${process.env.RESOURCE_LOCAL_PATH};
+            `,
+          },
+        },
+      ],
+      include: path.resolve(__dirname, "../src/main/webpack/"),
     });
     config.module.rules.push({
       test: /\.htl$/,
