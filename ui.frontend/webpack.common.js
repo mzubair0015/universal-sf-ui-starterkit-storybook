@@ -36,9 +36,14 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
-        use: "babel-loader",
+        test: /\.jsx?$/,
         exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-react", "@babel/preset-env"],
+          },
+        },
       },
       {
         test: /\.tsx?$/,
@@ -111,6 +116,7 @@ module.exports = {
         },
       ],
     }),
+    new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
   ],
   stats: {
     assetsSort: "chunks",
