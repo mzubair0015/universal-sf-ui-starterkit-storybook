@@ -4,14 +4,37 @@ const { createScriptResolver } = require("@adobe/htlengine");
 const resolver = createScriptResolver([path.resolve(__dirname)]);
 
 module.exports = {
-  stories: ["../src/**/*.stories.mdx", "../src/**/*.stories.@(js|jsx|ts|tsx)"],
+  stories: ["../src/**/*.stories.@(js|jsx|ts|tsx)"],
   addons: [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/theming",
     "@storybook/addon-a11y",
   ],
+  framework: {
+    name: "@storybook/html-webpack5",
+    options: {}
+  },
   webpackFinal: async (config, { configType }) => {
+    // Add React support
+    config.module.rules.push({
+      test: /\.(js|jsx|ts|tsx)$/,
+      exclude: /node_modules/,
+      use: [
+        {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+            plugins: [
+              '@babel/plugin-proposal-class-properties',
+              '@babel/plugin-proposal-object-rest-spread'
+            ]
+          }
+        }
+      ]
+    });
+
+    // Handlebars loader
     config.module.rules.push({
       test: /\.handlebars|hbs$/,
       loader: "handlebars-loader",
@@ -23,6 +46,7 @@ module.exports = {
       },
     });
 
+    // SCSS loader
     config.module.rules.push({
       test: /\.scss$/,
       exclude: /node_modules/,
@@ -55,47 +79,11 @@ module.exports = {
       include: path.resolve(__dirname, "../src/main/webpack/site/"),
     });
 
+    // HTL loader
     config.module.rules.push({
       test: /\.htl$/,
       use: ["htl-template-loader"],
     });
-
-    // config.module.rules.push({
-    //   test: /\.htl$/,
-    //   use: [
-    //     {
-    //       loader: "htl-loader",
-    //       options: {
-    //         // Remove directives `@adobe/htlengine` does not understand
-    //         transformSource: (source) => {
-    //           const output = source
-    //             .replace(/data-sly-use\.templates?="(.*?)"/g, "")
-    //             .replace(/<sly[^>]+data-sly-call=(["']).*?\1.*?><\/sly>/g, "");
-
-    //           return output;
-    //         },
-    //         // Allow for custom models in data from `use` directives
-    //         transformCompiled: (compiled, settings) => {
-    //           const output = compiled.replace(
-    //             /(new Runtime\(\);)/,
-    //             `$1
-    //               const originalUse = runtime.use.bind(runtime);
-    //               runtime.use = function(uri, options) {
-    //                 const settings = Object.assign({
-    //                   model: '${settings.model}'
-    //                 }, options);
-    //                 return originalUse(uri, settings);
-    //               }`
-    //           );
-
-    //           return output;
-    //         },
-    //         scriptResolver: resolver,
-    //         // includeRuntime: false
-    //       },
-    //     },
-    //   ],
-    // });
 
     config.experiments = {
       ...config.experiments,
@@ -103,8 +91,5 @@ module.exports = {
     };
 
     return config;
-  },
-  core: {
-    builder: "webpack5",
   },
 };
