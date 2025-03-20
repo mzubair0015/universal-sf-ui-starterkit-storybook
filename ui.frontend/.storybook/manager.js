@@ -9,7 +9,7 @@
   governing permissions and limitations under the License.
 */
 
-import { addons } from '@storybook/addons';
+import { addons } from '@storybook/manager-api';
 import theme from './theme.js';
 
 addons.setConfig({
