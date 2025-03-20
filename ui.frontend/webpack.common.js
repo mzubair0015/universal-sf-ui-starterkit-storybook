@@ -6,6 +6,8 @@ const TSConfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 // const ESLintPlugin = require('eslint-webpack-plugin');
+const webpack = require("webpack");
+const dotenv = require("dotenv").config({ path: "./.env" });
 
 const SOURCE_ROOT = __dirname + "/src/main/webpack";
 
@@ -33,6 +35,16 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-react", "@babel/preset-env"],
+          },
+        },
+      },
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
@@ -68,6 +80,9 @@ module.exports = {
           },
           {
             loader: "sass-loader",
+            options: {
+              additionalData: `$resource-path: ${process.env.RESOURCE_AEM_PATH}`,
+            },
           },
           {
             loader: "glob-import-loader",
@@ -101,6 +116,7 @@ module.exports = {
         },
       ],
     }),
+    new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
   ],
   stats: {
     assetsSort: "chunks",

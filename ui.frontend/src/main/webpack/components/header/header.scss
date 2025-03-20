@@ -16,9 +16,20 @@
 
     .container {
         max-height: rem(65px);
+        display: flex;
 
         @include media(">=desktop") {
             max-height: unset;
         }
+
+        a {
+            img {
+                width: 100px;
+            }
+        }      
+    }
+
+    &__title {
+        align-self: center;
     }
 }

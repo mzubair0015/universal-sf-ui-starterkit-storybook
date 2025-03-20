@@ -11,7 +11,8 @@
   "license": "SEE LICENSE IN LICENSE.txt",
   "scripts": {
     "prepare": "cd .. && husky install ui.frontend/.husky",
-    "eslint": "npx eslint src/main/webpack/!(core-components)/**/*.js --format table",
+    "stylelint": "stylelint 'src/main/webpack/**/*.scss' --ignore-path .stylelintignore",
+    "eslint": "npx eslint 'src/main/webpack/**/*.js' --ignore-pattern 'src/main/webpack/core-components/**/*.js' --format table",
     "dev": "webpack --env dev --config ./webpack.dev.js && clientlib --verbose",
     "prod": "webpack --config ./webpack.prod.js && clientlib --verbose",
     "start": "webpack-dev-server --open --config ./webpack.dev.js",
@@ -20,17 +21,19 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build:htl": "node ./tools/htl-converter/index.mjs",
-    "plop": "plop"
+    "plop": "plop",
+    "prettier": "prettier 'src/main/webpack/!(core-components)/**/*.{js,scss}' --ignore-unknown --write"
   },
   "lint-staged": {
-    "ui.frontend/src/main/webpack/!(core-components)/**/*.js": [
-      "eslint"
+    "src/main/webpack/!(core-components)/**/*.js": [
+      "eslint --fix"
     ],
-    "*.css": "stylelint",
-    "ui.frontend/src/main/webpack/**/*.scss": [
-      "stylelint"
+    "src/main/webpack/**/*.scss": [
+      "stylelint --fix"
     ],
-    "*": "prettier --ignore-unknown --write"
+    "src/main/webpack/**/*.{js,scss}": [
+      "prettier --write"
+    ]
   },
   "devDependencies": {
     "@adobe/htlengine": "^6.4.2",
@@ -57,11 +60,14 @@
     "@storybook/addon-a11y": "^8.6.7",
     "@storybook/addon-actions": "^8.6.7",
     "@storybook/addon-essentials": "^8.6.7",
+    "@storybook/addon-interactions": "^7.0.27",
     "@storybook/addon-links": "^8.6.7",
+    "@storybook/blocks": "^7.0.27",
     "@storybook/html": "^8.6.7",
     "@storybook/html-webpack5": "^8.6.7",
     "@storybook/manager": "^8.6.7",
     "@storybook/manager-api": "^8.6.7",
+    "@storybook/testing-library": "^0.0.14-next.2",
     "@typescript-eslint/eslint-plugin": "^5.7.0",
     "@typescript-eslint/parser": "^5.7.0",
     "acorn": "^6.1.0",
@@ -78,52 +84,51 @@
     "core-js": "^3.25.0",
     "css-loader": "^6.7.1",
     "css-minimizer-webpack-plugin": "^3.2.0",
-    "cssnano": "^5.0.12",
-    "eslint": "^8.4.1",
+    "cssnano": "^6.0.1",
+    "eslint": "^8.45.0",
     "eslint-formatter-table": "^7.32.1",
+    "eslint-plugin-storybook": "^0.6.12",
     "eslint-webpack-plugin": "^3.1.1",
     "glob-import-loader": "^1.2.0",
+    "handlebars-loader": "^1.7.1",
+    "htl-loader": "^4.1.0",
+    "htl-template-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^12.4.1",
     "mini-css-extract-plugin": "^2.4.5",
     "muban-convert-hbs": "^1.1.1",
+    "normalize-scss": "^7.0.1",
     "plop": "^3.1.1",
     "postcss": "^8.2.15",
     "postcss-loader": "^3.0.0",
-    "prettier": "2.6.2",
-    "sass": "^1.51.0",
-    "sass-loader": "^12.6.0",
-    "source-map-loader": "^0.2.4",
+    "postcss-scss": "^4.0.4",
+    "prettier": "^2.6.2",
+    "sass": "^1.63.4",
+    "sass-loader": "^13.3.2",
+    "source-map-loader": "^4.0.1",
     "storybook": "^8.6.7",
     "style-loader": "^3.3.1",
-    "stylelint": "^14.8.1",
+    "stylelint": "^15.11.0",
+    "stylelint-config-prettier-scss": "^1.0.0",
+    "stylelint-config-standard-scss": "^9.0.0",
     "terser-webpack-plugin": "^5.2.5",
-    "ts-loader": "^9.2.6",
+    "ts-loader": "^9.4.3",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
     "typescript": "^4.8.3",
     "webpack": "^5.65.0",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.6.0",
-    "webpack-merge": "^5.8.0"
+    "webpack-merge": "^5.9.0"
   },
   "dependencies": {
-    "handlebars-loader": "^1.7.1",
-    "htl-loader": "^4.1.0",
-    "htl-template-loader": "^6.2.0",
-    "husky": "^7.0.4",
     "jquery": "^3.6.0",
-    "lint-staged": "^12.4.1",
-    "normalize-scss": "^7.0.1",
-    "postcss-scss": "^4.0.4",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "stylelint-config-prettier-scss": "^0.0.1",
-    "stylelint-config-standard-scss": "^3.0.0"
+    "swiper": "^8.4.4"
   },
   "overrides": {
     "glob-parent": "6.0.2",
     "moment": "2.29.4",
-    "trim": "1.0.1",
-    "trim-newlines": "4.0.2"
+    "trim": "1.0.1"
   },
   "browserslist": [
     "last 2 version",

@@ -1,7 +1,8 @@
 
-.footer {
-    background: #ff0000;
-    padding: 10px;
+.cardgroup {
+    .teaser {
+        padding: 10px;
+    }
 
     @include media('>=tablet') {
         background: #ddc;

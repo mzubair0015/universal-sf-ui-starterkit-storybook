@@ -9,7 +9,13 @@ module.exports = {
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/theming",
-    "@storybook/addon-a11y",
+    "@storybook/addon-a11y"
+  ],
+  staticDirs: [
+    "../src/main/webpack/resources",
+    "../src/main/webpack/static",
+    "../static",
+    "../src/main/webpack/core-components",
   ],
   framework: {
     name: "@storybook/html-webpack5",
@@ -42,8 +48,8 @@ module.exports = {
         ignoreHelpers: true,
         ignorePartials: [],
         rootRelative: "../src/main/webpack/",
-        partialDirs: [path.join(__dirname, "../src/main/webpack/")],
-      },
+        partialDirs: [path.join(__dirname, "../src/main/webpack/")]
+      }
     });
 
     // SCSS loader
@@ -52,7 +58,7 @@ module.exports = {
       exclude: /node_modules/,
       use: [
         {
-          loader: "style-loader",
+          loader: "style-loader"
         },
         {
           loader: "css-loader",
@@ -73,23 +79,30 @@ module.exports = {
           loader: "sass-loader",
           options: {
             sourceMap: true,
+            additionalData: `
+              $env: ${process.env.NODE_ENV};
+              $resource-path: ${process.env.RESOURCE_LOCAL_PATH};
+            `,
           },
         },
       ],
-      include: path.resolve(__dirname, "../src/main/webpack/site/"),
+      include: path.resolve(__dirname, "../src/main/webpack/"),
     });
 
     // HTL loader
     config.module.rules.push({
       test: /\.htl$/,
-      use: ["htl-template-loader"],
+      use: ["htl-template-loader"]
     });
 
     config.experiments = {
       ...config.experiments,
-      topLevelAwait: true,
+      topLevelAwait: true
     };
 
     return config;
   },
+  docs: {
+    autodocs: true
+  }
 };

@@ -4,8 +4,9 @@
     [
       "@babel/preset-env",
       {
-        "shippedProposals": true,
-        "loose": true
+        "targets": {
+          "chrome": 100
+        }
       }
     ],
     "@babel/preset-typescript",
