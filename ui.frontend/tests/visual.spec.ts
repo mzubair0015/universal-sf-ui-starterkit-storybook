@@ -1,6 +1,30 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Visual Tests', () => {
+  test('profile - primary visual test', async ({ page }) => {
+    // Navigate to the story
+    await page.goto('/iframe.html?id=components-profile--primary&viewMode=story');
+    
+    // For pages, wait for all child components to be ready
+    
+    
+    // Wait for the component to be fully rendered
+    const component = await page.waitForSelector('.profile', { timeout: 30000 });
+    
+    // Get the bounding box of the component
+    const box = await component.boundingBox();
+    if (!box) throw new Error('Could not get bounding box for profile');
+    
+    // Take a screenshot of only the component area
+    await expect(page).toHaveScreenshot('profile-primary.png', {
+      clip: box,
+      timeout: 30000,
+      maxDiffPixels: 500,
+      threshold: 0.4,
+      animations: 'disabled'
+    });
+  });
+
   test('header - default visual test', async ({ page }) => {
     // Navigate to the story
     await page.goto('/iframe.html?id=components-header--default&viewMode=story');
