@@ -1,0 +1,35 @@
+<!--/* Profile Component */-->
+<div data-sly-use.profile="com.adobe.aem.guides.wknd.core.models.Profile"
+     data-sly-test.hasContent="${profile.name}"
+     class="profile">
+    <div class="profile__image">
+        <img src="${profile.image}" alt="${profile.name}">
+    </div>
+    <div class="profile__content">
+        <h2 class="profile__name">${profile.name}</h2>
+        <div class="profile__subtitle">${profile.subtitle}</div>
+    </div>
+    <div class="profile__social">
+        <a data-sly-test="${profile.instagram}"
+           href="${profile.instagram}"
+           target="_blank"
+           rel="noopener noreferrer"
+           aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <a data-sly-test="${profile.facebook}"
+           href="${profile.facebook}"
+           target="_blank"
+           rel="noopener noreferrer"
+           aria-label="Facebook">
+            <i class="fab fa-facebook"></i>
+        </a>
+        <a data-sly-test="${profile.twitter}"
+           href="${profile.twitter}"
+           target="_blank"
+           rel="noopener noreferrer"
+           aria-label="Twitter">
+            <i class="fab fa-twitter"></i>
+        </a>
+    </div>
+</div> 
