@@ -11,6 +11,10 @@ export default defineConfig({
     baseURL: 'http://localhost:6006',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
+    video: {
+      mode: 'retain-on-failure',
+      size: { width: 1280, height: 720 }
+    }
   },
   projects: [
     {

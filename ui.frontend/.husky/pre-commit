@@ -1,4 +1,18 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
+# Run lint-staged first
 npx lint-staged
+
+# Change to the ui.frontend directory
+cd ui.frontend
+
+# Run visual tests
+echo "Running visual tests..."
+npm run test:visual
+
+# Check if visual tests passed
+if [ $? -ne 0 ]; then
+  echo "Visual tests failed. Please fix the issues before committing."
+  exit 1
+fi
