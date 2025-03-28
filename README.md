@@ -12,7 +12,27 @@
 * Run `npm run eslint` - Runs the ESLint script to analyze and identify issues in JavaScript code.
 * Run `npm run stylelint` - Runs the Stylelint script to analyze and identify issues in CSS or SCSS code.
 * Run `npm run prettier` - Runs the prettier script to beautify all the project JavaScript and SCSS files.
- 
+
+### Visual Testing
+* Run `npm run test:visual` - Runs visual regression tests using Playwright.
+* Run `npm run test:visual:update` - Updates visual test snapshots to match current component states.
+* Run `npm run test:visual:report` - Opens the latest visual test report in your browser.
+
+To include a story in visual testing, add the `visual-test` tag to your story's parameters:
+```javascript
+export default {
+  title: 'Components/MyComponent',
+  parameters: {
+    tags: ['visual-test']
+  }
+};
+```
+
+The project includes a pre-commit hook that automatically runs visual tests before each commit:
+* The hook will attempt to run the tests up to 2 times if they fail
+* If tests fail after both attempts, the commit will be blocked
+* A 2-second delay is added between retry attempts
+* The hook runs in the `ui.frontend` directory automatically
 
 ## FAQ
 1. Server not starting with some error.
