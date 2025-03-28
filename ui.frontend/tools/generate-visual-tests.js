@@ -35,6 +35,13 @@ function isCoreComponent(filePath) {
   return filePath.includes('/core-components/');
 }
 
+// Viewport configurations
+const viewports = [
+  { name: 'mobile', width: 320, height: 568 },
+  { name: 'tablet', width: 768, height: 1024 },
+  { name: 'desktop', width: 1024, height: 768 }
+];
+
 function findVisualStories(filePath) {
   const content = fs.readFileSync(filePath, 'utf8');
   const stories = [];
@@ -105,13 +112,31 @@ function generateTestSpec(stories) {
     
     // Set longer timeout for pages and components with child components
     const timeout = isPage ? 60000 : 30000;
+
+    // Generate tests for each viewport
+    const viewportTests = viewports.map(viewport => {
+      // Add extra delay for tablet viewport due to layout transitions
+      const layoutStabilityDelay = viewport.name === 'tablet' ? 1000 : 500;
+
+      // Determine if component has images to wait for
+      const hasImages = story.componentId === 'profile';
+      const imageWaitCode = hasImages ? `
+    // Wait for images to load
+    await Promise.all([
+      page.waitForSelector('.${story.componentId}__image img', { timeout: ${timeout} }),
+      page.waitForSelector('.${story.componentId}__social img', { timeout: ${timeout} })
+    ]);
     
-    return `
-  test('${testName}', async ({ page }) => {
+    // Small delay to ensure layout is stable${viewport.name === 'tablet' ? ' after breakpoint transition' : ''}
+    await page.waitForTimeout(${layoutStabilityDelay});` : '';
+
+      return `
+  test('${testName} at ${viewport.name} viewport', async ({ page }) => {
+    // Set viewport size
+    await page.setViewportSize({ width: ${viewport.width}, height: ${viewport.height} });
+    
     // Navigate to the story
     await page.goto('${storyUrl}');
-    
-    // For pages, wait for all child components to be ready
     ${isPage ? `
     // Wait for key child components to be rendered
     await Promise.all([
@@ -120,14 +145,14 @@ function generateTestSpec(stories) {
     ]);` : ''}
     
     // Wait for the component to be fully rendered
-    const component = await page.waitForSelector('.${story.className}', { timeout: ${timeout} });
+    const component = await page.waitForSelector('.${story.className}', { timeout: ${timeout} });${imageWaitCode}
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
     if (!box) throw new Error('Could not get bounding box for ${story.componentId}');
     
     // Take a screenshot of only the component area
-    await expect(page).toHaveScreenshot('${screenshotName}', {
+    await expect(page).toHaveScreenshot('${story.componentId}-${story.storyName}${variationSuffix}-${viewport.name}.png', {
       clip: box,
       timeout: ${timeout},
       maxDiffPixels: 500,
@@ -135,9 +160,17 @@ function generateTestSpec(stories) {
       animations: 'disabled'
     });
   });`;
+    }).join('\n');
+    
+    return viewportTests;
   }).join('\n');
 
-  return `${imports}test.describe('Visual Tests', () => {${testContent}\n});`;
+  return `${imports}test.describe('Visual Tests', () => {
+  test.beforeEach(async ({ page }) => {
+    // Set default viewport size
+    await page.setViewportSize({ width: 1280, height: 720 });
+  });
+${testContent}\n});`;
 }
 
 async function generateVisualTests() {

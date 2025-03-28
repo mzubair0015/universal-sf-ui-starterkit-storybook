@@ -4,5 +4,6 @@ storybook-static
 .DS_Store
 logs
 .vscode
+ui.frontend/test-results
 
 ../ui.apps/

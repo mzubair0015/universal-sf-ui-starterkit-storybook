@@ -10,13 +10,13 @@ $font-weight: normal;
 
 :root {
   --color-foreground: #202020;
-  --color-background: yellow;
+  --color-background: #FFF;
   --color-link: #2020e0;
 }
 
 // Normal mode
 $color-foreground: #202020;
-$color-background: get-color("light-yellow");
+$color-background: get-color("white");
 $color-link: #2020e0;
 
 // Dark mode
