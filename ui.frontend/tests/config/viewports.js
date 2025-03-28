@@ -1,10 +1,4 @@
-export interface ViewportConfig {
-  width: number;
-  height: number;
-  name: string;
-}
-
-export const VIEWPORTS: ViewportConfig[] = [
+export const VIEWPORTS = [
   { width: 320, height: 568, name: 'mobile' },
   { width: 768, height: 1024, name: 'tablet' },
   { width: 1024, height: 768, name: 'desktop' },
@@ -14,4 +8,4 @@ export const VIEWPORTS: ViewportConfig[] = [
 export const viewportSizes = VIEWPORTS.reduce((acc, viewport) => {
   acc[viewport.name] = { width: viewport.width, height: viewport.height };
   return acc;
-}, {} as Record<string, { width: number; height: number }>); 
+}, {}); 
