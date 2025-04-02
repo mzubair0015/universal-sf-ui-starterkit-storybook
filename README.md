@@ -17,6 +17,19 @@
 * Run `npm run test:visual` - Runs visual regression tests using Playwright.
 * Run `npm run test:visual:update` - Updates visual test snapshots to match current component states.
 * Run `npm run test:visual:report` - Opens the latest visual test report in your browser.
+* Run `npm run test:visual:ui` - Opens Playwright's UI mode for interactive test debugging.
+* Run `npm run test:visual:generate` - Generates visual test files for all stories.
+* Run `npm run test:visual:story "ComponentName"` - Runs visual tests for a specific story (use with -g flag).
+* Run `npm run test:visual:story:update  "ComponentName"` - Updates snapshots for a specific story (use with -g flag).
+
+Examples for story-specific testing:
+```bash
+# Test a specific component
+npm run test:visual:story "header"
+
+# Update snapshots for a component variation
+npm run test:visual:story:update "header"
+```
 
 To include a story in visual testing, add the `visual-test` tag to your story's parameters:
 ```javascript

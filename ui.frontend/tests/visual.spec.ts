@@ -306,6 +306,106 @@ test.describe('Visual Tests', () => {
     });
   });
 
+  test('cardgroup - secondary visual test at mobile viewport', async ({ page }) => {
+    // Set viewport size
+    await page.setViewportSize({ width: 320, height: 568 });
+    
+    // Navigate to the story
+    await page.goto('/iframe.html?id=components-cardgroup--secondary&viewMode=story');
+    
+    
+    // Wait for the component to be fully rendered
+    const component = await page.waitForSelector('.cardgroup', { timeout: 30000 });
+    
+    // Get the bounding box of the component
+    const box = await component.boundingBox();
+    if (!box) throw new Error('Could not get bounding box for cardgroup');
+    
+    // Take a screenshot of only the component area
+    await expect(page).toHaveScreenshot('cardgroup-secondary-mobile.png', {
+      clip: box,
+      timeout: 30000,
+      maxDiffPixels: 500,
+      threshold: 0.4,
+      animations: 'disabled'
+    });
+  });
+
+  test('cardgroup - secondary visual test at tablet viewport', async ({ page }) => {
+    // Set viewport size
+    await page.setViewportSize({ width: 768, height: 1024 });
+    
+    // Navigate to the story
+    await page.goto('/iframe.html?id=components-cardgroup--secondary&viewMode=story');
+    
+    
+    // Wait for the component to be fully rendered
+    const component = await page.waitForSelector('.cardgroup', { timeout: 30000 });
+    
+    // Get the bounding box of the component
+    const box = await component.boundingBox();
+    if (!box) throw new Error('Could not get bounding box for cardgroup');
+    
+    // Take a screenshot of only the component area
+    await expect(page).toHaveScreenshot('cardgroup-secondary-tablet.png', {
+      clip: box,
+      timeout: 30000,
+      maxDiffPixels: 500,
+      threshold: 0.4,
+      animations: 'disabled'
+    });
+  });
+
+  test('cardgroup - secondary visual test at desktop viewport', async ({ page }) => {
+    // Set viewport size
+    await page.setViewportSize({ width: 1024, height: 768 });
+    
+    // Navigate to the story
+    await page.goto('/iframe.html?id=components-cardgroup--secondary&viewMode=story');
+    
+    
+    // Wait for the component to be fully rendered
+    const component = await page.waitForSelector('.cardgroup', { timeout: 30000 });
+    
+    // Get the bounding box of the component
+    const box = await component.boundingBox();
+    if (!box) throw new Error('Could not get bounding box for cardgroup');
+    
+    // Take a screenshot of only the component area
+    await expect(page).toHaveScreenshot('cardgroup-secondary-desktop.png', {
+      clip: box,
+      timeout: 30000,
+      maxDiffPixels: 500,
+      threshold: 0.4,
+      animations: 'disabled'
+    });
+  });
+
+  test('cardgroup - secondary visual test at large viewport', async ({ page }) => {
+    // Set viewport size
+    await page.setViewportSize({ width: 1440, height: 900 });
+    
+    // Navigate to the story
+    await page.goto('/iframe.html?id=components-cardgroup--secondary&viewMode=story');
+    
+    
+    // Wait for the component to be fully rendered
+    const component = await page.waitForSelector('.cardgroup', { timeout: 30000 });
+    
+    // Get the bounding box of the component
+    const box = await component.boundingBox();
+    if (!box) throw new Error('Could not get bounding box for cardgroup');
+    
+    // Take a screenshot of only the component area
+    await expect(page).toHaveScreenshot('cardgroup-secondary-large.png', {
+      clip: box,
+      timeout: 30000,
+      maxDiffPixels: 500,
+      threshold: 0.4,
+      animations: 'disabled'
+    });
+  });
+
   test('breadcrumb - breadcrumb visual test at mobile viewport', async ({ page }) => {
     // Set viewport size
     await page.setViewportSize({ width: 320, height: 568 });
