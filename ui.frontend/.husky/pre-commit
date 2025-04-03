@@ -1,21 +1,24 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
+# Get the absolute path to the .env file
+ENV_FILE="$(dirname "$0")/../../.env"
+
 # Source .env file if it exists
-if [ -f ../.env ]; then
-  echo "Loading .env file..."
+if [ -f "$ENV_FILE" ]; then
+  echo "Loading .env file from: $ENV_FILE"
   echo "Contents of .env file:"
-  cat ../.env
+  cat "$ENV_FILE" | tr -d '\r'
   echo "-------------------"
   
-  # Read VISUAL_TEST directly from .env
-  VISUAL_TEST=$(grep "^VISUAL_TEST=" ../.env | cut -d'=' -f2)
-  echo "VISUAL_TEST value from .env: $VISUAL_TEST"
+  # Source the file
+  set -a
+  source "$ENV_FILE"
+  set +a
   
-  # Export the variable
-  export VISUAL_TEST
+  echo "VISUAL_TEST value after sourcing: $VISUAL_TEST"
 else
-  echo "No .env file found at ../.env"
+  echo "No .env file found at: $ENV_FILE"
 fi
 
 # Debug: Print environment variable
