@@ -1,5 +1,22 @@
 const path = require("path");
 const { createScriptResolver } = require("@adobe/htlengine");
+const { spawn } = require('child_process');
+
+// Start the visual test server
+const startVisualTestServer = () => {
+  const serverPath = path.join(__dirname, 'addons/visual-test/dist/server.js');
+  const server = spawn('node', [serverPath], {
+    stdio: 'inherit',
+    shell: true
+  });
+
+  process.on('exit', () => {
+    server.kill();
+  });
+};
+
+// Start the server
+startVisualTestServer();
 
 const resolver = createScriptResolver([path.resolve(__dirname)]);
 
@@ -9,7 +26,11 @@ module.exports = {
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/theming",
-    "@storybook/addon-a11y"
+    "@storybook/addon-a11y",
+    {
+      name: 'visual-test',
+      options: {}
+    }
   ],
   staticDirs: [
     "../src/main/webpack/resources",
