@@ -1,35 +1,12 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-# Get the absolute path to the .env file
-ENV_FILE="$(dirname "$0")/../../.env"
-
-# Source .env file if it exists
-if [ -f "$ENV_FILE" ]; then
-  echo "Loading .env file from: $ENV_FILE"
-  echo "Contents of .env file:"
-  cat "$ENV_FILE" | tr -d '\r'
-  echo "-------------------"
-  
-  # Read VISUAL_TEST directly from .env and export it
-  VISUAL_TEST=$(grep "^VISUAL_TEST=" "$ENV_FILE" | cut -d'=' -f2 | tr -d '\r')
-  export VISUAL_TEST
-  
-  echo "VISUAL_TEST value after reading: $VISUAL_TEST"
-else
-  echo "No .env file found at: $ENV_FILE"
-fi
-
-# Debug: Print environment variable
-echo "Current environment variable:"
-echo "VISUAL_TEST=$VISUAL_TEST"
-
 # Run lint-staged first
 npx lint-staged
 
-# Check if visual tests should be skipped (empty or false)
-if [ -z "$VISUAL_TEST" ] || [ "$VISUAL_TEST" = "false" ]; then
-  echo "Skipping visual tests (VISUAL_TEST=$VISUAL_TEST)"
+# Check VISUAL_TEST from .env file
+if grep -q "^VISUAL_TEST=false" ui.frontend/.env; then
+  echo "Skipping visual tests (VISUAL_TEST=false in .env)"
   exit 0
 fi
 
