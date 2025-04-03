@@ -11,12 +11,11 @@ if [ -f "$ENV_FILE" ]; then
   cat "$ENV_FILE" | tr -d '\r'
   echo "-------------------"
   
-  # Source the file
-  set -a
-  source "$ENV_FILE"
-  set +a
+  # Read VISUAL_TEST directly from .env and export it
+  VISUAL_TEST=$(grep "^VISUAL_TEST=" "$ENV_FILE" | cut -d'=' -f2 | tr -d '\r')
+  export VISUAL_TEST
   
-  echo "VISUAL_TEST value after sourcing: $VISUAL_TEST"
+  echo "VISUAL_TEST value after reading: $VISUAL_TEST"
 else
   echo "No .env file found at: $ENV_FILE"
 fi
