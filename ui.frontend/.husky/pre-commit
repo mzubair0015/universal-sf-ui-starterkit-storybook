@@ -8,9 +8,9 @@ echo "VISUAL_TEST=$VISUAL_TEST"
 # Run lint-staged first
 npx lint-staged
 
-# Check if visual tests should be skipped
-if [ "$VISUAL_TEST" = "false" ]; then
-  echo "Skipping visual tests (VISUAL_TEST=false)"
+# Check if visual tests should be skipped (empty or false)
+if [ -z "$VISUAL_TEST" ] || [ "$VISUAL_TEST" = "false" ]; then
+  echo "Skipping visual tests (VISUAL_TEST=$VISUAL_TEST)"
   exit 0
 fi
 
