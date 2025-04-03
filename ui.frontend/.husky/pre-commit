@@ -22,6 +22,7 @@ while [ $attempt -le $MAX_ATTEMPTS ]; do
   run_visual_tests $attempt $MAX_ATTEMPTS
   if [ $? -eq 0 ]; then
     echo "✅ Visual tests passed!"
+    git add .
     exit 0
   else
     if [ $attempt -eq $MAX_ATTEMPTS ]; then
