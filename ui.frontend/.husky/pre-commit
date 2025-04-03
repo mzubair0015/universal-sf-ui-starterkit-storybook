@@ -4,9 +4,7 @@
 # Source .env file if it exists
 if [ -f ../.env ]; then
   echo "Loading .env file..."
-  set -a
-  . ../.env
-  set +a
+  export $(cat ../.env | grep -v '^#' | xargs)
 fi
 
 # Debug: Print environment variable
