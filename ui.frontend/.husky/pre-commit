@@ -4,6 +4,12 @@
 # Run lint-staged first
 npx lint-staged
 
+# Check if visual tests should be skipped
+if [ "$VISUAL_TEST" = "false" ]; then
+  echo "Skipping visual tests (VISUAL_TEST=false)"
+  exit 0
+fi
+
 # Change to the ui.frontend directory
 cd ui.frontend
 
@@ -22,6 +28,7 @@ while [ $attempt -le $MAX_ATTEMPTS ]; do
   run_visual_tests $attempt $MAX_ATTEMPTS
   if [ $? -eq 0 ]; then
     echo "✅ Visual tests passed!"
+    git add .
     exit 0
   else
     if [ $attempt -eq $MAX_ATTEMPTS ]; then
