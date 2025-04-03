@@ -51,6 +51,9 @@ addons.register(ADDON_ID, () => {
         const [currentStory, setCurrentStory] = useState(null);
         const [hasRunTest, setHasRunTest] = useState(false);
         const [testSuccess, setTestSuccess] = useState(false);
+        const [reportTimestamp, setReportTimestamp] = useState(Date.now());
+        const [isLogExpanded, setIsLogExpanded] = useState(false);
+        const reportRef = React.useRef(null);
 
         const checkServer = async () => {
           try {
@@ -94,6 +97,7 @@ addons.register(ADDON_ID, () => {
           setOutput('Running visual tests...');
           setHasRunTest(true);
           setTestSuccess(false); // Reset success state when starting new test
+          setIsLogExpanded(true); // Expand log when test starts
 
           try {
             const response = await fetch('http://localhost:3001/api/run-visual-test', {
@@ -114,12 +118,24 @@ addons.register(ADDON_ID, () => {
               throw new Error(data.error || 'Failed to run visual test');
             }
 
-            setOutput(data.output || 'Test completed successfully');
-            setTestSuccess(true); // Set success state only if test completes successfully
+            // Always show the command output, whether success or failure
+            setOutput(data.output || 'Test completed');
+            setTestSuccess(data.success || false);
+            
+            // Update the report timestamp to force reload after test completion
+            setReportTimestamp(Date.now());
+            
+            // Scroll to report section after a short delay to ensure it's rendered
+            setTimeout(() => {
+              reportRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
           } catch (error) {
-            setOutput(`Error: ${error.message}`);
+            setOutput(`Error: ${error.message}\n\nCommand output:\n${error.output || 'No output available'}`);
             setTestSuccess(false);
+            // Also update report timestamp on error to show any error reports
+            setReportTimestamp(Date.now());
           } finally {
+            // Always reset isRunning state, regardless of success or failure
             setIsRunning(false);
           }
         };
@@ -167,6 +183,44 @@ addons.register(ADDON_ID, () => {
 
         return (
           <div style={{ padding: '20px' }}>
+            <style>
+              {`
+                @keyframes spin {
+                  0% { transform: rotate(0deg); }
+                  100% { transform: rotate(360deg); }
+                }
+                .loader {
+                  display: inline-block;
+                  width: 16px;
+                  height: 16px;
+                  border: 2px solid #1ea7fd;
+                  border-top: 2px solid transparent;
+                  border-radius: 50%;
+                  animation: spin 1s linear infinite;
+                }
+                .chevron-icon {
+                  display: inline-flex;
+                  align-items: center;
+                  justify-content: center;
+                  width: 8px;
+                  height: 8px;
+                  transition: transform 0.2s ease;
+                  transform-origin: center;
+                }
+                .chevron-icon svg {
+                  width: 100%;
+                  height: 100%;
+                }
+                details[open] .chevron-icon {
+                  transform: rotate(90deg);
+                }
+                summary {
+                  display: flex;
+                  align-items: center;
+                  gap: 8px;
+                }
+              `}
+            </style>
             <div style={{ marginBottom: '10px', color: serverStatus === 'running' ? 'green' : 'orange' }}>
               Server Status: {serverStatus === 'running' ? 'Running' : 'Not Running'}
             </div>
@@ -203,14 +257,36 @@ addons.register(ADDON_ID, () => {
               </button>
             </div>
             <div style={{ marginTop: '20px' }}>
-              <details open style={{ marginBottom: '20px' }}>
+              <details open={isRunning} style={{ marginBottom: '20px' }}>
                 <summary style={{ 
                   padding: '10px',
                   backgroundColor: '#f5f5f5',
                   borderRadius: '4px',
                   cursor: 'pointer',
-                  fontWeight: 'bold'
-                }}>Log</summary>
+                  fontWeight: 'bold',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  listStyle: 'none'
+                }}>
+                  <span className="chevron-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="none">
+                      <path fill="#73828C" fillRule="evenodd" d="M1.896 7.146a.5.5 0 1 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 1 0-.708.708L5.043 4 1.896 7.146Z" clipRule="evenodd" />
+                    </svg>
+                  </span>
+                  Log
+                  {isRunning && (
+                    <span className="loader" />
+                  )}
+                  {!isRunning && hasRunTest && (
+                    <span style={{ 
+                      color: testSuccess ? '#4caf50' : '#f44336',
+                      fontSize: '18px'
+                    }}>
+                      {testSuccess ? '✓' : '✕'}
+                    </span>
+                  )}
+                </summary>
                 <div style={{ 
                   padding: '10px',
                   backgroundColor: '#f5f5f5',
@@ -224,16 +300,38 @@ addons.register(ADDON_ID, () => {
                   {output || 'No output yet'}
                 </div>
               </details>
-              {hasRunTest && testSuccess && (
-                <details open>
+              {hasRunTest && (
+                <details open={!isRunning}>
                   <summary style={{ 
                     padding: '10px',
                     backgroundColor: '#f5f5f5',
                     borderRadius: '4px',
                     cursor: 'pointer',
-                    fontWeight: 'bold'
-                  }}>Report</summary>
-                  <div style={{ 
+                    fontWeight: 'bold',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    listStyle: 'none'
+                  }}>
+                    <span className="chevron-icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="none">
+                        <path fill="#73828C" fillRule="evenodd" d="M1.896 7.146a.5.5 0 1 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 1 0-.708.708L5.043 4 1.896 7.146Z" clipRule="evenodd" />
+                      </svg>
+                    </span>
+                    Report
+                    {isRunning && (
+                      <span className="loader" />
+                    )}
+                    {!isRunning && (
+                      <span style={{ 
+                        color: testSuccess ? '#4caf50' : '#f44336',
+                        fontSize: '18px'
+                      }}>
+                        {testSuccess ? '✓' : '✕'}
+                      </span>
+                    )}
+                  </summary>
+                  <div ref={reportRef} style={{ 
                     marginTop: '10px',
                     height: 'calc(100vh - 400px)',
                     minHeight: '400px',
@@ -241,8 +339,20 @@ addons.register(ADDON_ID, () => {
                     display: 'flex',
                     flexDirection: 'column'
                   }}>
+                    {!testSuccess && (
+                      <div style={{
+                        padding: '20px',
+                        backgroundColor: '#fff3f3',
+                        border: '1px solid #ffcdd2',
+                        borderRadius: '4px',
+                        color: '#d32f2f',
+                        marginBottom: '10px'
+                      }}>
+                        Test failed. Please check the report below for details.
+                      </div>
+                    )}
                     <iframe
-                      src="http://localhost:3001/playwright-report/index.html"
+                      src={`http://localhost:3001/playwright-report/index.html?t=${reportTimestamp}`}
                       style={{
                         width: '100%',
                         height: '100%',
