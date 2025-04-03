@@ -1,6 +1,7 @@
 import Handlebars from 'handlebars/runtime.js';
 import CardGroup from "../cardgroup.hbs";
 import CardgroupJSON from "./cardgroup.json";
+import CardgroupSecondaryJSON from "./cardgroup-secondary.json";
 
 import TeaserWithImage  from '../../../core-components/teaser/with-image.hbs';
 
@@ -15,14 +16,7 @@ export default {
     content: {
       control: { type: "text" },
     },
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `${JSON.stringify(CardgroupJSON)}`,
-      },
-    },
-  },
+  }
 };
 
 const Template = ({ ...args }) => CardGroup(args);
@@ -32,6 +26,17 @@ Primary.parameters = {
   docs: {
     source: {
       code: `${JSON.stringify(CardgroupJSON, null, " ")}`,
+    },
+  },
+  tags: ['visual']
+};
+
+export const Secondary = Template.bind({});
+Secondary.args = CardgroupSecondaryJSON;
+Secondary.parameters = {
+  docs: {
+    source: {
+      code: `${JSON.stringify(CardgroupSecondaryJSON, null, " ")}`,
     },
   },
   tags: ['visual']

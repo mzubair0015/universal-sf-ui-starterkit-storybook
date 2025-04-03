@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const glob = require('glob');
+const { VIEWPORTS } = require('../tests/config/viewports.js');
 
 // Function to extract story ID from the file path
 function getStoryId(filePath) {
@@ -35,12 +36,6 @@ function isCoreComponent(filePath) {
   return filePath.includes('/core-components/');
 }
 
-// Viewport configurations
-const viewports = [
-  { name: 'mobile', width: 320, height: 568 },
-  { name: 'tablet', width: 768, height: 1024 },
-  { name: 'desktop', width: 1024, height: 768 }
-];
 
 function findVisualStories(filePath) {
   const content = fs.readFileSync(filePath, 'utf8');
@@ -114,7 +109,7 @@ function generateTestSpec(stories) {
     const timeout = isPage ? 60000 : 30000;
 
     // Generate tests for each viewport
-    const viewportTests = viewports.map(viewport => {
+    const viewportTests = VIEWPORTS.map(viewport => {
       // Add extra delay for tablet viewport due to layout transitions
       const layoutStabilityDelay = viewport.name === 'tablet' ? 1000 : 500;
 
