@@ -45,10 +45,12 @@ addons.register(ADDON_ID, () => {
       }
 
       const VisualTestPanel = () => {
-        const [output, setOutput] = useState('');
-        const [isRunning, setIsRunning] = useState(false);
         const [serverStatus, setServerStatus] = useState('checking');
+        const [isRunning, setIsRunning] = useState(false);
+        const [output, setOutput] = useState('');
         const [currentStory, setCurrentStory] = useState(null);
+        const [hasRunTest, setHasRunTest] = useState(false);
+        const [testSuccess, setTestSuccess] = useState(false);
 
         const checkServer = async () => {
           try {
@@ -86,48 +88,37 @@ addons.register(ADDON_ID, () => {
         };
 
         const handleCapture = async () => {
-          const storyInfo = getStoryInfo();
-          if (!storyInfo) {
-            setOutput('Error: Could not determine current story\n');
-            return;
-          }
+          if (isRunning || !currentStory) return;
 
-          setCurrentStory(storyInfo);
           setIsRunning(true);
-          setOutput(`Running visual tests for component: ${storyInfo.component}, story: ${storyInfo.story}...\n`);
-          
+          setOutput('Running visual tests...');
+          setHasRunTest(true);
+          setTestSuccess(false); // Reset success state when starting new test
+
           try {
-            // Get the port from the server
-            const portResponse = await fetch('http://localhost:3001/port.txt');
-            if (!portResponse.ok) {
-              throw new Error(`Failed to get port: ${portResponse.status}`);
-            }
-            const port = await portResponse.text();
-
-            const requestData = {
-              command: 'test:visual:story',
-              component: storyInfo.component,
-              story: storyInfo.story
-            };
-            console.log('Sending request with data:', requestData);
-
-            const response = await fetch(`http://localhost:${port}/api/run-visual-test`, {
+            const response = await fetch('http://localhost:3001/api/run-visual-test', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: JSON.stringify(requestData)
+              body: JSON.stringify({
+                command: 'test:visual:story',
+                component: currentStory.component,
+                story: currentStory.story
+              }),
             });
 
+            const data = await response.json();
+
             if (!response.ok) {
-              const errorData = await response.json();
-              throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.error || errorData.output || 'Unknown error'}`);
+              throw new Error(data.error || 'Failed to run visual test');
             }
 
-            const data = await response.json();
-            setOutput(prev => prev + data.output);
+            setOutput(data.output || 'Test completed successfully');
+            setTestSuccess(true); // Set success state only if test completes successfully
           } catch (error) {
-            setOutput(prev => prev + `Error: ${error.message}\n`);
+            setOutput(`Error: ${error.message}`);
+            setTestSuccess(false);
           } finally {
             setIsRunning(false);
           }
@@ -179,43 +170,92 @@ addons.register(ADDON_ID, () => {
             <div style={{ marginBottom: '10px', color: serverStatus === 'running' ? 'green' : 'orange' }}>
               Server Status: {serverStatus === 'running' ? 'Running' : 'Not Running'}
             </div>
-            {currentStory && (
-              <div style={{ marginBottom: '10px', fontSize: '14px' }}>
-                Current Story: {currentStory.component} / {currentStory.story}
-              </div>
-            )}
-            {!currentStory && (
-              <div style={{ marginBottom: '10px', fontSize: '14px', color: 'orange' }}>
-                No story selected. Please select a story from the sidebar.
-              </div>
-            )}
-            <button 
-              onClick={handleCapture}
-              disabled={isRunning || serverStatus !== 'running' || !currentStory}
-              style={{
-                padding: '8px 16px',
-                backgroundColor: isRunning || serverStatus !== 'running' || !currentStory ? '#ccc' : '#1ea7fd',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: isRunning || serverStatus !== 'running' || !currentStory ? 'not-allowed' : 'pointer'
-              }}
-            >
-              {isRunning ? 'Running...' : 'Run Test'}
-            </button>
-            <div 
-              style={{ 
-                marginTop: '20px',
-                padding: '10px',
-                backgroundColor: '#f5f5f5',
-                borderRadius: '4px',
-                fontFamily: 'monospace',
-                whiteSpace: 'pre-wrap',
-                maxHeight: '300px',
-                overflowY: 'auto'
-              }}
-            >
-              {output || 'No output yet'}
+            <div style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '20px',
+              marginBottom: '10px'
+            }}>
+              {currentStory && (
+                <div style={{ fontSize: '14px' }}>
+                  Current Story: {currentStory.component} / {currentStory.story}
+                </div>
+              )}
+              {!currentStory && (
+                <div style={{ fontSize: '14px', color: 'orange' }}>
+                  No story selected. Please select a story from the sidebar.
+                </div>
+              )}
+              <button 
+                onClick={handleCapture}
+                disabled={isRunning || serverStatus !== 'running' || !currentStory}
+                style={{
+                  padding: '8px 16px',
+                  backgroundColor: isRunning || serverStatus !== 'running' || !currentStory ? '#ccc' : '#1ea7fd',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: isRunning || serverStatus !== 'running' || !currentStory ? 'not-allowed' : 'pointer',
+                  marginLeft: 'auto'
+                }}
+              >
+                {isRunning ? 'Running...' : 'Run Test'}
+              </button>
+            </div>
+            <div style={{ marginTop: '20px' }}>
+              <details open style={{ marginBottom: '20px' }}>
+                <summary style={{ 
+                  padding: '10px',
+                  backgroundColor: '#f5f5f5',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontWeight: 'bold'
+                }}>Log</summary>
+                <div style={{ 
+                  padding: '10px',
+                  backgroundColor: '#f5f5f5',
+                  borderRadius: '4px',
+                  fontFamily: 'monospace',
+                  whiteSpace: 'pre-wrap',
+                  height: '300px',
+                  overflowY: 'auto',
+                  marginTop: '10px'
+                }}>
+                  {output || 'No output yet'}
+                </div>
+              </details>
+              {hasRunTest && testSuccess && (
+                <details open>
+                  <summary style={{ 
+                    padding: '10px',
+                    backgroundColor: '#f5f5f5',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontWeight: 'bold'
+                  }}>Report</summary>
+                  <div style={{ 
+                    marginTop: '10px',
+                    height: 'calc(100vh - 400px)',
+                    minHeight: '400px',
+                    overflow: 'hidden',
+                    display: 'flex',
+                    flexDirection: 'column'
+                  }}>
+                    <iframe
+                      src="http://localhost:3001/playwright-report/index.html"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        border: '1px solid #ccc',
+                        borderRadius: '4px',
+                        backgroundColor: 'white',
+                        flex: 1
+                      }}
+                      title="Playwright Report"
+                    />
+                  </div>
+                </details>
+              )}
             </div>
           </div>
         );

@@ -5,46 +5,19 @@ const path = require('path');
 const fs = require('fs');
 
 const app = express();
+const port = 3001;
+
+// Enable CORS
 app.use(cors());
 app.use(express.json());
 
-// Function to find an available port
-const findAvailablePort = async (startPort) => {
-  const net = require('net');
-  return new Promise((resolve, reject) => {
-    const server = net.createServer();
-    
-    server.listen(startPort, () => {
-      const { port } = server.address();
-      server.close(() => resolve(port));
-    });
+// Serve static files from the playwright-report directory
+app.use('/playwright-report', express.static(path.join(__dirname, '../../../../playwright-report')));
 
-    server.on('error', (err) => {
-      if (err.code === 'EADDRINUSE') {
-        resolve(findAvailablePort(startPort + 1));
-      } else {
-        reject(err);
-      }
-    });
-  });
-};
-
-// Start server with dynamic port
-const startServer = async () => {
-  try {
-    const port = await findAvailablePort(3001);
-    app.listen(port, () => {
-      console.log(`Visual test server running on port ${port}`);
-      // Write the port to a file so the client can read it
-      const portFilePath = path.join(__dirname, 'port.txt');
-      fs.writeFileSync(portFilePath, port.toString());
-      console.log(`Port ${port} written to ${portFilePath}`);
-    });
-  } catch (error) {
-    console.error('Failed to start server:', error);
-    process.exit(1);
-  }
-};
+// Write port to a file so the client can read it
+const portFilePath = path.join(__dirname, 'port.txt');
+fs.writeFileSync(portFilePath, port.toString());
+console.log(`Port ${port} written to ${portFilePath}`);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -53,7 +26,6 @@ app.get('/api/health', (req, res) => {
 
 // Port endpoint
 app.get('/port.txt', (req, res) => {
-  const portFilePath = path.join(__dirname, 'port.txt');
   try {
     const port = fs.readFileSync(portFilePath, 'utf8');
     res.setHeader('Content-Type', 'text/plain');
@@ -69,40 +41,65 @@ app.post('/api/run-visual-test', async (req, res) => {
   const { command, component, story } = req.body;
   console.log('Received request:', { command, component, story });
 
-  if (!command || command !== 'test:visual:story') {
-    console.log('Invalid command:', command);
+  if (command !== 'test:visual:story') {
     return res.status(400).json({ error: 'Invalid command' });
   }
 
-  if (!component) {
-    console.log('Missing component:', { component });
-    return res.status(400).json({ error: 'Missing component' });
+  if (!component || !story) {
+    return res.status(400).json({ error: 'Missing component or story name' });
   }
 
+  // Get the project root directory (4 levels up from server.js)
+  const projectRoot = path.resolve(__dirname, '../../../../');
+  console.log('Project root:', projectRoot);
+
+  // Construct the command to run visual tests
+  const testCommand = `npm run test:visual:story ${component}`;
+  console.log('Executing command:', testCommand);
+  console.log('In directory:', projectRoot);
+
   try {
-    // Get the project root directory (3 levels up from server.js)
-    const projectRoot = path.resolve(__dirname, '../../../../');
-    console.log('Running command in directory:', projectRoot);
+    exec(testCommand, { 
+      cwd: projectRoot,
+      env: { ...process.env, FORCE_COLOR: true } // Enable colored output
+    }, (error, stdout, stderr) => {
+      console.log('Command output:', stdout);
+      console.log('Command errors:', stderr);
 
-    // Construct the command
-    const cmd = `npm run ${command} ${component}`;
-    console.log('Executing command:', cmd);
-
-    exec(cmd, { cwd: projectRoot }, (error, stdout, stderr) => {
       if (error) {
         console.error('Command execution error:', error);
         return res.status(500).json({ 
           error: 'Command execution failed',
-          output: error.message,
+          details: error.message,
+          output: stdout,
           stderr: stderr
         });
       }
-      res.json({ output: stdout });
+
+      // Check if there's any error message in stderr
+      if (stderr && stderr.toLowerCase().includes('error')) {
+        return res.status(500).json({
+          error: 'Command completed with errors',
+          output: stdout,
+          stderr: stderr
+        });
+      }
+
+      res.json({ 
+        success: true,
+        output: stdout,
+        stderr: stderr
+      });
     });
   } catch (error) {
-    console.error('Server error:', error);
-    res.status(500).json({ error: error.message });
+    console.error('Error executing command:', error);
+    res.status(500).json({ 
+      error: 'Failed to execute command',
+      details: error.message
+    });
   }
 });
 
-startServer(); 
+app.listen(port, () => {
+  console.log(`Visual test server running on port ${port}`);
+}); 
