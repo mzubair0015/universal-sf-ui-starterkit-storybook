@@ -2,10 +2,10 @@
 . "$(dirname "$0")/_/husky.sh"
 
 # Source .env file if it exists
-if [ -f .env ]; then
+if [ -f ../.env ]; then
   echo "Loading .env file..."
   set -a
-  . .env
+  . ../.env
   set +a
 fi
 
