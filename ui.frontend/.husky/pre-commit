@@ -4,6 +4,12 @@
 # Run lint-staged first
 npx lint-staged
 
+# Check VISUAL_TEST from .env file
+if grep -q "^VISUAL_TEST=false" ui.frontend/.env; then
+  echo "Skipping visual tests (VISUAL_TEST=false in .env)"
+  exit 0
+fi
+
 # Change to the ui.frontend directory
 cd ui.frontend
 

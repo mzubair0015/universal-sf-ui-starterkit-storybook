@@ -47,6 +47,11 @@ The project includes a pre-commit hook that automatically runs visual tests befo
 * A 2-second delay is added between retry attempts
 * The hook runs in the `ui.frontend` directory automatically
 
+To skip visual tests during commits, create a `.env` file in the `ui.frontend` directory with:
+```
+VISUAL_TEST=false
+```
+
 ## FAQ
 1. Server not starting with some error.
 * Make sure you are inside  `ui.frontend` folder.
