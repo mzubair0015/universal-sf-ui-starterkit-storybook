@@ -2,17 +2,16 @@ const { spawn } = require('child_process');
 const path = require('path');
 
 const serverPath = path.join(__dirname, 'server.js');
+console.log('Starting server from:', serverPath);
+
 const server = spawn('node', [serverPath], {
-  stdio: 'pipe',
-  shell: true
+  stdio: 'inherit', // This will pipe output directly to the console
+  shell: process.platform === 'win32', // Only use shell on Windows
+  windowsHide: true // Prevent opening a command window on Windows
 });
 
-server.stdout.on('data', (data) => {
-  console.log(`Server stdout: ${data}`);
-});
-
-server.stderr.on('data', (data) => {
-  console.error(`Server stderr: ${data}`);
+server.on('error', (error) => {
+  console.error('Failed to start server:', error);
 });
 
 server.on('close', (code) => {
@@ -20,12 +19,15 @@ server.on('close', (code) => {
 });
 
 // Handle process termination
-process.on('SIGTERM', () => {
-  server.kill();
+const cleanup = () => {
+  try {
+    server.kill();
+  } catch (err) {
+    console.error('Error while shutting down server:', err);
+  }
   process.exit(0);
-});
+};
 
-process.on('SIGINT', () => {
-  server.kill();
-  process.exit(0);
-}); 
+process.on('SIGTERM', cleanup);
+process.on('SIGINT', cleanup);
+process.on('exit', cleanup); 

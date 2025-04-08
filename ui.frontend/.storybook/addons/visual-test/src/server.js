@@ -5,19 +5,31 @@ const path = require('path');
 const fs = require('fs');
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 // Enable CORS
 app.use(cors());
 app.use(express.json());
 
-// Serve static files from the playwright-report directory
-app.use('/playwright-report', express.static(path.join(__dirname, '../../../../playwright-report')));
-
-// Write port to a file so the client can read it
+// Ensure the directory for port.txt exists
 const portFilePath = path.join(__dirname, 'port.txt');
-fs.writeFileSync(portFilePath, port.toString());
-console.log(`Port ${port} written to ${portFilePath}`);
+const portFileDir = path.dirname(portFilePath);
+
+try {
+  if (!fs.existsSync(portFileDir)) {
+    fs.mkdirSync(portFileDir, { recursive: true });
+  }
+  fs.writeFileSync(portFilePath, port.toString(), 'utf8');
+  console.log(`Port ${port} written to ${portFilePath}`);
+} catch (error) {
+  console.error('Error writing port file:', error);
+}
+
+// Serve static files from the playwright-report directory
+const reportPath = path.join(__dirname, '../../../../playwright-report');
+if (fs.existsSync(reportPath)) {
+  app.use('/playwright-report', express.static(reportPath));
+}
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -61,10 +73,16 @@ app.post('/api/run-visual-test', async (req, res) => {
   try {
     exec(testCommand, { 
       cwd: projectRoot,
-      env: { ...process.env, FORCE_COLOR: true } // Enable colored output
+      env: { 
+        ...process.env, 
+        FORCE_COLOR: true,
+        // Ensure PATH is properly set on Windows
+        PATH: process.env.PATH
+      },
+      shell: process.platform === 'win32' // Use shell on Windows
     }, (error, stdout, stderr) => {
       console.log('Command output:', stdout);
-      console.log('Command errors:', stderr);
+      if (stderr) console.log('Command errors:', stderr);
 
       if (error) {
         console.error('Command execution error:', error);
@@ -100,6 +118,10 @@ app.post('/api/run-visual-test', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
+// Start the server
+const server = app.listen(port, () => {
   console.log(`Visual test server running on port ${port}`);
+}).on('error', (error) => {
+  console.error('Server failed to start:', error);
+  process.exit(1);
 }); 

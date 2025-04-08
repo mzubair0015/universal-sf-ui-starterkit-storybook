@@ -14,6 +14,13 @@
 * Run `npm run prettier` - Runs the prettier script to beautify all the project JavaScript and SCSS files.
 
 ### Visual Testing
+
+> **Important**: Before running visual tests, make sure to install Playwright browsers:
+```bash
+# Install Playwright browsers (required for visual testing)
+npx playwright install
+```
+
 * Run `npm run test:visual` - Runs visual regression tests using Playwright.
 * Run `npm run test:visual:update` - Updates visual test snapshots to match current component states.
 * Run `npm run test:visual:report` - Opens the latest visual test report in your browser.
@@ -66,3 +73,19 @@ VISUAL_TEST=false
 2. `npm audit` throws vulnerabilities issues.
 * Open package.json and add `"trim-newlines": "4.0.2"` under `overrides`.
 * Reinstall the node packages (Note this may stop stylelint actions).
+
+3. Visual tests failing with "browserType.launch: Executable doesn't exist" error.
+* This error occurs when Playwright browsers are not installed. Run the following commands:
+```bash
+cd ui.frontend
+npx playwright install
+```
+* If you're still seeing the error, try removing the Playwright browser cache and reinstalling:
+```bash
+# Remove Playwright browser cache
+rm -rf ~/.cache/ms-playwright    # For Mac/Linux
+rd /s /q %USERPROFILE%\.cache\ms-playwright    # For Windows
+
+# Reinstall browsers
+npx playwright install
+```

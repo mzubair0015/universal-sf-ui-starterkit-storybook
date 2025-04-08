@@ -16,19 +16,32 @@ var _require = require('child_process'),
 var path = require('path');
 var fs = require('fs');
 var app = express();
-var port = 3001;
+var port = process.env.PORT || 3001;
 
 // Enable CORS
 app.use(cors());
 app.use(express.json());
 
-// Serve static files from the playwright-report directory
-app.use('/playwright-report', express.static(path.join(__dirname, '../../../../playwright-report')));
-
-// Write port to a file so the client can read it
+// Ensure the directory for port.txt exists
 var portFilePath = path.join(__dirname, 'port.txt');
-fs.writeFileSync(portFilePath, port.toString());
-console.log("Port ".concat(port, " written to ").concat(portFilePath));
+var portFileDir = path.dirname(portFilePath);
+try {
+  if (!fs.existsSync(portFileDir)) {
+    fs.mkdirSync(portFileDir, {
+      recursive: true
+    });
+  }
+  fs.writeFileSync(portFilePath, port.toString(), 'utf8');
+  console.log("Port ".concat(port, " written to ").concat(portFilePath));
+} catch (error) {
+  console.error('Error writing port file:', error);
+}
+
+// Serve static files from the playwright-report directory
+var reportPath = path.join(__dirname, '../../../../playwright-report');
+if (fs.existsSync(reportPath)) {
+  app.use('/playwright-report', express.static(reportPath));
+}
 
 // Health check endpoint
 app.get('/api/health', function (req, res) {
@@ -90,11 +103,14 @@ app.post('/api/run-visual-test', /*#__PURE__*/function () {
             exec(testCommand, {
               cwd: projectRoot,
               env: _objectSpread(_objectSpread({}, process.env), {}, {
-                FORCE_COLOR: true
-              }) // Enable colored output
+                FORCE_COLOR: true,
+                // Ensure PATH is properly set on Windows
+                PATH: process.env.PATH
+              }),
+              shell: process.platform === 'win32' // Use shell on Windows
             }, function (error, stdout, stderr) {
               console.log('Command output:', stdout);
-              console.log('Command errors:', stderr);
+              if (stderr) console.log('Command errors:', stderr);
               if (error) {
                 console.error('Command execution error:', error);
                 return res.status(500).json({
@@ -136,6 +152,11 @@ app.post('/api/run-visual-test', /*#__PURE__*/function () {
     return _ref.apply(this, arguments);
   };
 }());
-app.listen(port, function () {
+
+// Start the server
+var server = app.listen(port, function () {
   console.log("Visual test server running on port ".concat(port));
+}).on('error', function (error) {
+  console.error('Server failed to start:', error);
+  process.exit(1);
 });
