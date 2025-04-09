@@ -6,5 +6,6 @@ storybook-static
 logs
 .vscode
 test-results
+playwriright-report/
 
 ../ui.apps/
