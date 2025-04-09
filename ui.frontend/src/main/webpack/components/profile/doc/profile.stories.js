@@ -25,7 +25,8 @@ Primary.parameters = {
     source: {
       code: `${JSON.stringify(ProfileJSON, null, " ")}`,
     },
-  }
+  },
+  tags: ['visual']
 };
 
 // export const Primary = (args, { loaded }) => `${JSON.stringify(loaded, null, 1)} ${Object.keys(loaded).map((key) => loaded[key] )}`;
