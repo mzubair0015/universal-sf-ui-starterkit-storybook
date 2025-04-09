@@ -13,44 +13,7 @@
 * Run `npm run stylelint` - Runs the Stylelint script to analyze and identify issues in CSS or SCSS code.
 * Run `npm run prettier` - Runs the prettier script to beautify all the project JavaScript and SCSS files.
 
-### Visual Testing
-* Run `npm run test:visual` - Runs visual regression tests using Playwright.
-* Run `npm run test:visual:update` - Updates visual test snapshots to match current component states.
-* Run `npm run test:visual:report` - Opens the latest visual test report in your browser.
-* Run `npm run test:visual:ui` - Opens Playwright's UI mode for interactive test debugging.
-* Run `npm run test:visual:generate` - Generates visual test files for all stories.
-* Run `npm run test:visual:story "ComponentName"` - Runs visual tests for a specific story (use with -g flag).
-* Run `npm run test:visual:story:update  "ComponentName"` - Updates snapshots for a specific story (use with -g flag).
-
-Examples for story-specific testing:
-```bash
-# Test a specific component
-npm run test:visual:story "header"
-
-# Update snapshots for a component variation
-npm run test:visual:story:update "header"
-```
-
-To include a story in visual testing, add the `visual-test` tag to your story's parameters:
-```javascript
-export default {
-  title: 'Components/MyComponent',
-  parameters: {
-    tags: ['visual-test']
-  }
-};
-```
-
-The project includes a pre-commit hook that automatically runs visual tests before each commit:
-* The hook will attempt to run the tests up to 2 times if they fail
-* If tests fail after both attempts, the commit will be blocked
-* A 2-second delay is added between retry attempts
-* The hook runs in the `ui.frontend` directory automatically
-
-To skip visual tests during commits, create a `.env` file in the `ui.frontend` directory with:
-```
-VISUAL_TEST=false
-```
+---
 
 ## React Component Development Guidelines
 
@@ -160,6 +123,47 @@ Default.args = {
 3. Test prop handling
 4. Include accessibility tests
 5. Use visual regression testing (as configured in the project)
+
+---
+
+### Visual Testing
+* Run `npm run test:visual` - Runs visual regression tests using Playwright.
+* Run `npm run test:visual:update` - Updates visual test snapshots to match current component states.
+* Run `npm run test:visual:report` - Opens the latest visual test report in your browser.
+* Run `npm run test:visual:ui` - Opens Playwright's UI mode for interactive test debugging.
+* Run `npm run test:visual:generate` - Generates visual test files for all stories.
+* Run `npm run test:visual:story "ComponentName"` - Runs visual tests for a specific story (use with -g flag).
+* Run `npm run test:visual:story:update  "ComponentName"` - Updates snapshots for a specific story (use with -g flag).
+
+Examples for story-specific testing:
+```bash
+# Test a specific component
+npm run test:visual:story "header"
+
+# Update snapshots for a component variation
+npm run test:visual:story:update "header"
+```
+
+To include a story in visual testing, add the `visual-test` tag to your story's parameters:
+```javascript
+export default {
+  title: 'Components/MyComponent',
+  parameters: {
+    tags: ['visual-test']
+  }
+};
+```
+
+The project includes a pre-commit hook that automatically runs visual tests before each commit:
+* The hook will attempt to run the tests up to 2 times if they fail
+* If tests fail after both attempts, the commit will be blocked
+* A 2-second delay is added between retry attempts
+* The hook runs in the `ui.frontend` directory automatically
+
+To skip visual tests during commits, create a `.env` file in the `ui.frontend` directory with:
+```
+VISUAL_TEST=false
+```
 
 ### Component Generation
 Use the plop generator to create new components:
