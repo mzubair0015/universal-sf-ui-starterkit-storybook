@@ -118,11 +118,10 @@ Default.args = {
 ```
 
 ### Testing
-1. Write unit tests for components
-2. Test component initialization
-3. Test prop handling
-4. Include accessibility tests
-5. Use visual regression testing (as configured in the project)
+1. Test component initialization
+2. Test prop handling
+3. Include accessibility tests
+4. Use visual regression testing (as configured in the project)
 
 ---
 
