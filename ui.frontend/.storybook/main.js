@@ -30,6 +30,13 @@ module.exports = {
     {
       name: 'visual-test',
       options: {}
+    },
+    {
+      name: path.join(__dirname, 'addons/visual-overlay'),
+      options: {
+        enableShortcuts: true,
+        defaultOpacity: 0.5
+      }
     }
   ],
   staticDirs: [
@@ -37,6 +44,10 @@ module.exports = {
     "../src/main/webpack/static",
     "../static",
     "../src/main/webpack/core-components",
+    {
+      from: "../tests/visual.spec.ts-snapshots",
+      to: "/visual.spec.ts-snapshots"
+    }
   ],
   framework: {
     name: "@storybook/html-webpack5",
