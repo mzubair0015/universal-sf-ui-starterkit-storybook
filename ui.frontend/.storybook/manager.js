@@ -11,7 +11,8 @@
 
 import { addons } from '@storybook/manager-api';
 import theme from './theme.js';
-import './addons/visual-test/src/index.js';
+import './addons/visual-test/dist/index.js';
+import './addons/visual-overlay/dist/index.js';
 
 addons.setConfig({
   sidebar: {

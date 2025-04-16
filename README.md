@@ -13,6 +13,118 @@
 * Run `npm run stylelint` - Runs the Stylelint script to analyze and identify issues in CSS or SCSS code.
 * Run `npm run prettier` - Runs the prettier script to beautify all the project JavaScript and SCSS files.
 
+---
+
+## React Component Development Guidelines
+
+### Component Structure
+1. React components are located in `ui.frontend/src/main/webpack/components/`
+2. Each component should have the following structure:
+   ```
+   component-name/
+   ├── component-name.jsx      # Main React component
+   ├── component-name.js       # Component initialization and mounting
+   ├── component-name.hbs      # Handlebar template
+   ├── component-name.scss     # Component styles (if needed)
+   └── component-name.stories.jsx  # Storybook stories
+   ```
+
+### Component Implementation
+1. **React Component (JSX)**
+   - Create functional components using JSX
+   - Use props for data passing
+   - Keep components focused and single-responsibility
+   ```jsx
+   import React from "react";
+
+   export default function MyComponent({ prop1, prop2 }) {
+     return (
+       <div className="my-component">
+         {/* Component content */}
+       </div>
+     );
+   }
+   ```
+
+2. **Component Initialization (JS)**
+   - Handle component mounting and initialization
+   - Parse data attributes from the DOM
+   - Use React 18's createRoot for rendering
+   ```js
+   import React from "react";
+   import { createRoot } from "react-dom/client";
+   import MyComponent from "./MyComponent.jsx";
+
+   export default class {
+     static init(el) {
+       const props = JSON.parse(JSON.stringify(el.dataset));
+       createRoot(el).render(<MyComponent {...props} />);
+     }
+   }
+   ```
+
+3. **Handlebar Template (HBS)**
+   - Define the component's HTML structure
+   - Use data attributes for props
+   ```handlebars
+   <div data-component="my-component" data-prop1="value1" data-prop2="value2"></div>
+   ```
+
+### Best Practices
+1. **Props and Data**
+   - Use data attributes in HBS templates for props
+   - Keep prop names consistent between JSX and HBS
+   - Document required and optional props
+   - Use TypeScript interfaces for prop types when possible
+
+2. **Styling**
+   - Use SCSS for component styles
+   - Follow BEM naming convention
+   - Keep styles scoped to the component
+   - Use CSS variables for theming
+
+3. **Accessibility**
+   - Include proper ARIA attributes
+   - Ensure keyboard navigation
+   - Use semantic HTML elements
+   - Test with screen readers
+
+4. **Performance**
+   - Use React.memo for pure components
+   - Implement proper useEffect cleanup
+   - Avoid unnecessary re-renders
+   - Use useCallback and useMemo appropriately
+
+### Storybook Integration
+1. Create stories for each component
+2. Document component usage and props
+3. Show different variants and states
+4. Include accessibility information
+```jsx
+import MyComponent from './MyComponent.jsx';
+
+export default {
+  title: 'Components/MyComponent',
+  component: MyComponent,
+};
+
+const Template = (args) => <MyComponent {...args} />;
+
+export const Default = Template.bind({});
+Default.args = {
+  prop1: 'value1',
+  prop2: 'value2'
+};
+```
+
+### Testing
+1. Test component initialization
+2. Test prop handling
+3. Include accessibility tests
+4. Use visual regression testing (as configured in the project)
+
+---
+
 ### Visual Testing
 
 > **Important**: Before running visual tests, make sure to install Playwright browsers:
@@ -58,6 +170,74 @@ To skip visual tests during commits, create a `.env` file in the `ui.frontend` d
 ```
 VISUAL_TEST=false
 ```
+
+## Visual Overlay Addon
+
+The project includes a custom Storybook addon for visual comparison and testing. This addon allows you to overlay visual snapshots on top of your components for easy comparison.
+
+### Features
+
+- Overlay visual snapshots on top of your components
+- Adjust overlay opacity
+- Toggle overlay visibility
+- Move overlay position with drag-and-drop
+- Keyboard shortcuts for quick control
+- Layer toggle functionality
+- Responsive controls panel
+
+### Usage
+
+#### Basic Controls
+
+- **Toggle Overlay**: Click the eye icon in the toolbar to show/hide the overlay
+- **Opacity Control**: Use the slider to adjust the overlay's opacity
+- **Position Control**: Drag the overlay or use arrow keys to adjust position
+- **Layer Toggle**: Use the layer toggle button to switch between overlay and component layers
+
+#### Keyboard Shortcuts
+
+- `o` - Toggle overlay visibility
+- `+` - Increase opacity
+- `-` - Decrease opacity
+- `↑/↓/←/→` - Move overlay 1px in respective direction
+- `Shift + ↑/↓/←/→` - Move overlay 10px in respective direction
+- `r` - Reset overlay position
+- `l` - Toggle layer (switch between overlay and component)
+- `h` - Toggle handle visibility
+
+#### Controls Panel
+
+The controls panel provides easy access to all overlay features:
+
+1. **Opacity Slider**: Adjust the overlay's transparency
+2. **Visibility Toggle**: Show/hide the overlay
+3. **Drag Handle**: Move the controls panel around
+4. **Layer Toggle**: Switch between overlay and component layers
+
+### Configuration
+
+The addon automatically detects and loads visual snapshots based on your story's path. It follows this naming convention:
+
+```
+{component}-{story}-{viewport}-chromium-darwin.png
+```
+
+Example: `button-primary-default-desktop-chromium-darwin.png`
+
+### Development
+
+The addon is located in `ui.frontend/.storybook/addons/visual-overlay/`. To build the addon:
+
+```bash
+cd ui.frontend/.storybook/addons/visual-overlay
+npm run build
+```
+### Component Generation
+Use the plop generator to create new components:
+```bash
+npm run plop
+```
+This will create the necessary files with the correct structure and boilerplate code.
 
 ## FAQ
 1. Server not starting with some error.
