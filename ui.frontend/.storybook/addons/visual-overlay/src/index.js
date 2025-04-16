@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { addons, types } from '@storybook/manager-api';
 
+const ADDON_ID = 'visual-overlay';
+
 const OverlayIcon = () => {
   const [isActive, setIsActive] = useState(false);
   const [opacity, setOpacity] = useState(0.5);
@@ -11,6 +13,26 @@ const OverlayIcon = () => {
   const [zIndex, setZIndex] = useState(99999);
   const [isLoading, setIsLoading] = useState(false);
   const [showHandle, setShowHandle] = useState(true);
+  const [defaultOpacity, setDefaultOpacity] = useState(() => {
+    const addonConfig = addons.getConfig('visual-overlay');
+    return addonConfig?.options?.defaultOpacity || 0.5;
+  });
+
+  // Get viewport configurations
+  const [viewportConfig, setViewportConfig] = useState(() => {
+    try {
+      const viewports = require('../../../../tests/config/viewports.js');
+      return viewports.VIEWPORTS;
+    } catch (error) {
+      console.error('Error loading viewport config:', error);
+      return [
+        { width: 320, height: 568, name: 'mobile' },
+        { width: 768, height: 1024, name: 'tablet' },
+        { width: 1024, height: 768, name: 'desktop' },
+        { width: 1440, height: 900, name: 'large' }
+      ];
+    }
+  });
 
   const getStoryInfo = useCallback(() => {
     try {
@@ -77,13 +99,26 @@ const OverlayIcon = () => {
     setIsLoading(false);
   }, []);
 
-  const updateOverlayOpacity = useCallback((newOpacity) => {
+  const updateOverlayOpacity = useCallback((opacity) => {
     const storyIframe = document.getElementById('storybook-preview-iframe');
-    if (storyIframe) {
-      const overlayDiv = storyIframe.contentDocument.getElementById('visual-overlay');
-      if (overlayDiv) {
-        overlayDiv.style.opacity = newOpacity;
-      }
+    if (!storyIframe) return;
+
+    const overlayDiv = storyIframe.contentDocument.getElementById('visual-overlay');
+    if (!overlayDiv) return;
+
+    // Update opacity
+    overlayDiv.style.opacity = opacity;
+
+    // Update slider value if it exists
+    const slider = storyIframe.contentDocument.getElementById('opacity-slider');
+    if (slider) {
+      slider.value = opacity;
+    }
+
+    // Update opacity label if it exists
+    const opacityLabel = storyIframe.contentDocument.getElementById('opacity-label');
+    if (opacityLabel) {
+      opacityLabel.textContent = `Opacity: ${Math.round(opacity * 100)}%`;
     }
   }, []);
 
@@ -197,13 +232,11 @@ const OverlayIcon = () => {
             left: 0;
             width: 100%;
             height: 100%;
-            opacity: ${opacity};
-            transform: translate(${position.x}px, ${position.y}px);
-            pointer-events: auto;
-            mix-blend-mode: difference;
-            background-color: transparent;
-            cursor: move;
-            z-index: ${zIndex};
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            pointer-events: none;
+            opacity: ${defaultOpacity};
           `;
 
           // Create picture element with media queries
@@ -218,15 +251,7 @@ const OverlayIcon = () => {
           `;
 
           // Add source elements for each viewport
-          const viewports = [
-            { name: 'mobile', width: 320 },
-            { name: 'tablet', width: 768 },
-            { name: 'desktop', width: 1024 },
-            { name: 'large', width: 1440 }
-          ];
-
-          // Sort viewports by width in descending order
-          viewports.sort((a, b) => b.width - a.width);
+          const viewports = viewportConfig.sort((a, b) => b.width - a.width);
 
           // Add source elements for each viewport
           viewports.forEach((viewport, index) => {
@@ -385,7 +410,7 @@ const OverlayIcon = () => {
           slider.min = '0';
           slider.max = '1';
           slider.step = '0.01';
-          slider.value = opacity;
+          slider.value = defaultOpacity;
           slider.style.cssText = `
             width: 100px;
             cursor: pointer;
@@ -533,6 +558,7 @@ const OverlayIcon = () => {
           if (controls) {
             controls.remove();
           }
+          setIsActive(false);
         } else {
           overlayContainer.classList.remove('hidden');
           // Recreate controls
@@ -658,7 +684,7 @@ const OverlayIcon = () => {
           slider.min = '0';
           slider.max = '1';
           slider.step = '0.01';
-          slider.value = opacity;
+          slider.value = defaultOpacity;
           slider.style.cssText = `
             width: 100px;
             cursor: pointer;
@@ -779,6 +805,7 @@ const OverlayIcon = () => {
           buttonsContainer.appendChild(visibilityBtn);
           controls.appendChild(sliderContainer);
           controls.appendChild(buttonsContainer);
+          setIsActive(true);
         }
       }
     } catch (error) {
@@ -1095,6 +1122,7 @@ const OverlayIcon = () => {
 
   return (
     <button
+      id="visual-overlay-toggle-button"
       onClick={toggleOverlay}
       style={{
         margin: '0',
@@ -1151,7 +1179,7 @@ const OverlayIcon = () => {
 };
 
 // Register the addon
-addons.register('visual-overlay', () => {
+addons.register(ADDON_ID, () => {
   console.log('Visual Overlay Addon registered');
 
   // Add a toolbar item

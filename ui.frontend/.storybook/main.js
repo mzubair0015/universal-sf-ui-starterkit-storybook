@@ -32,10 +32,10 @@ module.exports = {
       options: {}
     },
     {
-      name: path.join(__dirname, 'addons/visual-overlay'),
+      name:'visual-overlay',
       options: {
         enableShortcuts: true,
-        defaultOpacity: 0.5
+        defaultOpacity: 0.1
       }
     }
   ],

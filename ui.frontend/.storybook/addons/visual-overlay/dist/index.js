@@ -14,6 +14,7 @@ function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) 
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+var ADDON_ID = 'visual-overlay';
 var OverlayIcon = function OverlayIcon() {
   var _useState = (0, _react.useState)(false),
     _useState2 = _slicedToArray(_useState, 2),
@@ -57,6 +58,44 @@ var OverlayIcon = function OverlayIcon() {
     _useState18 = _slicedToArray(_useState17, 2),
     showHandle = _useState18[0],
     setShowHandle = _useState18[1];
+  var _useState19 = (0, _react.useState)(function () {
+      var _addonConfig$options;
+      var addonConfig = _managerApi.addons.getConfig('visual-overlay');
+      return (addonConfig === null || addonConfig === void 0 || (_addonConfig$options = addonConfig.options) === null || _addonConfig$options === void 0 ? void 0 : _addonConfig$options.defaultOpacity) || 0.5;
+    }),
+    _useState20 = _slicedToArray(_useState19, 2),
+    defaultOpacity = _useState20[0],
+    setDefaultOpacity = _useState20[1];
+
+  // Get viewport configurations
+  var _useState21 = (0, _react.useState)(function () {
+      try {
+        var viewports = require('../../../../tests/config/viewports.js');
+        return viewports.VIEWPORTS;
+      } catch (error) {
+        console.error('Error loading viewport config:', error);
+        return [{
+          width: 320,
+          height: 568,
+          name: 'mobile'
+        }, {
+          width: 768,
+          height: 1024,
+          name: 'tablet'
+        }, {
+          width: 1024,
+          height: 768,
+          name: 'desktop'
+        }, {
+          width: 1440,
+          height: 900,
+          name: 'large'
+        }];
+      }
+    }),
+    _useState22 = _slicedToArray(_useState21, 2),
+    viewportConfig = _useState22[0],
+    setViewportConfig = _useState22[1];
   var getStoryInfo = (0, _react.useCallback)(function () {
     try {
       // Get the path from the URL query parameters
@@ -122,13 +161,25 @@ var OverlayIcon = function OverlayIcon() {
     });
     setIsLoading(false);
   }, []);
-  var updateOverlayOpacity = (0, _react.useCallback)(function (newOpacity) {
+  var updateOverlayOpacity = (0, _react.useCallback)(function (opacity) {
     var storyIframe = document.getElementById('storybook-preview-iframe');
-    if (storyIframe) {
-      var overlayDiv = storyIframe.contentDocument.getElementById('visual-overlay');
-      if (overlayDiv) {
-        overlayDiv.style.opacity = newOpacity;
-      }
+    if (!storyIframe) return;
+    var overlayDiv = storyIframe.contentDocument.getElementById('visual-overlay');
+    if (!overlayDiv) return;
+
+    // Update opacity
+    overlayDiv.style.opacity = opacity;
+
+    // Update slider value if it exists
+    var slider = storyIframe.contentDocument.getElementById('opacity-slider');
+    if (slider) {
+      slider.value = opacity;
+    }
+
+    // Update opacity label if it exists
+    var opacityLabel = storyIframe.contentDocument.getElementById('opacity-label');
+    if (opacityLabel) {
+      opacityLabel.textContent = "Opacity: ".concat(Math.round(opacity * 100), "%");
     }
   }, []);
   var updateOverlayPosition = (0, _react.useCallback)(function (x, y) {
@@ -184,7 +235,7 @@ var OverlayIcon = function OverlayIcon() {
           controls = storyIframe.contentDocument.getElementById('visual-overlay-controls');
           overlayDiv = storyIframe.contentDocument.getElementById('visual-overlay');
           if (overlayContainer) {
-            _context.next = 113;
+            _context.next = 112;
             break;
           }
           // First time activation - create and show elements
@@ -212,31 +263,16 @@ var OverlayIcon = function OverlayIcon() {
           overlayDiv = document.createElement('div');
           overlayDiv.id = 'visual-overlay';
           overlayDiv.className = 'visual-overlay';
-          overlayDiv.style.cssText = "\n            position: absolute;\n            top: 0;\n            left: 0;\n            width: 100%;\n            height: 100%;\n            opacity: ".concat(opacity, ";\n            transform: translate(").concat(position.x, "px, ").concat(position.y, "px);\n            pointer-events: auto;\n            mix-blend-mode: difference;\n            background-color: transparent;\n            cursor: move;\n            z-index: ").concat(zIndex, ";\n          ");
+          overlayDiv.style.cssText = "\n            position: absolute;\n            top: 0;\n            left: 0;\n            width: 100%;\n            height: 100%;\n            background-size: contain;\n            background-position: center;\n            background-repeat: no-repeat;\n            pointer-events: none;\n            opacity: ".concat(defaultOpacity, ";\n          ");
 
           // Create picture element with media queries
           picture = document.createElement('picture');
           picture.style.cssText = "\n            position: absolute;\n            top: 0;\n            left: 0;\n            width: auto;\n            height: 100%;\n            pointer-events: none;\n          ";
 
           // Add source elements for each viewport
-          viewports = [{
-            name: 'mobile',
-            width: 320
-          }, {
-            name: 'tablet',
-            width: 768
-          }, {
-            name: 'desktop',
-            width: 1024
-          }, {
-            name: 'large',
-            width: 1440
-          }]; // Sort viewports by width in descending order
-          viewports.sort(function (a, b) {
+          viewports = viewportConfig.sort(function (a, b) {
             return b.width - a.width;
-          });
-
-          // Add source elements for each viewport
+          }); // Add source elements for each viewport
           viewports.forEach(function (viewport, index) {
             var source = document.createElement('source');
             var imageName = "".concat(storyInfo.component, "-").concat(storyInfo.story, "-").concat(viewport.name, "-chromium-darwin.png");
@@ -342,7 +378,7 @@ var OverlayIcon = function OverlayIcon() {
           slider.min = '0';
           slider.max = '1';
           slider.step = '0.01';
-          slider.value = opacity;
+          slider.value = defaultOpacity;
           slider.style.cssText = "\n            width: 100px;\n            cursor: pointer;\n            -webkit-appearance: none;\n            background: transparent;\n            margin: 0;\n            padding: 0;\n          ";
 
           // Add custom slider styles
@@ -401,18 +437,18 @@ var OverlayIcon = function OverlayIcon() {
           storyIframe.contentDocument.head.appendChild(style);
           setIsActive(true);
           setIsLoading(false);
-          _context.next = 111;
+          _context.next = 110;
           break;
-        case 106:
-          _context.prev = 106;
+        case 105:
+          _context.prev = 105;
           _context.t0 = _context["catch"](17);
           console.error('Error setting up overlay:', _context.t0);
           setError('Failed to setup overlay');
           setIsLoading(false);
-        case 111:
-          _context.next = 115;
+        case 110:
+          _context.next = 114;
           break;
-        case 113:
+        case 112:
           // Subsequent clicks - toggle visibility
           isVisible = !overlayContainer.classList.contains('hidden');
           if (isVisible) {
@@ -420,6 +456,7 @@ var OverlayIcon = function OverlayIcon() {
             if (controls) {
               controls.remove();
             }
+            setIsActive(false);
           } else {
             overlayContainer.classList.remove('hidden');
             // Recreate controls
@@ -502,7 +539,7 @@ var OverlayIcon = function OverlayIcon() {
             _slider.min = '0';
             _slider.max = '1';
             _slider.step = '0.01';
-            _slider.value = opacity;
+            _slider.value = defaultOpacity;
             _slider.style.cssText = "\n            width: 100px;\n            cursor: pointer;\n            -webkit-appearance: none;\n            background: transparent;\n            margin: 0;\n            padding: 0;\n          ";
 
             // Add custom slider styles
@@ -554,21 +591,22 @@ var OverlayIcon = function OverlayIcon() {
             _buttonsContainer.appendChild(_visibilityBtn);
             controls.appendChild(_sliderContainer);
             controls.appendChild(_buttonsContainer);
+            setIsActive(true);
           }
-        case 115:
-          _context.next = 122;
+        case 114:
+          _context.next = 121;
           break;
-        case 117:
-          _context.prev = 117;
+        case 116:
+          _context.prev = 116;
           _context.t1 = _context["catch"](0);
           console.error('Error in toggleOverlay:', _context.t1);
           setError('An error occurred');
           setIsLoading(false);
-        case 122:
+        case 121:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[0, 117], [17, 106]]);
+    }, _callee, null, [[0, 116], [17, 105]]);
   })), [isActive, getStoryInfo, removeOverlay]);
 
   // Listen for URL changes and view mode changes
@@ -857,6 +895,7 @@ var OverlayIcon = function OverlayIcon() {
     return overlayDiv;
   }
   return /*#__PURE__*/_react.default.createElement("button", {
+    id: "visual-overlay-toggle-button",
     onClick: toggleOverlay,
     style: {
       margin: '0',
@@ -900,7 +939,7 @@ var OverlayIcon = function OverlayIcon() {
 };
 
 // Register the addon
-_managerApi.addons.register('visual-overlay', function () {
+_managerApi.addons.register(ADDON_ID, function () {
   console.log('Visual Overlay Addon registered');
 
   // Add a toolbar item
