@@ -3,6 +3,15 @@ const path = require('path');
 const glob = require('glob');
 const { VIEWPORTS } = require('../tests/config/viewports.js');
 
+if(!VIEWPORTS)  {
+  VIEWPORTS = [
+    { width: 320, height: 568, name: 'mobile' },
+    { width: 768, height: 1024, name: 'tablet' },
+    { width: 1024, height: 768, name: 'desktop' },
+    { width: 1440, height: 900, name: 'large' }
+  ];
+}
+
 // Function to extract story ID from the file path
 function getStoryId(filePath) {
   const match = filePath.match(/([^/]+)\.stories\.(js|jsx|ts|tsx)$/);
