@@ -126,13 +126,6 @@ Default.args = {
 ---
 
 ### Visual Testing
-
-> **Important**: Before running visual tests, make sure to install Playwright browsers:
-```bash
-# Install Playwright browsers (required for visual testing)
-npx playwright install
-```
-
 * Run `npm run test:visual` - Runs visual regression tests using Playwright.
 * Run `npm run test:visual:update` - Updates visual test snapshots to match current component states.
 * Run `npm run test:visual:report` - Opens the latest visual test report in your browser.

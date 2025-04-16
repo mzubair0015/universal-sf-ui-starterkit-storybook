@@ -15,27 +15,117 @@ var _require = require('child_process'),
   exec = _require.exec;
 var path = require('path');
 var fs = require('fs');
+var http = require('http');
 var app = express();
 var port = process.env.PORT || 3001;
+var MAX_PORT = 3010; // Maximum port number to try
 
-// Enable CORS
+// Function to check if a port is used by our visual-test server
+function isOurServer(_x) {
+  return _isOurServer.apply(this, arguments);
+} // Function to try starting the server
+function _isOurServer() {
+  _isOurServer = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2(port) {
+    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+      while (1) switch (_context2.prev = _context2.next) {
+        case 0:
+          return _context2.abrupt("return", new Promise(function (resolve) {
+            http.get("http://localhost:".concat(port, "/api/health"), function (res) {
+              var data = '';
+              res.on('data', function (chunk) {
+                data += chunk;
+              });
+              res.on('end', function () {
+                try {
+                  var response = JSON.parse(data);
+                  resolve(response.status === 'ok');
+                } catch (e) {
+                  resolve(false);
+                }
+              });
+            }).on('error', function () {
+              resolve(false);
+            });
+          }));
+        case 1:
+        case "end":
+          return _context2.stop();
+      }
+    }, _callee2);
+  }));
+  return _isOurServer.apply(this, arguments);
+}
+function startServer() {
+  return _startServer.apply(this, arguments);
+} // Enable CORS
+function _startServer() {
+  _startServer = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+    var server;
+    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+      while (1) switch (_context3.prev = _context3.next) {
+        case 0:
+          if (!(port <= MAX_PORT)) {
+            _context3.next = 18;
+            break;
+          }
+          _context3.prev = 1;
+          _context3.next = 4;
+          return isOurServer(port);
+        case 4:
+          if (!_context3.sent) {
+            _context3.next = 7;
+            break;
+          }
+          console.log("Visual test server already running on port ".concat(port));
+          process.exit(0);
+        case 7:
+          // Try to start server on current port
+          server = app.listen(port); // If successful, write port to file and exit function
+          try {
+            if (!fs.existsSync(portFileDir)) {
+              fs.mkdirSync(portFileDir, {
+                recursive: true
+              });
+            }
+            fs.writeFileSync(portFilePath, port.toString(), 'utf8');
+            console.log("Port ".concat(port, " written to ").concat(portFilePath));
+          } catch (error) {
+            console.error('Error writing port file:', error);
+          }
+          console.log("Visual test server running on port ".concat(port));
+          return _context3.abrupt("return");
+        case 13:
+          _context3.prev = 13;
+          _context3.t0 = _context3["catch"](1);
+          if (_context3.t0.code === 'EADDRINUSE') {
+            // Port is in use by another application, try next port
+            port++;
+          } else {
+            // For other errors, log and exit
+            console.error('Server failed to start:', _context3.t0);
+            process.exit(1);
+          }
+        case 16:
+          _context3.next = 0;
+          break;
+        case 18:
+          // If we get here, we've run out of ports to try
+          console.error("Could not find available port between ".concat(process.env.PORT || 3001, " and ").concat(MAX_PORT));
+          process.exit(1);
+        case 20:
+        case "end":
+          return _context3.stop();
+      }
+    }, _callee3, null, [[1, 13]]);
+  }));
+  return _startServer.apply(this, arguments);
+}
 app.use(cors());
 app.use(express.json());
 
 // Ensure the directory for port.txt exists
 var portFilePath = path.join(__dirname, 'port.txt');
 var portFileDir = path.dirname(portFilePath);
-try {
-  if (!fs.existsSync(portFileDir)) {
-    fs.mkdirSync(portFileDir, {
-      recursive: true
-    });
-  }
-  fs.writeFileSync(portFilePath, port.toString(), 'utf8');
-  console.log("Port ".concat(port, " written to ").concat(portFilePath));
-} catch (error) {
-  console.error('Error writing port file:', error);
-}
 
 // Serve static files from the playwright-report directory
 var reportPath = path.join(__dirname, '../../../../playwright-report');
@@ -104,10 +194,9 @@ app.post('/api/run-visual-test', /*#__PURE__*/function () {
               cwd: projectRoot,
               env: _objectSpread(_objectSpread({}, process.env), {}, {
                 FORCE_COLOR: true,
-                // Ensure PATH is properly set on Windows
                 PATH: process.env.PATH
               }),
-              shell: process.platform === 'win32' // Use shell on Windows
+              shell: process.platform === 'win32'
             }, function (error, stdout, stderr) {
               console.log('Command output:', stdout);
               if (stderr) console.log('Command errors:', stderr);
@@ -120,8 +209,6 @@ app.post('/api/run-visual-test', /*#__PURE__*/function () {
                   stderr: stderr
                 });
               }
-
-              // Check if there's any error message in stderr
               if (stderr && stderr.toLowerCase().includes('error')) {
                 return res.status(500).json({
                   error: 'Command completed with errors',
@@ -148,15 +235,10 @@ app.post('/api/run-visual-test', /*#__PURE__*/function () {
       }
     }, _callee);
   }));
-  return function (_x, _x2) {
+  return function (_x2, _x3) {
     return _ref.apply(this, arguments);
   };
 }());
 
 // Start the server
-var server = app.listen(port, function () {
-  console.log("Visual test server running on port ".concat(port));
-}).on('error', function (error) {
-  console.error('Server failed to start:', error);
-  process.exit(1);
-});
+startServer();

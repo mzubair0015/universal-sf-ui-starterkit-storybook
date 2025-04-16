@@ -1,11 +1,12 @@
 node_modules
 dist
 !.storybook/addons/visual-test/dist
+!.storybook/addons/visual-overlay/dist
 storybook-static
 .DS_Store
 logs
 .vscode
-test-results
+test-results/
 playwriright-report/
 
 ../ui.apps/

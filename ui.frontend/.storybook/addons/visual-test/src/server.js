@@ -3,9 +3,74 @@ const cors = require('cors');
 const { exec } = require('child_process');
 const path = require('path');
 const fs = require('fs');
+const http = require('http');
 
 const app = express();
-const port = process.env.PORT || 3001;
+let port = process.env.PORT || 3001;
+const MAX_PORT = 3010; // Maximum port number to try
+
+// Function to check if a port is used by our visual-test server
+async function isOurServer(port) {
+  return new Promise((resolve) => {
+    http.get(`http://localhost:${port}/api/health`, (res) => {
+      let data = '';
+      res.on('data', (chunk) => { data += chunk; });
+      res.on('end', () => {
+        try {
+          const response = JSON.parse(data);
+          resolve(response.status === 'ok');
+        } catch (e) {
+          resolve(false);
+        }
+      });
+    }).on('error', () => {
+      resolve(false);
+    });
+  });
+}
+
+// Function to try starting the server
+async function startServer() {
+  while (port <= MAX_PORT) {
+    try {
+      // If port is in use, check if it's our server
+      if (await isOurServer(port)) {
+        console.log(`Visual test server already running on port ${port}`);
+        process.exit(0);
+      }
+
+      // Try to start server on current port
+      const server = app.listen(port);
+      
+      // If successful, write port to file and exit function
+      try {
+        if (!fs.existsSync(portFileDir)) {
+          fs.mkdirSync(portFileDir, { recursive: true });
+        }
+        fs.writeFileSync(portFilePath, port.toString(), 'utf8');
+        console.log(`Port ${port} written to ${portFilePath}`);
+      } catch (error) {
+        console.error('Error writing port file:', error);
+      }
+
+      console.log(`Visual test server running on port ${port}`);
+      return;
+    } catch (error) {
+      if (error.code === 'EADDRINUSE') {
+        // Port is in use by another application, try next port
+        port++;
+      } else {
+        // For other errors, log and exit
+        console.error('Server failed to start:', error);
+        process.exit(1);
+      }
+    }
+  }
+  
+  // If we get here, we've run out of ports to try
+  console.error(`Could not find available port between ${process.env.PORT || 3001} and ${MAX_PORT}`);
+  process.exit(1);
+}
 
 // Enable CORS
 app.use(cors());
@@ -14,16 +79,6 @@ app.use(express.json());
 // Ensure the directory for port.txt exists
 const portFilePath = path.join(__dirname, 'port.txt');
 const portFileDir = path.dirname(portFilePath);
-
-try {
-  if (!fs.existsSync(portFileDir)) {
-    fs.mkdirSync(portFileDir, { recursive: true });
-  }
-  fs.writeFileSync(portFilePath, port.toString(), 'utf8');
-  console.log(`Port ${port} written to ${portFilePath}`);
-} catch (error) {
-  console.error('Error writing port file:', error);
-}
 
 // Serve static files from the playwright-report directory
 const reportPath = path.join(__dirname, '../../../../playwright-report');
@@ -76,10 +131,9 @@ app.post('/api/run-visual-test', async (req, res) => {
       env: { 
         ...process.env, 
         FORCE_COLOR: true,
-        // Ensure PATH is properly set on Windows
         PATH: process.env.PATH
       },
-      shell: process.platform === 'win32' // Use shell on Windows
+      shell: process.platform === 'win32'
     }, (error, stdout, stderr) => {
       console.log('Command output:', stdout);
       if (stderr) console.log('Command errors:', stderr);
@@ -94,7 +148,6 @@ app.post('/api/run-visual-test', async (req, res) => {
         });
       }
 
-      // Check if there's any error message in stderr
       if (stderr && stderr.toLowerCase().includes('error')) {
         return res.status(500).json({
           error: 'Command completed with errors',
@@ -119,9 +172,4 @@ app.post('/api/run-visual-test', async (req, res) => {
 });
 
 // Start the server
-const server = app.listen(port, () => {
-  console.log(`Visual test server running on port ${port}`);
-}).on('error', (error) => {
-  console.error('Server failed to start:', error);
-  process.exit(1);
-}); 
+startServer(); 
