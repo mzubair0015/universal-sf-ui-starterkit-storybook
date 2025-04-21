@@ -3,19 +3,30 @@ import { test, expect } from '@playwright/test';
 test.describe('Visual Tests', () => {
   test.beforeEach(async ({ page }) => {
     // Set default viewport size
-    await page.setViewportSize({ width: 1280, height: 720 });
+    await page.setViewportSize({ width: 1280, height: 2000 });
   });
 
   test('profile - primary visual test at mobile viewport', async ({ page }) => {
     // Set viewport size
     await page.setViewportSize({ width: 320, height: 568 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=components-profile--primary&viewMode=story');
     
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.profile', { timeout: 30000 });
+    
     // Wait for images to load
     await Promise.all([
       page.waitForSelector('.profile__image img', { timeout: 30000 }),
@@ -24,6 +35,12 @@ test.describe('Visual Tests', () => {
     
     // Small delay to ensure layout is stable
     await page.waitForTimeout(500);
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -35,7 +52,8 @@ test.describe('Visual Tests', () => {
       timeout: 30000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 568
     });
   });
 
@@ -43,12 +61,23 @@ test.describe('Visual Tests', () => {
     // Set viewport size
     await page.setViewportSize({ width: 768, height: 1024 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=components-profile--primary&viewMode=story');
     
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.profile', { timeout: 30000 });
+    
     // Wait for images to load
     await Promise.all([
       page.waitForSelector('.profile__image img', { timeout: 30000 }),
@@ -57,6 +86,12 @@ test.describe('Visual Tests', () => {
     
     // Small delay to ensure layout is stable after breakpoint transition
     await page.waitForTimeout(1000);
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -68,7 +103,8 @@ test.describe('Visual Tests', () => {
       timeout: 30000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 1024
     });
   });
 
@@ -76,12 +112,23 @@ test.describe('Visual Tests', () => {
     // Set viewport size
     await page.setViewportSize({ width: 1024, height: 768 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=components-profile--primary&viewMode=story');
     
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.profile', { timeout: 30000 });
+    
     // Wait for images to load
     await Promise.all([
       page.waitForSelector('.profile__image img', { timeout: 30000 }),
@@ -90,6 +137,12 @@ test.describe('Visual Tests', () => {
     
     // Small delay to ensure layout is stable
     await page.waitForTimeout(500);
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -101,7 +154,8 @@ test.describe('Visual Tests', () => {
       timeout: 30000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 768
     });
   });
 
@@ -109,12 +163,23 @@ test.describe('Visual Tests', () => {
     // Set viewport size
     await page.setViewportSize({ width: 1440, height: 900 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=components-profile--primary&viewMode=story');
     
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.profile', { timeout: 30000 });
+    
     // Wait for images to load
     await Promise.all([
       page.waitForSelector('.profile__image img', { timeout: 30000 }),
@@ -123,6 +188,12 @@ test.describe('Visual Tests', () => {
     
     // Small delay to ensure layout is stable
     await page.waitForTimeout(500);
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -134,7 +205,8 @@ test.describe('Visual Tests', () => {
       timeout: 30000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 900
     });
   });
 
@@ -142,12 +214,29 @@ test.describe('Visual Tests', () => {
     // Set viewport size
     await page.setViewportSize({ width: 320, height: 568 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=components-header--default&viewMode=story');
     
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.header', { timeout: 30000 });
+    
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -159,7 +248,8 @@ test.describe('Visual Tests', () => {
       timeout: 30000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 568
     });
   });
 
@@ -167,12 +257,29 @@ test.describe('Visual Tests', () => {
     // Set viewport size
     await page.setViewportSize({ width: 768, height: 1024 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=components-header--default&viewMode=story');
     
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.header', { timeout: 30000 });
+    
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -184,7 +291,8 @@ test.describe('Visual Tests', () => {
       timeout: 30000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 1024
     });
   });
 
@@ -192,12 +300,29 @@ test.describe('Visual Tests', () => {
     // Set viewport size
     await page.setViewportSize({ width: 1024, height: 768 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=components-header--default&viewMode=story');
     
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.header', { timeout: 30000 });
+    
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -209,7 +334,8 @@ test.describe('Visual Tests', () => {
       timeout: 30000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 768
     });
   });
 
@@ -217,12 +343,29 @@ test.describe('Visual Tests', () => {
     // Set viewport size
     await page.setViewportSize({ width: 1440, height: 900 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=components-header--default&viewMode=story');
     
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.header', { timeout: 30000 });
+    
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -234,7 +377,8 @@ test.describe('Visual Tests', () => {
       timeout: 30000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 900
     });
   });
 
@@ -242,12 +386,29 @@ test.describe('Visual Tests', () => {
     // Set viewport size
     await page.setViewportSize({ width: 320, height: 568 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=components-footer--primary&viewMode=story');
     
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.footer', { timeout: 30000 });
+    
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -259,7 +420,8 @@ test.describe('Visual Tests', () => {
       timeout: 30000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 568
     });
   });
 
@@ -267,12 +429,29 @@ test.describe('Visual Tests', () => {
     // Set viewport size
     await page.setViewportSize({ width: 768, height: 1024 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=components-footer--primary&viewMode=story');
     
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.footer', { timeout: 30000 });
+    
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -284,7 +463,8 @@ test.describe('Visual Tests', () => {
       timeout: 30000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 1024
     });
   });
 
@@ -292,12 +472,29 @@ test.describe('Visual Tests', () => {
     // Set viewport size
     await page.setViewportSize({ width: 1024, height: 768 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=components-footer--primary&viewMode=story');
     
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.footer', { timeout: 30000 });
+    
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -309,7 +506,8 @@ test.describe('Visual Tests', () => {
       timeout: 30000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 768
     });
   });
 
@@ -317,12 +515,29 @@ test.describe('Visual Tests', () => {
     // Set viewport size
     await page.setViewportSize({ width: 1440, height: 900 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=components-footer--primary&viewMode=story');
     
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.footer', { timeout: 30000 });
+    
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -334,7 +549,8 @@ test.describe('Visual Tests', () => {
       timeout: 30000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 900
     });
   });
 
@@ -342,12 +558,29 @@ test.describe('Visual Tests', () => {
     // Set viewport size
     await page.setViewportSize({ width: 320, height: 568 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=components-cardgroup--primary&viewMode=story');
     
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.cardgroup', { timeout: 30000 });
+    
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -359,7 +592,8 @@ test.describe('Visual Tests', () => {
       timeout: 30000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 568
     });
   });
 
@@ -367,12 +601,29 @@ test.describe('Visual Tests', () => {
     // Set viewport size
     await page.setViewportSize({ width: 768, height: 1024 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=components-cardgroup--primary&viewMode=story');
     
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.cardgroup', { timeout: 30000 });
+    
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -384,7 +635,8 @@ test.describe('Visual Tests', () => {
       timeout: 30000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 1024
     });
   });
 
@@ -392,12 +644,29 @@ test.describe('Visual Tests', () => {
     // Set viewport size
     await page.setViewportSize({ width: 1024, height: 768 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=components-cardgroup--primary&viewMode=story');
     
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.cardgroup', { timeout: 30000 });
+    
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -409,7 +678,8 @@ test.describe('Visual Tests', () => {
       timeout: 30000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 768
     });
   });
 
@@ -417,12 +687,29 @@ test.describe('Visual Tests', () => {
     // Set viewport size
     await page.setViewportSize({ width: 1440, height: 900 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=components-cardgroup--primary&viewMode=story');
     
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.cardgroup', { timeout: 30000 });
+    
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -434,7 +721,8 @@ test.describe('Visual Tests', () => {
       timeout: 30000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 900
     });
   });
 
@@ -442,12 +730,29 @@ test.describe('Visual Tests', () => {
     // Set viewport size
     await page.setViewportSize({ width: 320, height: 568 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=components-cardgroup--secondary&viewMode=story');
     
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.cardgroup', { timeout: 30000 });
+    
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -459,7 +764,8 @@ test.describe('Visual Tests', () => {
       timeout: 30000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 568
     });
   });
 
@@ -467,12 +773,29 @@ test.describe('Visual Tests', () => {
     // Set viewport size
     await page.setViewportSize({ width: 768, height: 1024 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=components-cardgroup--secondary&viewMode=story');
     
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.cardgroup', { timeout: 30000 });
+    
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -484,7 +807,8 @@ test.describe('Visual Tests', () => {
       timeout: 30000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 1024
     });
   });
 
@@ -492,12 +816,29 @@ test.describe('Visual Tests', () => {
     // Set viewport size
     await page.setViewportSize({ width: 1024, height: 768 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=components-cardgroup--secondary&viewMode=story');
     
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.cardgroup', { timeout: 30000 });
+    
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -509,7 +850,8 @@ test.describe('Visual Tests', () => {
       timeout: 30000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 768
     });
   });
 
@@ -517,12 +859,29 @@ test.describe('Visual Tests', () => {
     // Set viewport size
     await page.setViewportSize({ width: 1440, height: 900 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=components-cardgroup--secondary&viewMode=story');
     
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.cardgroup', { timeout: 30000 });
+    
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -534,7 +893,8 @@ test.describe('Visual Tests', () => {
       timeout: 30000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 900
     });
   });
 
@@ -542,12 +902,29 @@ test.describe('Visual Tests', () => {
     // Set viewport size
     await page.setViewportSize({ width: 320, height: 568 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=components-breadcrumb--breadcrumb&viewMode=story');
     
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.breadcrumb', { timeout: 30000 });
+    
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -559,7 +936,8 @@ test.describe('Visual Tests', () => {
       timeout: 30000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 568
     });
   });
 
@@ -567,12 +945,29 @@ test.describe('Visual Tests', () => {
     // Set viewport size
     await page.setViewportSize({ width: 768, height: 1024 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=components-breadcrumb--breadcrumb&viewMode=story');
     
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.breadcrumb', { timeout: 30000 });
+    
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -584,7 +979,8 @@ test.describe('Visual Tests', () => {
       timeout: 30000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 1024
     });
   });
 
@@ -592,12 +988,29 @@ test.describe('Visual Tests', () => {
     // Set viewport size
     await page.setViewportSize({ width: 1024, height: 768 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=components-breadcrumb--breadcrumb&viewMode=story');
     
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.breadcrumb', { timeout: 30000 });
+    
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -609,7 +1022,8 @@ test.describe('Visual Tests', () => {
       timeout: 30000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 768
     });
   });
 
@@ -617,12 +1031,29 @@ test.describe('Visual Tests', () => {
     // Set viewport size
     await page.setViewportSize({ width: 1440, height: 900 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=components-breadcrumb--breadcrumb&viewMode=story');
     
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.breadcrumb', { timeout: 30000 });
+    
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -634,7 +1065,8 @@ test.describe('Visual Tests', () => {
       timeout: 30000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 900
     });
   });
 
@@ -642,9 +1074,20 @@ test.describe('Visual Tests', () => {
     // Set viewport size
     await page.setViewportSize({ width: 320, height: 568 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=pages-home--primary&viewMode=story');
     
+
     // Wait for key child components to be rendered
     await Promise.all([
       page.waitForSelector('.header', { timeout: 60000 }),
@@ -653,6 +1096,13 @@ test.describe('Visual Tests', () => {
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.home', { timeout: 60000 });
+    
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -664,7 +1114,8 @@ test.describe('Visual Tests', () => {
       timeout: 60000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 568
     });
   });
 
@@ -672,9 +1123,20 @@ test.describe('Visual Tests', () => {
     // Set viewport size
     await page.setViewportSize({ width: 768, height: 1024 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=pages-home--primary&viewMode=story');
     
+
     // Wait for key child components to be rendered
     await Promise.all([
       page.waitForSelector('.header', { timeout: 60000 }),
@@ -683,6 +1145,13 @@ test.describe('Visual Tests', () => {
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.home', { timeout: 60000 });
+    
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -694,7 +1163,8 @@ test.describe('Visual Tests', () => {
       timeout: 60000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 1024
     });
   });
 
@@ -702,9 +1172,20 @@ test.describe('Visual Tests', () => {
     // Set viewport size
     await page.setViewportSize({ width: 1024, height: 768 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=pages-home--primary&viewMode=story');
     
+
     // Wait for key child components to be rendered
     await Promise.all([
       page.waitForSelector('.header', { timeout: 60000 }),
@@ -713,6 +1194,13 @@ test.describe('Visual Tests', () => {
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.home', { timeout: 60000 });
+    
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -724,7 +1212,8 @@ test.describe('Visual Tests', () => {
       timeout: 60000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 768
     });
   });
 
@@ -732,9 +1221,20 @@ test.describe('Visual Tests', () => {
     // Set viewport size
     await page.setViewportSize({ width: 1440, height: 900 });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('/iframe.html?id=pages-home--primary&viewMode=story');
     
+
     // Wait for key child components to be rendered
     await Promise.all([
       page.waitForSelector('.header', { timeout: 60000 }),
@@ -743,6 +1243,13 @@ test.describe('Visual Tests', () => {
     
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.home', { timeout: 60000 });
+    
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -754,7 +1261,8 @@ test.describe('Visual Tests', () => {
       timeout: 60000,
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > 900
     });
   });
 });
