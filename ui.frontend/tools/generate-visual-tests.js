@@ -139,9 +139,20 @@ function generateTestSpec(stories) {
     // Set viewport size
     await page.setViewportSize({ width: ${viewport.width}, height: ${viewport.height} });
     
+    const boundingBox = await page.evaluate(() => {
+      const body = document.body;
+      const html = document.documentElement;
+
+      const width = Math.max(body.scrollWidth, body.clientWidth);
+      const height = Math.max(body.scrollHeight, body.clientHeight);
+
+      return { x: 0, y: 0, width, height };
+    });
+
     // Navigate to the story
     await page.goto('${storyUrl}');
     ${isPage ? `
+
     // Wait for key child components to be rendered
     await Promise.all([
       page.waitForSelector('.header', { timeout: ${timeout} }),
@@ -149,7 +160,14 @@ function generateTestSpec(stories) {
     ]);` : ''}
     
     // Wait for the component to be fully rendered
-    const component = await page.waitForSelector('.${story.className}', { timeout: ${timeout} });${imageWaitCode}
+    const component = await page.waitForSelector('.${story.className}', { timeout: ${timeout} });
+    ${imageWaitCode}
+
+    await component.scrollIntoViewIfNeeded();
+    await page.evaluate(el => {
+      el.style.overflow = 'visible';
+      el.style.maxHeight = 'none';
+    }, component);
     
     // Get the bounding box of the component
     const box = await component.boundingBox();
@@ -161,7 +179,8 @@ function generateTestSpec(stories) {
       timeout: ${timeout},
       maxDiffPixels: 500,
       threshold: 0.4,
-      animations: 'disabled'
+      animations: 'disabled',
+      fullPage: box.height > ${viewport.height}
     });
   });`;
     }).join('\n');
@@ -172,7 +191,7 @@ function generateTestSpec(stories) {
   return `${imports}test.describe('Visual Tests', () => {
   test.beforeEach(async ({ page }) => {
     // Set default viewport size
-    await page.setViewportSize({ width: 1280, height: 720 });
+    await page.setViewportSize({ width: 1280, height: 2000 });
   });
 ${testContent}\n});`;
 }
