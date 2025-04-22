@@ -17,7 +17,7 @@ import { VIEWPORTS } from '../tests/config/viewports';
 // Import addons
 import { addons } from '@storybook/manager-api';
 import { themes } from '@storybook/theming';
-import './addons/visual-overlay/dist/index';
+import './addons/visual-overlay/dist/index.js';
 
 // Initialize addons
 addons.setConfig({
