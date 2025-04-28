@@ -14,7 +14,8 @@ if(!VIEWPORTS)  {
 
 // Function to extract story ID from the file path
 function getStoryId(filePath) {
-  const match = filePath.match(/([^/]+)\.stories\.(js|jsx|ts|tsx)$/);
+  const fileName = path.basename(filePath);
+  const match = fileName.match(/^([^.]+)\.stories\.(js|jsx|ts|tsx)$/);
   if (!match) return null;
   return match[1];
 }
@@ -42,7 +43,7 @@ function getComponentClassName(templatePath) {
 
 // Function to check if a component is in core-components
 function isCoreComponent(filePath) {
-  return filePath.includes('/core-components/');
+  return filePath.includes(path.join('core-components'));
 }
 
 
@@ -102,7 +103,7 @@ function generateTestSpec(stories) {
     const screenshotName = `${story.componentId}-${story.storyName}${variationSuffix}.png`;
     
     // Determine if this is a page component
-    const isPage = story.filePath.includes('/pages/');
+    const isPage = story.filePath.includes(path.join('pages'));
     
     // Adjust the story URL based on component type
     let storyUrl;
@@ -199,9 +200,9 @@ ${testContent}\n});`;
 async function generateVisualTests() {
   // Find all story files in components, core-components, and pages directories
   const storyFiles = [
-    ...glob.sync('src/main/webpack/components/**/doc/*.stories.{js,jsx,ts,tsx}'),
-    ...glob.sync('src/main/webpack/core-components/**/doc/*.stories.{js,jsx,ts,tsx}'),
-    ...glob.sync('src/main/webpack/pages/**/doc/*.stories.{js,jsx,ts,tsx}')
+    ...glob.sync(path.join('src', 'main', 'webpack', 'components', '**', 'doc', '*.stories.{js,jsx,ts,tsx}')),
+    ...glob.sync(path.join('src', 'main', 'webpack', 'core-components', '**', 'doc', '*.stories.{js,jsx,ts,tsx}')),
+    ...glob.sync(path.join('src', 'main', 'webpack', 'pages', '**', 'doc', '*.stories.{js,jsx,ts,tsx}'))
   ];
   
   console.log('Found story files:', storyFiles);
