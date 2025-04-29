@@ -199,10 +199,15 @@ ${testContent}\n});`;
 
 async function generateVisualTests() {
   // Find all story files in components, core-components, and pages directories
+  const globOptions = {
+    windowsPathsNoEscape: true,
+    absolute: false
+  };
+
   const storyFiles = [
-    ...glob.sync(path.join('src', 'main', 'webpack', 'components', '**', 'doc', '*.stories.{js,jsx,ts,tsx}')),
-    ...glob.sync(path.join('src', 'main', 'webpack', 'core-components', '**', 'doc', '*.stories.{js,jsx,ts,tsx}')),
-    ...glob.sync(path.join('src', 'main', 'webpack', 'pages', '**', 'doc', '*.stories.{js,jsx,ts,tsx}'))
+    ...glob.sync('src/main/webpack/components/**/doc/*.stories.{js,jsx,ts,tsx}', globOptions),
+    ...glob.sync('src/main/webpack/core-components/**/doc/*.stories.{js,jsx,ts,tsx}', globOptions),
+    ...glob.sync('src/main/webpack/pages/**/doc/*.stories.{js,jsx,ts,tsx}', globOptions)
   ];
   
   console.log('Found story files:', storyFiles);
