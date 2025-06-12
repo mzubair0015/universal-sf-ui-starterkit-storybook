@@ -143,7 +143,6 @@ function generateTestSpec(stories) {
     });
  
     // Navigate to the story
-    console.log('Navigating to story URL:', 'http://localhost:6006${storyUrl}');
     await page.goto('${storyUrl}');
     ${isPage ? `
  
