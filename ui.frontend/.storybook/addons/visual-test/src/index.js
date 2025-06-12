@@ -4,6 +4,12 @@ import React, { useState, useEffect } from 'react';
 const ADDON_ID = 'visual-test';
 const PANEL_ID = `${ADDON_ID}/panel`;
 
+function splitByLastDash(str) {
+  const lastDash = str.lastIndexOf('-');
+  if (lastDash === -1) return [str, ''];
+  return [str.substring(0, lastDash).trim(), str.substring(lastDash + 1).trim()];
+}
+
 // Helper function to extract story name from URL
 const getStoryInfo = () => {
   // Get the path from the URL query parameters
@@ -25,7 +31,7 @@ const getStoryInfo = () => {
   if (componentName && storyName) {
     console.log('Extracted component:', componentName, 'story:', storyName);
     return {
-      component: componentName.split('-')[1],
+      component: splitByLastDash(componentName)[1],
       story: storyName
     };
   }
