@@ -109,12 +109,6 @@ function generateTestSpec(stories) {
       storyUrl = `/iframe.html?id=components-${story.componentId}--${story.capitalizedStoryName}&viewMode=story`;
     }
 
-    const location = {
-      compID: story.componentId,
-      storyName: story.storyName,
-      url:`http://localhost:6006${storyUrl}`
-    };
-    console.log(location);
     // Set longer timeout for pages and components with child components
     const timeout = isPage ? 60000 : 30000;
  
@@ -199,9 +193,9 @@ async function generateVisualTests() {
     absolute: false
   };
   const storyFiles = [
-    ...glob.sync('src/main/webpack/components/**/docs/*.stories.{js,jsx,ts,tsx}', globOptions),
-    ...glob.sync('src/main/webpack/core-components/**/docs/*.stories.{js,jsx,ts,tsx}', globOptions),
-    ...glob.sync('src/main/webpack/pages/**/docs/*.stories.{js,jsx,ts,tsx}', globOptions)
+    ...glob.sync('src/main/webpack/components/**/doc/*.stories.{js,jsx,ts,tsx}', globOptions),
+    ...glob.sync('src/main/webpack/core-components/**/doc/*.stories.{js,jsx,ts,tsx}', globOptions),
+    ...glob.sync('src/main/webpack/pages/**/doc/*.stories.{js,jsx,ts,tsx}', globOptions)
   ];
   // console.log('Found story files:', storyFiles);
   // Find stories with 'visual' tag
