@@ -34,7 +34,7 @@ function getStoryVariation(content, storyName) {
 function getComponentClassName(templatePath) {
   const content = fs.readFileSync(templatePath, 'utf8');
   const classMatch = content.match(/class="([^"]+)"/);
-  if (!classMatch) return null;
+  if (!classMatch) { return null; }
   // Remove Handlebars template syntax and get the first class name
   const className = classMatch[1]
     .split(/{{[^}]+}}/)
@@ -47,6 +47,17 @@ function getComponentClassName(templatePath) {
 function isCoreComponent(filePath) {
   return filePath.includes(path.join('core-components'));
 }
+// Function to check if a story has excludeTest parameter for a stories tag
+function hasExcludeTestInStoryContent(content, tag) {
+  // Regex to match the tags array in parameters
+  const tagsMatch = content.match(/excludeTest\s*:\s*\[([^\]]*)\]/);
+  if (!tagsMatch) { return false; }
+
+  // Extract the array content and split by comma
+  const tagsArray = tagsMatch[1].split(',').map(s => s.replace(/['"`]/g, '').trim());
+
+  return tagsArray.includes(tag);
+}
 
 function findVisualStories(filePath) {
   const content = fs.readFileSync(filePath, 'utf8');
@@ -56,7 +67,6 @@ function findVisualStories(filePath) {
   let match;
   while ((match = storyRegex.exec(content)) !== null) {
     const storyName = match[1].toLowerCase();
-    const capitalizedStoryName = match[1].replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
     let componentId = getStoryId(filePath);
     const variation = getStoryVariation(content, match[1]);
     if (componentId) {
@@ -78,14 +88,15 @@ function findVisualStories(filePath) {
         }
       }
       const className = templatePath ? getComponentClassName(templatePath) : componentId;
+      const excludeMobile = hasExcludeTestInStoryContent(content, 'mobile');
       stories.push({
         componentId,
         storyName,
-        capitalizedStoryName,
         variation,
         filePath,
         className,
         isCoreComponent: isCoreComponent(filePath),
+        excludeMobile,
       });
     }
   }
@@ -96,22 +107,19 @@ function generateTestSpec(stories) {
   const imports = `import { test, expect } from '@playwright/test';\n\n`;
   const testContent = stories
     .map(story => {
+      story.componentId = story.componentId.replace(/-/g, '');
       const variationSuffix = story.variation ? `-${story.variation}` : '';
       const testName = `${story.componentId} - ${story.storyName}${variationSuffix} visual test`;
-      const screenshotName = `${story.componentId}-${story.storyName}${variationSuffix}.png`;
       // Determine if this is a page component
       const isPage = story.filePath.includes(path.join('pages'));
 
-      // remove '-' from storyName for URL
-      // story.storyName = story.storyName.replace(/([a-z])([A-Z])/g, '$1-$2');
-      story.componentId = story.componentId.replace(/-/g, '');
       let storyUrl;
       if (isPage) {
-        storyUrl = `/iframe.html?id=pages-${story.componentId}--${story.capitalizedStoryName}&viewMode=story`;
+        storyUrl = `/iframe.html?id=pages-${story.componentId}--${story.storyName}&viewMode=story`;
       } else if (story.isCoreComponent) {
-        storyUrl = `/iframe.html?id=core-components-${story.componentId}--${story.capitalizedStoryName}&viewMode=story`;
+        storyUrl = `/iframe.html?id=core-components-${story.componentId}--${story.storyName}&viewMode=story`;
       } else {
-        storyUrl = `/iframe.html?id=components-${story.componentId}--${story.capitalizedStoryName}&viewMode=story`;
+        storyUrl = `/iframe.html?id=components-${story.componentId}--${story.storyName}&viewMode=story`;
       }
 
       // Set longer timeout for pages and components with child components
@@ -119,6 +127,10 @@ function generateTestSpec(stories) {
 
       // Generate tests for each viewport
       const viewportTests = VIEWPORTS.map(viewport => {
+        if (story.excludeMobile && viewport.name === 'mobile') {
+          return '';
+        }
+
         // Add extra delay for tablet viewport due to layout transitions
         const layoutStabilityDelay = viewport.name === 'tablet' ? 1000 : 500;
 
