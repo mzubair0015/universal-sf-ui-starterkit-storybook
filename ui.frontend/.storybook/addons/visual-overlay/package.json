@@ -1,0 +1,28 @@
+{
+    "name":"storybook-visual-overlay",
+    "version":"1.0.0","description":"A visual overlay toolbar addon for Storybook",
+    "main":"dist/index.js",
+    "storybook":{
+        "displayName":"Visual Overlay",
+        "supportedFrameworks":["html","react"],
+        "icon":"https://storybook.js.org/images/placeholders/96x96.png"
+    },
+    "scripts":{
+        "build":"babel src -d dist",
+        "prepare":"npm run build",
+        "start":"npm run build"
+    },
+    "dependencies":{
+        "@storybook/manager-api":"^8.0.0",
+        "history":"^5.3.0",
+        "react":"^18.2.0",
+        "react-router":"^7.5.0"
+    },
+    "devDependencies":{
+        "@babel/cli":"^7.0.0",
+        "@babel/core":"^7.0.0",
+        "@babel/preset-env":"^7.0.0",
+        "@babel/preset-react":"^7.0.0",
+        "nodemon":"^3.1.9"
+    }
+}

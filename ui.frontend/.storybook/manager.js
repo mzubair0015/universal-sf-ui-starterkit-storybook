@@ -9,8 +9,10 @@
   governing permissions and limitations under the License.
 */
 
-import { addons } from '@storybook/addons';
+import { addons } from '@storybook/manager-api';
 import theme from './theme.js';
+import './addons/visual-test/dist/index.js';
+import './addons/visual-overlay/dist/index.js';
 
 addons.setConfig({
   sidebar: {

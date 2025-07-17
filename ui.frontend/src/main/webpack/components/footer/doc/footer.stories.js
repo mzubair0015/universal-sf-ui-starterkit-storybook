@@ -17,7 +17,7 @@ export default {
         code: `${JSON.stringify(footerJSON)}`,
       },
     },
-  },
+  }
 };
 
 const Template = ({ ...args }) => Footer(args);
@@ -29,6 +29,7 @@ Primary.parameters = {
       code: `${JSON.stringify(footerJSON, null, " ")}`,
     },
   },
+  tags: ['visual']
 };
 
 // export const Primary = (args, { loaded }) => `${JSON.stringify(loaded, null, 1)} ${Object.keys(loaded).map((key) => loaded[key] )}`;

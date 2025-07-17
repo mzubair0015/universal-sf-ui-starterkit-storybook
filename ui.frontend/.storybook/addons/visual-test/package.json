@@ -1,0 +1,26 @@
+{
+  "name": "storybook-visual-test-addon",
+  "version": "1.0.0",
+  "description": "A simple visual testing addon for Storybook",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "prepare": "npm run build",
+    "start-server": "node dist/server.js"
+  },
+  "dependencies": {
+    "@storybook/manager-api": "^8.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "react": "^18.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^10.0.0",
+    "webpack": "^5.99.6",
+    "webpack-cli": "^6.0.1"
+  }
+}

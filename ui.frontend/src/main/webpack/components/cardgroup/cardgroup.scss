@@ -2,6 +2,7 @@
 .cardgroup {
     .teaser {
         padding: 10px;
+        background-color: green;
     }
 
     @include media('>=tablet') {

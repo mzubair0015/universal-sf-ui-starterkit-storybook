@@ -12,7 +12,164 @@
 * Run `npm run eslint` - Runs the ESLint script to analyze and identify issues in JavaScript code.
 * Run `npm run stylelint` - Runs the Stylelint script to analyze and identify issues in CSS or SCSS code.
 * Run `npm run prettier` - Runs the prettier script to beautify all the project JavaScript and SCSS files.
- 
+
+---
+
+## React Component Development Guidelines
+
+### Component Structure
+1. React components are located in `ui.frontend/src/main/webpack/components/`
+2. Each component should have the following structure:
+   ```
+   component-name/
+   ├── component-name.jsx      # Main React component
+   ├── component-name.js       # Component initialization and mounting
+   ├── component-name.hbs      # Handlebar template
+   ├── component-name.scss     # Component styles (if needed)
+   └── component-name.stories.jsx  # Storybook stories
+   ```
+
+### Component Implementation
+1. **React Component (JSX)**
+   - Create functional components using JSX
+   - Use props for data passing
+   - Keep components focused and single-responsibility
+   ```jsx
+   import React from "react";
+
+   export default function MyComponent({ prop1, prop2 }) {
+     return (
+       <div className="my-component">
+         {/* Component content */}
+       </div>
+     );
+   }
+   ```
+
+2. **Component Initialization (JS)**
+   - Handle component mounting and initialization
+   - Parse data attributes from the DOM
+   - Use React 18's createRoot for rendering
+   ```js
+   import React from "react";
+   import { createRoot } from "react-dom/client";
+   import MyComponent from "./MyComponent.jsx";
+
+   export default class {
+     static init(el) {
+       const props = JSON.parse(JSON.stringify(el.dataset));
+       createRoot(el).render(<MyComponent {...props} />);
+     }
+   }
+   ```
+
+3. **Handlebar Template (HBS)**
+   - Define the component's HTML structure
+   - Use data attributes for props
+   ```handlebars
+   <div data-component="my-component" data-prop1="value1" data-prop2="value2"></div>
+   ```
+
+### Best Practices
+1. **Props and Data**
+   - Use data attributes in HBS templates for props
+   - Keep prop names consistent between JSX and HBS
+   - Document required and optional props
+   - Use TypeScript interfaces for prop types when possible
+
+2. **Styling**
+   - Use SCSS for component styles
+   - Follow BEM naming convention
+   - Keep styles scoped to the component
+   - Use CSS variables for theming
+
+3. **Accessibility**
+   - Include proper ARIA attributes
+   - Ensure keyboard navigation
+   - Use semantic HTML elements
+   - Test with screen readers
+
+4. **Performance**
+   - Use React.memo for pure components
+   - Implement proper useEffect cleanup
+   - Avoid unnecessary re-renders
+   - Use useCallback and useMemo appropriately
+
+### Storybook Integration
+1. Create stories for each component
+2. Document component usage and props
+3. Show different variants and states
+4. Include accessibility information
+```jsx
+import MyComponent from './MyComponent.jsx';
+
+export default {
+  title: 'Components/MyComponent',
+  component: MyComponent,
+};
+
+const Template = (args) => <MyComponent {...args} />;
+
+export const Default = Template.bind({});
+Default.args = {
+  prop1: 'value1',
+  prop2: 'value2'
+};
+```
+
+### Testing
+1. Test component initialization
+2. Test prop handling
+3. Include accessibility tests
+4. Use visual regression testing (as configured in the project)
+
+---
+
+### Visual Testing
+* Run `npm run test:visual` - Runs visual regression tests using Playwright.
+* Run `npm run test:visual:update` - Updates visual test snapshots to match current component states.
+* Run `npm run test:visual:report` - Opens the latest visual test report in your browser.
+* Run `npm run test:visual:ui` - Opens Playwright's UI mode for interactive test debugging.
+* Run `npm run test:visual:generate` - Generates visual test files for all stories.
+* Run `npm run test:visual:story "ComponentName"` - Runs visual tests for a specific story (use with -g flag).
+* Run `npm run test:visual:story:update  "ComponentName"` - Updates snapshots for a specific story (use with -g flag).
+
+Examples for story-specific testing:
+```bash
+# Test a specific component
+npm run test:visual:story "header"
+
+# Update snapshots for a component variation
+npm run test:visual:story:update "header"
+```
+
+To include a story in visual testing, add the `visual-test` tag to your story's parameters:
+```javascript
+export default {
+  title: 'Components/MyComponent',
+  parameters: {
+    tags: ['visual-test']
+  }
+};
+```
+
+The project includes a pre-commit hook that automatically runs visual tests before each commit:
+* The hook will attempt to run the tests up to 2 times if they fail
+* If tests fail after both attempts, the commit will be blocked
+* A 2-second delay is added between retry attempts
+* The hook runs in the `ui.frontend` directory automatically
+
+To skip visual tests during commits, create a `.env` file in the `ui.frontend` directory with:
+```
+VISUAL_TEST=false
+```
+
+### Component Generation
+Use the plop generator to create new components:
+```bash
+npm run plop
+```
+This will create the necessary files with the correct structure and boilerplate code.
 
 ## FAQ
 1. Server not starting with some error.
@@ -28,3 +185,19 @@
 2. `npm audit` throws vulnerabilities issues.
 * Open package.json and add `"trim-newlines": "4.0.2"` under `overrides`.
 * Reinstall the node packages (Note this may stop stylelint actions).
+
+3. Visual tests failing with "browserType.launch: Executable doesn't exist" error.
+* This error occurs when Playwright browsers are not installed. Run the following commands:
+```bash
+cd ui.frontend
+npx playwright install
+```
+* If you're still seeing the error, try removing the Playwright browser cache and reinstalling:
+```bash
+# Remove Playwright browser cache
+rm -rf ~/.cache/ms-playwright    # For Mac/Linux
+rd /s /q %USERPROFILE%\.cache\ms-playwright    # For Windows
+
+# Reinstall browsers
+npx playwright install
+```
