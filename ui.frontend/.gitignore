@@ -6,7 +6,8 @@ storybook-static
 .DS_Store
 logs
 .vscode
+.env
+../ui.apps/
 test-results/
 playwriright-report/
 
-../ui.apps/
