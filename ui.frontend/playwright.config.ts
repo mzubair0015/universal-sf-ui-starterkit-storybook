@@ -16,6 +16,7 @@ export default defineConfig({
       size: { width: 1280, height: 720 }
     }
   },
+  snapshotPathTemplate: '{testDir}/{testFileDir}/{testFileName}-snapshots/{arg}{ext}',
   projects: [
     {
       name: 'chromium',

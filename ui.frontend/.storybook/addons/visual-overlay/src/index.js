@@ -259,7 +259,7 @@ const OverlayIcon = () => {
           // Add source elements for each viewport
           viewports.forEach((viewport, index) => {
             const source = document.createElement('source');
-            const imageName = `${storyInfo.component}-${storyInfo.story}-${viewport.name}-chromium-darwin.png`;
+            const imageName = `${storyInfo.component}-${storyInfo.story}-${viewport.name}.png`;
             const imagePath = `/visual.spec.ts-snapshots/${imageName}`;
             
             if (index === 0) {
@@ -276,7 +276,7 @@ const OverlayIcon = () => {
 
           // Add fallback img element
           const img = document.createElement('img');
-          const fallbackImageName = `${storyInfo.component}-${storyInfo.story}-mobile-chromium-darwin.png`;
+          const fallbackImageName = `${storyInfo.component}-${storyInfo.story}-mobile.png`;
           const fallbackImagePath = `/visual.spec.ts-snapshots/${fallbackImageName}`;
           img.src = fallbackImagePath;
           img.style.cssText = `
