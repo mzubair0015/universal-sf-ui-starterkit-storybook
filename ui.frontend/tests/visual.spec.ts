@@ -25,11 +25,83 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.profile', { timeout: 30000 });
     
-    // Wait for images to load
-    await Promise.all([
-      page.waitForSelector('.profile__image img', { timeout: 30000 }),
-      page.waitForSelector('.profile__social img', { timeout: 30000 })
-    ]);
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.profile');
+    
     // Small delay to ensure layout is stable
     await page.waitForTimeout(500);
  
@@ -71,11 +143,83 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.profile', { timeout: 30000 });
     
-    // Wait for images to load
-    await Promise.all([
-      page.waitForSelector('.profile__image img', { timeout: 30000 }),
-      page.waitForSelector('.profile__social img', { timeout: 30000 })
-    ]);
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.profile');
+    
     // Small delay to ensure layout is stable after breakpoint transition
     await page.waitForTimeout(1000);
  
@@ -117,11 +261,83 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.profile', { timeout: 30000 });
     
-    // Wait for images to load
-    await Promise.all([
-      page.waitForSelector('.profile__image img', { timeout: 30000 }),
-      page.waitForSelector('.profile__social img', { timeout: 30000 })
-    ]);
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.profile');
+    
     // Small delay to ensure layout is stable
     await page.waitForTimeout(500);
  
@@ -163,11 +379,83 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.profile', { timeout: 30000 });
     
-    // Wait for images to load
-    await Promise.all([
-      page.waitForSelector('.profile__image img', { timeout: 30000 }),
-      page.waitForSelector('.profile__social img', { timeout: 30000 })
-    ]);
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.profile');
+    
     // Small delay to ensure layout is stable
     await page.waitForTimeout(500);
  
@@ -209,6 +497,85 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.header', { timeout: 30000 });
     
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.header');
+    
+    // Small delay to ensure layout is stable
+    await page.waitForTimeout(500);
  
     await component.scrollIntoViewIfNeeded();
     await page.evaluate(el => {
@@ -248,6 +615,85 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.header', { timeout: 30000 });
     
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.header');
+    
+    // Small delay to ensure layout is stable after breakpoint transition
+    await page.waitForTimeout(1000);
  
     await component.scrollIntoViewIfNeeded();
     await page.evaluate(el => {
@@ -287,6 +733,85 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.header', { timeout: 30000 });
     
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.header');
+    
+    // Small delay to ensure layout is stable
+    await page.waitForTimeout(500);
  
     await component.scrollIntoViewIfNeeded();
     await page.evaluate(el => {
@@ -326,6 +851,85 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.header', { timeout: 30000 });
     
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.header');
+    
+    // Small delay to ensure layout is stable
+    await page.waitForTimeout(500);
  
     await component.scrollIntoViewIfNeeded();
     await page.evaluate(el => {
@@ -365,6 +969,85 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.footer', { timeout: 30000 });
     
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.footer');
+    
+    // Small delay to ensure layout is stable
+    await page.waitForTimeout(500);
  
     await component.scrollIntoViewIfNeeded();
     await page.evaluate(el => {
@@ -404,6 +1087,85 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.footer', { timeout: 30000 });
     
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.footer');
+    
+    // Small delay to ensure layout is stable after breakpoint transition
+    await page.waitForTimeout(1000);
  
     await component.scrollIntoViewIfNeeded();
     await page.evaluate(el => {
@@ -443,6 +1205,85 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.footer', { timeout: 30000 });
     
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.footer');
+    
+    // Small delay to ensure layout is stable
+    await page.waitForTimeout(500);
  
     await component.scrollIntoViewIfNeeded();
     await page.evaluate(el => {
@@ -482,6 +1323,85 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.footer', { timeout: 30000 });
     
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.footer');
+    
+    // Small delay to ensure layout is stable
+    await page.waitForTimeout(500);
  
     await component.scrollIntoViewIfNeeded();
     await page.evaluate(el => {
@@ -521,6 +1441,85 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.cardgroup', { timeout: 30000 });
     
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.cardgroup');
+    
+    // Small delay to ensure layout is stable
+    await page.waitForTimeout(500);
  
     await component.scrollIntoViewIfNeeded();
     await page.evaluate(el => {
@@ -560,6 +1559,85 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.cardgroup', { timeout: 30000 });
     
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.cardgroup');
+    
+    // Small delay to ensure layout is stable after breakpoint transition
+    await page.waitForTimeout(1000);
  
     await component.scrollIntoViewIfNeeded();
     await page.evaluate(el => {
@@ -599,6 +1677,85 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.cardgroup', { timeout: 30000 });
     
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.cardgroup');
+    
+    // Small delay to ensure layout is stable
+    await page.waitForTimeout(500);
  
     await component.scrollIntoViewIfNeeded();
     await page.evaluate(el => {
@@ -638,6 +1795,85 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.cardgroup', { timeout: 30000 });
     
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.cardgroup');
+    
+    // Small delay to ensure layout is stable
+    await page.waitForTimeout(500);
  
     await component.scrollIntoViewIfNeeded();
     await page.evaluate(el => {
@@ -677,6 +1913,85 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.cardgroup', { timeout: 30000 });
     
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.cardgroup');
+    
+    // Small delay to ensure layout is stable
+    await page.waitForTimeout(500);
  
     await component.scrollIntoViewIfNeeded();
     await page.evaluate(el => {
@@ -716,6 +2031,85 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.cardgroup', { timeout: 30000 });
     
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.cardgroup');
+    
+    // Small delay to ensure layout is stable after breakpoint transition
+    await page.waitForTimeout(1000);
  
     await component.scrollIntoViewIfNeeded();
     await page.evaluate(el => {
@@ -755,6 +2149,85 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.cardgroup', { timeout: 30000 });
     
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.cardgroup');
+    
+    // Small delay to ensure layout is stable
+    await page.waitForTimeout(500);
  
     await component.scrollIntoViewIfNeeded();
     await page.evaluate(el => {
@@ -794,6 +2267,85 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.cardgroup', { timeout: 30000 });
     
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.cardgroup');
+    
+    // Small delay to ensure layout is stable
+    await page.waitForTimeout(500);
  
     await component.scrollIntoViewIfNeeded();
     await page.evaluate(el => {
@@ -833,6 +2385,85 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.breadcrumb', { timeout: 30000 });
     
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.breadcrumb');
+    
+    // Small delay to ensure layout is stable
+    await page.waitForTimeout(500);
  
     await component.scrollIntoViewIfNeeded();
     await page.evaluate(el => {
@@ -872,6 +2503,85 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.breadcrumb', { timeout: 30000 });
     
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.breadcrumb');
+    
+    // Small delay to ensure layout is stable after breakpoint transition
+    await page.waitForTimeout(1000);
  
     await component.scrollIntoViewIfNeeded();
     await page.evaluate(el => {
@@ -911,6 +2621,85 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.breadcrumb', { timeout: 30000 });
     
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.breadcrumb');
+    
+    // Small delay to ensure layout is stable
+    await page.waitForTimeout(500);
  
     await component.scrollIntoViewIfNeeded();
     await page.evaluate(el => {
@@ -950,6 +2739,85 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.breadcrumb', { timeout: 30000 });
     
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.breadcrumb');
+    
+    // Small delay to ensure layout is stable
+    await page.waitForTimeout(500);
  
     await component.scrollIntoViewIfNeeded();
     await page.evaluate(el => {
@@ -995,6 +2863,85 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.home', { timeout: 60000 });
     
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.home');
+    
+    // Small delay to ensure layout is stable
+    await page.waitForTimeout(500);
  
     await component.scrollIntoViewIfNeeded();
     await page.evaluate(el => {
@@ -1040,6 +2987,85 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.home', { timeout: 60000 });
     
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.home');
+    
+    // Small delay to ensure layout is stable after breakpoint transition
+    await page.waitForTimeout(1000);
  
     await component.scrollIntoViewIfNeeded();
     await page.evaluate(el => {
@@ -1085,6 +3111,85 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.home', { timeout: 60000 });
     
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.home');
+    
+    // Small delay to ensure layout is stable
+    await page.waitForTimeout(500);
  
     await component.scrollIntoViewIfNeeded();
     await page.evaluate(el => {
@@ -1130,6 +3235,85 @@ test.describe('Visual Tests', () => {
     // Wait for the component to be fully rendered
     const component = await page.waitForSelector('.home', { timeout: 60000 });
     
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.home');
+    
+    // Small delay to ensure layout is stable
+    await page.waitForTimeout(500);
  
     await component.scrollIntoViewIfNeeded();
     await page.evaluate(el => {

@@ -132,7 +132,7 @@ var OverlayIcon = function OverlayIcon() {
 
         // Remove prefixes from component name
         var componentName = componentPath.replace('components-', '').replace('core-components-', '').replace('pages-', '');
-        console.log('Component name after removing prefixes:', componentPath, componentName);
+        console.log('Component name after removing prefixes:', componentName);
         var result = {
           component: componentName,
           story: storyName,
@@ -275,7 +275,7 @@ var OverlayIcon = function OverlayIcon() {
           }); // Add source elements for each viewport
           viewports.forEach(function (viewport, index) {
             var source = document.createElement('source');
-            var imageName = "".concat(storyInfo.component, "-").concat(storyInfo.story, "-").concat(viewport.name, "-chromium-darwin.png");
+            var imageName = "".concat(storyInfo.component, "-").concat(storyInfo.story, "-").concat(viewport.name, ".png");
             var imagePath = "/visual.spec.ts-snapshots/".concat(imageName);
             if (index === 0) {
               // First viewport (largest) - no min-width
@@ -290,7 +290,7 @@ var OverlayIcon = function OverlayIcon() {
 
           // Add fallback img element
           img = document.createElement('img');
-          fallbackImageName = "".concat(storyInfo.component, "-").concat(storyInfo.story, "-mobile-chromium-darwin.png");
+          fallbackImageName = "".concat(storyInfo.component, "-").concat(storyInfo.story, "-mobile.png");
           fallbackImagePath = "/visual.spec.ts-snapshots/".concat(fallbackImageName);
           img.src = fallbackImagePath;
           img.style.cssText = "\n            width: 100%;\n            height: 100%;\n            object-fit: contain;\n            object-position: top;\n          ";

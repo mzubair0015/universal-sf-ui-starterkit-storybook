@@ -1,7 +1,7 @@
-const fs = require('fs');
-const path = require('path');
-const glob = require('glob');
-const { VIEWPORTS } = require('../tests/config/viewports.js');
+import fs from 'fs';
+import path from 'path';
+import glob from 'glob';
+import { VIEWPORTS } from '../tests/config/viewports.js';
 
 if (!VIEWPORTS) {
   VIEWPORTS = [
@@ -134,20 +134,89 @@ function generateTestSpec(stories) {
         // Add extra delay for tablet viewport due to layout transitions
         const layoutStabilityDelay = viewport.name === 'tablet' ? 1000 : 500;
 
-        // Determine if component has images to wait for
-        const hasImages = story.componentId === 'profile';
-        const imageWaitCode = hasImages
-          ? `
-    // Wait for images to load
-    await Promise.all([
-      page.waitForSelector('.${story.componentId}__image img', { timeout: ${timeout} }),
-      page.waitForSelector('.${story.componentId}__social img', { timeout: ${timeout} })
-    ]);
+        // Wait for all images and media content to be loaded before taking screenshot
+        const imageWaitCode = `
+    // Wait for all images, background images, and iframe content within the component to be loaded
+    await page.evaluate(async (componentSelector) => {
+      const component = document.querySelector(componentSelector);
+      if (!component) return;
+      
+      // Wait for regular images
+      const images = component.querySelectorAll('img');
+      const imagePromises = Array.from(images).map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout per image
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            resolve(); // Continue even if some images fail to load
+          };
+        });
+      });
+      
+      // Wait for background images
+      const backgroundImagePromises = Array.from(component.querySelectorAll('*')).map(element => {
+        const style = window.getComputedStyle(element);
+        const backgroundImage = style.backgroundImage;
+        
+        if (backgroundImage && backgroundImage !== 'none') {
+          return new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(), 3000); // 3 second timeout for background images
+            
+            // Create a temporary image to check if background image loads
+            const tempImg = new Image();
+            tempImg.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+            tempImg.onerror = () => {
+              clearTimeout(timeout);
+              resolve(); // Continue even if background image fails to load
+            };
+            
+            // Extract URL from background-image CSS property
+            const urlMatch = backgroundImage.match(/url\\(['"]?([^'"]+)['"]?\\)/);
+            if (urlMatch) {
+              tempImg.src = urlMatch[1];
+            } else {
+              resolve();
+            }
+          });
+        }
+        return Promise.resolve();
+      });
+      
+      // Wait for iframe content to load (if any)
+      const iframes = component.querySelectorAll('iframe');
+      const iframePromises = Array.from(iframes).map(iframe => {
+        return new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(), 5000); // 5 second timeout for iframes
+          
+          if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            iframe.onload = () => {
+              clearTimeout(timeout);
+              resolve();
+            };
+          }
+        });
+      });
+      
+      await Promise.all([...imagePromises, ...backgroundImagePromises, ...iframePromises]);
+    }, '.${story.className}');
+    
     // Small delay to ensure layout is stable${
       viewport.name === 'tablet' ? ' after breakpoint transition' : ''
     }
-    await page.waitForTimeout(${layoutStabilityDelay});`
-          : '';
+    await page.waitForTimeout(${layoutStabilityDelay});`;
 
         return `
   test('${testName} at ${viewport.name} viewport', async ({ page }) => {
