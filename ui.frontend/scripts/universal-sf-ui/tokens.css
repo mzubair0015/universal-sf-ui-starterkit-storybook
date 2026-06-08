@@ -1,0 +1,189 @@
+/**
+ * Universal Storefront UI - Design Tokens
+ * 
+ * Import this file to get all design tokens:
+ * @import '@universal-sf-ui/product/tokens.css';
+ */
+
+:root {
+  /* Colors - Primary */
+  --usf-primary: #3b82f6;
+  --usf-primary-hover: #2563eb;
+  --usf-primary-light: rgb(59 130 246 / 10%);
+  
+  /* Colors - Semantic */
+  --usf-success: #10b981;
+  --usf-warning: #f59e0b;
+  --usf-error: #ef4444;
+  --usf-info: #3b82f6;
+  
+  /* Colors - Neutral */
+  --usf-gray-50: #f9fafb;
+  --usf-gray-100: #f3f4f6;
+  --usf-gray-200: #e5e7eb;
+  --usf-gray-300: #d1d5db;
+  --usf-gray-400: #9ca3af;
+  --usf-gray-500: #6b7280;
+  --usf-gray-600: #4b5563;
+  --usf-gray-700: #374151;
+  --usf-gray-800: #1f2937;
+  --usf-gray-900: #111827;
+  
+  /* Colors - Background */
+  --usf-bg-primary: #fff;
+  --usf-bg-secondary: #f9fafb;
+  --usf-bg-tertiary: #f3f4f6;
+  
+  /* Colors - Text */
+  --usf-text-primary: #111827;
+  --usf-text-secondary: #374151;
+  --usf-text-tertiary: #6b7280;
+  --usf-text-disabled: #9ca3af;
+  --usf-text-inverse: #fff;
+  
+  /* Colors - Border */
+  --usf-border-primary: #e5e7eb;
+  --usf-border-secondary: #d1d5db;
+  --usf-border-focus: #3b82f6;
+  
+  /* Typography - Font Families */
+  --usf-font-family-base: -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, 'Helvetica Neue', arial, sans-serif;
+  --usf-font-family-heading: var(--usf-font-family-base);
+  --usf-font-family-mono: 'Courier New', courier, monospace;
+  
+  /* Typography - Font Sizes */
+  --usf-font-size-xs: 0.75rem;    /* 12px */
+  --usf-font-size-sm: 0.875rem;   /* 14px */
+  --usf-font-size-base: 1rem;     /* 16px */
+  --usf-font-size-lg: 1.125rem;   /* 18px */
+  --usf-font-size-xl: 1.25rem;    /* 20px */
+  --usf-font-size-2xl: 1.5rem;    /* 24px */
+  --usf-font-size-3xl: 1.875rem;  /* 30px */
+  
+  /* Typography - Font Weights */
+  --usf-font-weight-normal: 400;
+  --usf-font-weight-medium: 500;
+  --usf-font-weight-semibold: 600;
+  --usf-font-weight-bold: 700;
+  
+  /* Typography - Line Heights */
+  --usf-line-height-tight: 1.25;
+  --usf-line-height-normal: 1.5;
+  --usf-line-height-relaxed: 1.75;
+  
+  /* Spacing */
+  --usf-space-1: 0.25rem;   /* 4px */
+  --usf-space-2: 0.5rem;    /* 8px */
+  --usf-space-3: 0.75rem;   /* 12px */
+  --usf-space-4: 1rem;      /* 16px */
+  --usf-space-5: 1.25rem;   /* 20px */
+  --usf-space-6: 1.5rem;    /* 24px */
+  --usf-space-8: 2rem;      /* 32px */
+  --usf-space-10: 2.5rem;   /* 40px */
+  --usf-space-12: 3rem;     /* 48px */
+  --usf-space-16: 4rem;     /* 64px */
+  
+  /* Border Radius */
+  --usf-radius-none: 0;
+  --usf-radius-sm: 0.25rem;   /* 4px */
+  --usf-radius-base: 0.375rem; /* 6px */
+  --usf-radius-md: 0.5rem;    /* 8px */
+  --usf-radius-lg: 0.75rem;   /* 12px */
+  --usf-radius-xl: 1rem;      /* 16px */
+  --usf-radius-full: 9999px;
+  
+  /* Shadows */
+  --usf-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 5%);
+  --usf-shadow-base: 0 1px 3px 0 rgb(0 0 0 / 10%), 0 1px 2px -1px rgb(0 0 0 / 10%);
+  --usf-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -2px rgb(0 0 0 / 10%);
+  --usf-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -4px rgb(0 0 0 / 10%);
+  --usf-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 10%), 0 8px 10px -6px rgb(0 0 0 / 10%);
+  
+  /* Transitions */
+  --usf-transition-fast: 150ms ease;
+  --usf-transition-base: 200ms ease;
+  --usf-transition-slow: 300ms ease;
+  
+  /* Z-Index */
+  --usf-z-dropdown: 1000;
+  --usf-z-sticky: 1020;
+  --usf-z-fixed: 1030;
+  --usf-z-modal-backdrop: 1040;
+  --usf-z-modal: 1050;
+  --usf-z-popover: 1060;
+  --usf-z-tooltip: 1070;
+  
+  /* Breakpoints (for reference in JS — mobile-first min-width values) */
+  --usf-breakpoint-tablet: 768px;
+  --usf-breakpoint-desktop: 1024px;
+  
+  /* Component Specific - Product Card */
+  --usf-card-bg: var(--usf-bg-primary);
+  --usf-card-border: var(--usf-border-primary);
+  --usf-card-border-radius: var(--usf-radius-md);
+  --usf-card-padding: var(--usf-space-4);
+  --usf-card-shadow: var(--usf-shadow-sm);
+  --usf-card-shadow-hover: var(--usf-shadow-md);
+  
+  /* Component Specific - Product Grid */
+  --usf-grid-gap-mobile: var(--usf-space-4);
+  --usf-grid-gap-tablet: var(--usf-space-6);
+  --usf-grid-gap-desktop: var(--usf-space-6);
+  --usf-grid-cols-mobile: 2;
+  --usf-grid-cols-tablet: 3;
+  --usf-grid-cols-desktop: 4;
+  
+  /* Component Specific - Buttons */
+  --usf-button-padding-y: 0.625rem;   /* 10px */
+  --usf-button-padding-x: 1rem;       /* 16px */
+  --usf-button-font-size: var(--usf-font-size-sm);
+  --usf-button-font-weight: var(--usf-font-weight-medium);
+  --usf-button-border-radius: var(--usf-radius-base);
+  --usf-button-transition: var(--usf-transition-base);
+  
+  /* Component Specific - Inputs */
+  --usf-input-padding-y: 0.5rem;      /* 8px */
+  --usf-input-padding-x: 0.75rem;     /* 12px */
+  --usf-input-font-size: var(--usf-font-size-sm);
+  --usf-input-border: var(--usf-border-primary);
+  --usf-input-border-radius: var(--usf-radius-base);
+  --usf-input-focus-border: var(--usf-border-focus);
+  --usf-input-focus-shadow: 0 0 0 3px var(--usf-primary-light);
+  
+  /* Component Specific - Badges */
+  --usf-badge-padding-y: 0.25rem;     /* 4px */
+  --usf-badge-padding-x: 0.5rem;      /* 8px */
+  --usf-badge-font-size: var(--usf-font-size-xs);
+  --usf-badge-font-weight: var(--usf-font-weight-semibold);
+  --usf-badge-border-radius: var(--usf-radius-sm);
+  
+  /* Component Specific - Filters */
+  --usf-filter-bg: var(--usf-bg-primary);
+  --usf-filter-border: var(--usf-border-primary);
+  --usf-filter-padding: var(--usf-space-5);
+  --usf-filter-border-radius: var(--usf-radius-md);
+  
+  /* Component Specific - Pagination */
+  --usf-pagination-bg: var(--usf-bg-primary);
+  --usf-pagination-border: var(--usf-border-primary);
+  --usf-pagination-padding: var(--usf-space-5);
+  --usf-pagination-button-size: 2.25rem; /* 36px */
+  --usf-pagination-border-radius: var(--usf-radius-base);
+}
+
+/* Dark mode tokens (optional) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --usf-bg-primary: #111827;
+    --usf-bg-secondary: #1f2937;
+    --usf-bg-tertiary: #374151;
+    --usf-text-primary: #f9fafb;
+    --usf-text-secondary: #e5e7eb;
+    --usf-text-tertiary: #9ca3af;
+    --usf-border-primary: #374151;
+    --usf-border-secondary: #4b5563;
+    --usf-card-bg: #1f2937;
+    --usf-filter-bg: #1f2937;
+    --usf-pagination-bg: #1f2937;
+  }
+}

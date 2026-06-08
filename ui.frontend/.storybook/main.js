@@ -54,6 +54,39 @@ module.exports = {
     options: {}
   },
   webpackFinal: async (config, { configType }) => {
+    config.resolve = config.resolve || {};
+    config.resolve.alias = {
+      ...(config.resolve.alias || {}),
+      "@universal-sf-ui/ui/utils": path.resolve(
+        __dirname,
+        "../scripts/universal-sf-ui/ui/utils.js"
+      ),
+      preact$: path.resolve(
+        __dirname,
+        "../scripts/universal-sf-ui/vendor/preact.js"
+      ),
+      "preact/compat": path.resolve(
+        __dirname,
+        "../scripts/universal-sf-ui/vendor/preact-compat.js"
+      ),
+      "preact/hooks": path.resolve(
+        __dirname,
+        "../scripts/universal-sf-ui/vendor/preact-hooks.js"
+      ),
+      "preact/jsx-runtime": path.resolve(
+        __dirname,
+        "../scripts/universal-sf-ui/vendor/jsx-runtime.js"
+      ),
+      zustand$: path.resolve(
+        __dirname,
+        "../scripts/universal-sf-ui/vendor/zustand.js"
+      ),
+      "zustand/vanilla": path.resolve(
+        __dirname,
+        "../scripts/universal-sf-ui/vendor/zustand-vanilla.js"
+      ),
+    };
+
     // Add React support
     config.module.rules.push({
       test: /\.(js|jsx|ts|tsx)$/,

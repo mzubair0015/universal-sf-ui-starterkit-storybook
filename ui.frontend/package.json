@@ -10,6 +10,7 @@
   "main": "src/main/webpack/site/main.ts",
   "license": "SEE LICENSE IN LICENSE.txt",
   "scripts": {
+    "setup:ui": "node scripts/setup-ui-library.js",
     "prepare": "cd .. && husky install ui.frontend/.husky",
     "stylelint": "stylelint 'src/main/webpack/**/*.scss' --ignore-path .stylelintignore",
     "eslint": "npx eslint 'src/main/webpack/**/*.js' --ignore-pattern 'src/main/webpack/core-components/**/*.js' --format table",
@@ -43,6 +44,11 @@
     ]
   },
   "devDependencies": {
+    "@universal-sf-ui/adobe-commerce": "file:../universal-storefront-ui/packages/adobe-commerce",
+    "@universal-sf-ui/auth": "file:../universal-storefront-ui/packages/auth",
+    "@universal-sf-ui/commerce-interface": "file:../universal-storefront-ui/packages/commerce-interface",
+    "@universal-sf-ui/product": "file:../universal-storefront-ui/packages/product",
+    "@universal-sf-ui/ui": "file:../universal-storefront-ui/packages/ui",
     "@adobe/htlengine": "^6.4.2",
     "@babel/core": "^7.19.1",
     "@babel/plugin-proposal-class-properties": "^7.3.3",
