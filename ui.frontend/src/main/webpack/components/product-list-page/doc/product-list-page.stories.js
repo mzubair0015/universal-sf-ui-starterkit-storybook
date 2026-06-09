@@ -1,7 +1,7 @@
 import ProductListPage from '../product-list-page.hbs';
 
 export default {
-  title: 'Components/ProductListPage',
+  title: 'UniversalStorefront/ProductListPage',
   argTypes: {
     columnsMobile: { control: 'number' },
     columnsTablet: { control: 'number' },

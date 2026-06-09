@@ -1,7 +1,7 @@
 import Cart from "../cart.hbs";
 
 export default {
-  title: "Components/Cart",
+  title: "UniversalStorefront/Cart",
   argTypes: {},
 };
 

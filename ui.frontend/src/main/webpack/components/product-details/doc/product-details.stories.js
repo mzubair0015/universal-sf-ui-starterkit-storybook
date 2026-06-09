@@ -1,7 +1,7 @@
 import ProductDetails from '../product-details.hbs';
 
 export default {
-  title: 'Components/ProductDetails',
+  title: 'UniversalStorefront/ProductDetails',
   argTypes: {
     showQuantity: { control: 'boolean' },
     showWishlist: { control: 'boolean' },

@@ -1,7 +1,7 @@
 import Checkout from '../checkout.hbs';
 
 export default {
-  title: 'Components/Checkout',
+  title: 'UniversalStorefront/Checkout',
   argTypes: {
     backToCartUrl: { control: 'text' },
     showOrderSummary: { control: 'boolean' },

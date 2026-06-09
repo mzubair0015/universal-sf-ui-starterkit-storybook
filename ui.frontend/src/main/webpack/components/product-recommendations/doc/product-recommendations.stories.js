@@ -1,7 +1,7 @@
 import ProductRecommendations from '../product-recommendations.hbs';
 
 export default {
-  title: 'Components/ProductRecommendations',
+  title: 'UniversalStorefront/ProductRecommendations',
   argTypes: {
     title: { control: 'text' },
     columnsMobile: { control: 'number' },
