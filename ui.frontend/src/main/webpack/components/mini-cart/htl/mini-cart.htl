@@ -1,0 +1,6 @@
+<div
+  class="mini-cart"
+  data-component="mini-cart"
+  data-checkout-url="${properties.checkoutUrl || '/checkout'}"
+  data-view-cart-url="${properties.viewCartUrl || '/cart'}"
+></div>

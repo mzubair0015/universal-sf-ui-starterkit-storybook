@@ -1,0 +1,7 @@
+<div
+  class="product-details"
+  data-component="product-details"
+  data-product="${properties.product @ context='unsafe'}"
+  data-show-quantity="${properties.showQuantity || 'true'}"
+  data-show-wishlist="${properties.showWishlist || 'false'}"
+></div>

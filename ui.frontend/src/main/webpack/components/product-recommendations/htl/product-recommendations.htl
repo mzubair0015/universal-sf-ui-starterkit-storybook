@@ -1,0 +1,9 @@
+<div
+  class="product-recommendations"
+  data-component="product-recommendations"
+  data-title="${properties.title || 'You may also like'}"
+  data-products="${properties.products @ context='unsafe'}"
+  data-columns-mobile="${properties.columnsMobile || '2'}"
+  data-columns-tablet="${properties.columnsTablet || '3'}"
+  data-columns-desktop="${properties.columnsDesktop || '4'}"
+></div>

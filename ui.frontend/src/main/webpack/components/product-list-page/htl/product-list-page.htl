@@ -1,0 +1,8 @@
+<div
+  class="product-list-page"
+  data-component="product-list-page"
+  data-columns-mobile="${properties.columnsMobile || '2'}"
+  data-columns-tablet="${properties.columnsTablet || '3'}"
+  data-columns-desktop="${properties.columnsDesktop || '4'}"
+  data-page-size="${properties.pageSize || '12'}"
+></div>
