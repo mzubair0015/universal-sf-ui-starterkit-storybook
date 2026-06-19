@@ -1,0 +1,6 @@
+<div
+  class="order-list"
+  data-component="order-list"
+  data-page-size="${properties.pageSize || 10}"
+  data-order-view-url="${properties.orderViewUrl}"
+></div>
